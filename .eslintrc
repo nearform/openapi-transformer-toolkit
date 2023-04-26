@@ -1,8 +1,9 @@
 {
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:jest/recommended"],
   "env": {
     "node": true,
-    "es2021": true
+    "es2021": true,
+    "jest/globals": true
   },
   "parserOptions": {
     "ecmaVersion": 2021,

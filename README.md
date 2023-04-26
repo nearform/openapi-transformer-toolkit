@@ -1,12 +1,51 @@
-![CI](https://github.com/nearform/hub-template/actions/workflows/ci.yml/badge.svg?event=push)
+# OpenAPI Codegen
 
-# Hub Template
+Effortlessly automate your design-first API development workflow with an npm package that generates JSON schemas, TypeScript types, and integrates with Fastify and React applications from OpenAPI specifications.
 
-A feature-packed template to start a new repository on the hub, including:
 
-- code linting with [ESlint](https://eslint.org) and [prettier](https://prettier.io)
-- pre-commit code linting and commit message linting with [husky](https://www.npmjs.com/package/husky) and [commitlint](https://commitlint.js.org/)
-- dependabot setup with automatic merging thanks to ["merge dependabot" GitHub action](https://github.com/fastify/github-action-merge-dependabot)
-- notifications about commits waiting to be released thanks to ["notify release" GitHub action](https://github.com/nearform/github-action-notify-release)
-- PRs' linked issues check with ["check linked issues" GitHub action](https://github.com/nearform/github-action-check-linked-issues)
-- Continuous Integration GitHub workflow
+## Installation
+
+Install the package with npm:
+
+```sh
+npm install --save bmg-api-tool
+```
+
+## Usage
+First, import the necessary functions from the package:
+
+```
+const { generateJsonSchemas, generateTsTypes, registerSchemas } = require('bmg-api-tool');
+```
+
+### Generate JSON Schemas
+To generate JSON schemas from your OpenAPI specification, provide the path to the OpenAPI file and the output directory for the generated schemas:
+
+```
+const openAPIPath = 'path/to/openapi.yml';
+const schemasPath = 'path/to/output/schemas';
+generateJsonSchemas(openAPIPath, schemasPath);
+```
+
+### Generate TypeScript Types
+To generate TypeScript types from the generated JSON schemas, provide the path to the JSON schema directory and the output file for the TypeScript types:
+
+```
+const tsTypesPath = 'path/to/output/types.ts';
+generateTsTypes(schemasPath, tsTypesPath);
+```
+
+### Register Schemas in Fastify
+To register the generated JSON schemas in Fastify, provide a Fastify instance and the path to the schema package:
+
+```
+const fastify = require('fastify')();
+const schemaPackagePath = 'path/to/schema/package';
+registerSchemas(fastify, schemaPackagePath);
+```
+
+## License
+MIT License
+
+## Contributing
+If you'd like to contribute to the project, please submit a pull request or open an issue on the project's GitHub repository.

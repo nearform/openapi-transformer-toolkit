@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "surname": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "surname"
+  ],
+  "title": "LoremIpsum",
+  "$id": "LoremIpsum.json"
+}
