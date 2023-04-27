@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { convertJsonToTs } from '../utils/json2ts-utils.js'
 import { exit } from 'process'
+import { doNotEditText } from '../utils/do-not-edit-text.js'
 
 const runCommand = (schemasPath, tsTypesPath) => {
   let schemaPaths
@@ -20,7 +21,8 @@ const runCommand = (schemasPath, tsTypesPath) => {
     const schemaPath = path.join(schemasPath, schemaFileName)
     const schemaContent = fs.readFileSync(schemaPath, 'utf-8')
 
-    const tsType = convertJsonToTs(schemaContent, schemaFileName)
+    let tsType = doNotEditText
+    tsType += convertJsonToTs(schemaContent, schemaFileName)
 
     const tsFileName = schemaFileName.replace('.json', '.d.ts')
     const tsFilePath = path.join(tsTypesPath, tsFileName)
