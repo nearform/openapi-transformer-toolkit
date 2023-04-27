@@ -4,59 +4,26 @@
  * DO NOT MODIFY IT BY HAND. Instead, modify the source JSONSchema file,
  * and run oas-codegen CLI to regenerate this file.
  */
- 
- export interface Id {
-	type: string;
-	format: string;
-	minimum: number;
-	maximum: number;
-}
-
-export interface Name {
-	type: string;
-}
-
-export interface Category {
-	$ref: string;
-}
-
-export interface Item {
-	type: string;
-}
-
-export interface PhotoUrl {
-	type: string;
-	items: Item;
-}
-
-export interface Item {
-	$ref: string;
-}
-
-export interface Tag {
-	type: string;
-	items: Item;
-}
-
-export interface Statu {
-	type: string;
-	description: string;
-	enum: string[];
-}
-
-export interface Property {
-	id: Id;
-	name: Name;
-	category: Category;
-	photoUrls: PhotoUrl;
-	tags: Tag;
-	status: Statu;
-}
 
 export interface Pet {
-	required: string[];
-	type: string;
-	properties: Property;
-	title: string;
-	$id: string;
+  id?: number;
+  name: string;
+  category?: Category;
+  photoUrls: string[];
+  tags?: Tag[];
+  /**
+   * pet status in the store
+   */
+  status?: "available" | "pending" | "sold";
+  [k: string]: unknown;
+}
+export interface Category {
+  id?: number;
+  name?: string;
+  [k: string]: unknown;
+}
+export interface Tag {
+  id?: number;
+  name?: string;
+  [k: string]: unknown;
 }

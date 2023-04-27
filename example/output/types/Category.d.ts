@@ -4,26 +4,9 @@
  * DO NOT MODIFY IT BY HAND. Instead, modify the source JSONSchema file,
  * and run oas-codegen CLI to regenerate this file.
  */
- 
- export interface Id {
-	type: string;
-	format: string;
-	minimum: number;
-	maximum: number;
-}
-
-export interface Name {
-	type: string;
-}
-
-export interface Property {
-	id: Id;
-	name: Name;
-}
 
 export interface Category {
-	type: string;
-	properties: Property;
-	title: string;
-	$id: string;
+  id?: number;
+  name?: string;
+  [k: string]: unknown;
 }

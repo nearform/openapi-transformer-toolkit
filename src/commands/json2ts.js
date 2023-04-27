@@ -1,9 +1,12 @@
 import { Command } from 'commander'
 import fs from 'fs-extra'
 import path from 'path'
-import { convertJsonToTs } from '../utils/json2ts-utils.js'
+// import { convertJsonToTs } from '../utils/json2ts-utils.js'
+import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
+import { resolveFromPackageRoot } from '../utils/paths.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
+// import { doNotEditText } from '../utils/do-not-edit-text.js'
 
 const runCommand = (schemasPath, tsTypesPath) => {
   let schemaPaths
@@ -18,15 +21,14 @@ const runCommand = (schemasPath, tsTypesPath) => {
   fs.ensureDirSync(tsTypesPath)
 
   schemaPaths.forEach(schemaFileName => {
-    const schemaPath = path.join(schemasPath, schemaFileName)
-    const schemaContent = fs.readFileSync(schemaPath, 'utf-8')
-
-    let tsType = doNotEditText
-    tsType += convertJsonToTs(schemaContent, schemaFileName)
-
-    const tsFileName = schemaFileName.replace('.json', '.d.ts')
-    const tsFilePath = path.join(tsTypesPath, tsFileName)
-    fs.writeFileSync(tsFilePath, tsType)
+    const schemaPath = resolveFromPackageRoot(schemasPath, schemaFileName)
+    compileFromFile(schemaPath, {
+      cwd: schemasPath,
+      bannerComment: doNotEditText
+    }).then(ts => {
+      const tsFileName = schemaFileName.replace('.json', '.d.ts')
+      fs.writeFileSync(path.join(tsTypesPath, tsFileName), ts)
+    })
   })
 }
 
@@ -37,7 +39,11 @@ const main = () => {
 
 const json2ts = new Command('json2ts')
 
-const description = `This command takes an OpenAPI file and generates JSON schemas for each component schema defined within. The resulting JSON schemas can be used for validation and other purposes in your applications.`
+const description = `This command will generate TypeScript types from JSON schemas.
+
+Examples
+  $ oas-codegen json2ts -i ./schemas -o ./types
+`
 
 json2ts
   .summary('Creates a JSON schema from a TypeScript type')

@@ -1,13 +1,17 @@
 import { Command } from 'commander'
 import fs from 'fs-extra'
 import YAML from 'yaml'
-import schemaGenerator from '../utils/oas2json-module.cjs'
 import path from 'path'
 import { exit } from 'process'
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+const __filename = fileURLToPath(import.meta.url)
+const require = createRequire(__filename)
+const schemaGenerator = require('@openapi-contrib/openapi-schema-to-json-schema')
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 
-function schemaAdapter(generatedSchema, name) {
+export const schemaAdapter = (generatedSchema, name) => {
   delete generatedSchema.$schema
   generatedSchema.title = name
   generatedSchema.$id = `${name}.json`
@@ -17,7 +21,7 @@ function schemaAdapter(generatedSchema, name) {
   }
 }
 
-const runCommand = (openApiPath, schemasPath) => {
+export const runCommand = (openApiPath, schemasPath) => {
   fs.removeSync(schemasPath)
   fs.ensureDirSync(schemasPath)
 
@@ -62,7 +66,10 @@ const main = () => {
 
 const oas2json = new Command('oas2json')
 
-const description = `This command takes an OpenAPI file and generates JSON schemas for each component schema defined within. The resulting JSON schemas can be used for validation and other purposes in your applications.`
+const description = `This command takes an OpenAPI file and generates JSON schemas for each component schema defined within. The resulting JSON schemas can be used for validation and other purposes in your applications.
+
+Examples
+  $ oas-codegen oas2json -i ./openapi.yml -o ./schemas`
 
 oas2json
   .summary('Creates a JSON schema from a TypeScript type')
