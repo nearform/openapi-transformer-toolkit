@@ -5,8 +5,8 @@
   "main": "index.cjs",
   "type": "module",
   "scripts": {
-    "generate-json-schema": "./src/cli.cjs generate-json-schema --open-api-path ./example/openapi.yml --schemas-path ./example/output/json",
-    "generate-ts-types": "./src/cli.cjs generate-ts-types --schemas-path ./example/output/json --ts-types-path ./example/output/types.ts",
+    "oas2json": "./src/cli.cjs oas2json -i ./example/openapi.yml -o ./example/output/json",
+    "json2ts": "./src/cli.cjs json2ts -i ./example/output/json -o ./example/output/types.ts",
     "lint": "eslint .",
     "prepare": "husky install",
     "test": "jest"

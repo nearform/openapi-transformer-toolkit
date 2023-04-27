@@ -47,28 +47,23 @@ const runCommand = (openApiPath, schemasPath) => {
 }
 
 const main = () => {
-  const arguments_ = generateJsonSchema.args
-  const options = generateJsonSchema.optsWithGlobals()
-
-  console.log('options', options)
-  console.log('arguments', arguments_)
-
-  runCommand(options.openApiPath, options.schemasPath)
+  const options = oas2json.optsWithGlobals()
+  runCommand(options.input, options.output)
 }
 
-const generateJsonSchema = new Command('generate-json-schema')
+const oas2json = new Command('oas2json')
 
 const description = `This command takes an OpenAPI file and generates JSON schemas for each component schema defined within. The resulting JSON schemas can be used for validation and other purposes in your applications.`
 
-generateJsonSchema
+oas2json
   .summary('Creates a JSON schema from a TypeScript type')
   .description(
     description
   )
-  .option('-o, --open-api-path <string>', 'OpenAPI file path')
-  .option('-s, --schemas-path <string>', 'Folder to save the generated schemas')
+  .option('-i, --input <string>', 'OpenAPI file path')
+  .option('-o, --output <string>', 'Folder to save the generated schemas')
   .allowUnknownOption()
   .allowExcessArguments(true)
   .action(main)
 
-module.exports = { generateJsonSchema };
+module.exports = { oas2json };

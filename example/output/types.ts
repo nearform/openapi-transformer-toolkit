@@ -1,266 +1,266 @@
-export interface AddressStreet {
+export interface Street {
 	type: string;
 }
 
-export interface AddressCity {
+export interface City {
 	type: string;
 }
 
-export interface AddressState {
+export interface State {
 	type: string;
 }
 
-export interface AddressZip {
+export interface Zip {
 	type: string;
 }
 
-export interface AddressProperty {
-	street: AddressStreet;
-	city: AddressCity;
-	state: AddressState;
-	zip: AddressZip;
+export interface Property {
+	street: Street;
+	city: City;
+	state: State;
+	zip: Zip;
 }
 
-export interface AddressRootObject {
+export interface RootObject {
 	type: string;
-	properties: AddressProperty;
+	properties: Property;
 	title: string;
 	$id: string;
-}export interface ApiResponseCode {
+}export interface Code {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface ApiResponseType {
+export interface Type {
 	type: string;
 }
 
-export interface ApiResponseMessage {
+export interface Message {
 	type: string;
 }
 
-export interface ApiResponseProperty {
-	code: ApiResponseCode;
-	type: ApiResponseType;
-	message: ApiResponseMessage;
+export interface Property {
+	code: Code;
+	type: Type;
+	message: Message;
 }
 
-export interface ApiResponseRootObject {
+export interface RootObject {
 	type: string;
-	properties: ApiResponseProperty;
+	properties: Property;
 	title: string;
 	$id: string;
-}export interface CategoryId {
+}export interface Id {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface CategoryName {
+export interface Name {
 	type: string;
 }
 
-export interface CategoryProperty {
-	id: CategoryId;
-	name: CategoryName;
+export interface Property {
+	id: Id;
+	name: Name;
 }
 
-export interface CategoryRootObject {
+export interface RootObject {
 	type: string;
-	properties: CategoryProperty;
+	properties: Property;
 	title: string;
 	$id: string;
-}export interface CustomerId {
+}export interface Id {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface CustomerUsername {
+export interface Username {
 	type: string;
 }
 
-export interface CustomerItem {
+export interface Item {
 	$ref: string;
 }
 
-export interface CustomerAddres {
+export interface Addres {
 	type: string;
-	items: CustomerItem;
+	items: Item;
 }
 
-export interface CustomerProperty {
-	id: CustomerId;
-	username: CustomerUsername;
-	address: CustomerAddres;
+export interface Property {
+	id: Id;
+	username: Username;
+	address: Addres;
 }
 
-export interface CustomerRootObject {
+export interface RootObject {
 	type: string;
-	properties: CustomerProperty;
+	properties: Property;
 	title: string;
 	$id: string;
-}export interface OrderId {
+}export interface Id {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface OrderPetId {
+export interface PetId {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface OrderQuantity {
+export interface Quantity {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface OrderShipDate {
+export interface ShipDate {
 	type: string;
 	format: string;
 }
 
-export interface OrderStatu {
+export interface Statu {
 	type: string;
 	description: string;
 	enum: string[];
 }
 
-export interface OrderComplete {
+export interface Complete {
 	type: string;
 }
 
-export interface OrderProperty {
-	id: OrderId;
-	petId: OrderPetId;
-	quantity: OrderQuantity;
-	shipDate: OrderShipDate;
-	status: OrderStatu;
-	complete: OrderComplete;
+export interface Property {
+	id: Id;
+	petId: PetId;
+	quantity: Quantity;
+	shipDate: ShipDate;
+	status: Statu;
+	complete: Complete;
 }
 
-export interface OrderRootObject {
+export interface RootObject {
 	type: string;
-	properties: OrderProperty;
+	properties: Property;
 	title: string;
 	$id: string;
-}export interface PetId {
+}export interface Id {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface PetName {
+export interface Name {
 	type: string;
 }
 
-export interface PetCategory {
+export interface Category {
 	$ref: string;
 }
 
-export interface PetItem {
+export interface Item {
 	type: string;
 }
 
-export interface PetPhotoUrl {
+export interface PhotoUrl {
 	type: string;
-	items: PetItem;
+	items: Item;
 }
 
-export interface PetItem {
+export interface Item {
 	$ref: string;
 }
 
-export interface PetTag {
+export interface Tag {
 	type: string;
-	items: PetItem;
+	items: Item;
 }
 
-export interface PetStatu {
+export interface Statu {
 	type: string;
 	description: string;
 	enum: string[];
 }
 
-export interface PetProperty {
-	id: PetId;
-	name: PetName;
-	category: PetCategory;
-	photoUrls: PetPhotoUrl;
-	tags: PetTag;
-	status: PetStatu;
+export interface Property {
+	id: Id;
+	name: Name;
+	category: Category;
+	photoUrls: PhotoUrl;
+	tags: Tag;
+	status: Statu;
 }
 
-export interface PetRootObject {
+export interface RootObject {
 	required: string[];
 	type: string;
-	properties: PetProperty;
+	properties: Property;
 	title: string;
 	$id: string;
-}export interface TagId {
+}export interface Id {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface TagName {
+export interface Name {
 	type: string;
 }
 
-export interface TagProperty {
-	id: TagId;
-	name: TagName;
+export interface Property {
+	id: Id;
+	name: Name;
 }
 
-export interface TagRootObject {
+export interface RootObject {
 	type: string;
-	properties: TagProperty;
+	properties: Property;
 	title: string;
 	$id: string;
-}export interface UserId {
+}export interface Id {
 	type: string;
 	format: string;
 	minimum: number;
 	maximum: number;
 }
 
-export interface UserUsername {
+export interface Username {
 	type: string;
 }
 
-export interface UserFirstName {
+export interface FirstName {
 	type: string;
 }
 
-export interface UserLastName {
+export interface LastName {
 	type: string;
 }
 
-export interface UserEmail {
+export interface Email {
 	type: string;
 }
 
-export interface UserPassword {
+export interface Password {
 	type: string;
 }
 
-export interface UserPhone {
+export interface Phone {
 	type: string;
 }
 
-export interface UserUserStatu {
+export interface UserStatu {
 	type: string;
 	description: string;
 	format: string;
@@ -268,20 +268,20 @@ export interface UserUserStatu {
 	maximum: number;
 }
 
-export interface UserProperty {
-	id: UserId;
-	username: UserUsername;
-	firstName: UserFirstName;
-	lastName: UserLastName;
-	email: UserEmail;
-	password: UserPassword;
-	phone: UserPhone;
-	userStatus: UserUserStatu;
+export interface Property {
+	id: Id;
+	username: Username;
+	firstName: FirstName;
+	lastName: LastName;
+	email: Email;
+	password: Password;
+	phone: Phone;
+	userStatus: UserStatu;
 }
 
-export interface UserRootObject {
+export interface RootObject {
 	type: string;
-	properties: UserProperty;
+	properties: Property;
 	title: string;
 	$id: string;
 }
