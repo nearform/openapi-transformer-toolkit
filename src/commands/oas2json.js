@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import YAML from 'yaml'
 import schemaGenerator from '../utils/oas2json-module.cjs'
 import path from 'path'
+import { exit } from 'process'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 
@@ -20,7 +21,15 @@ const runCommand = (openApiPath, schemasPath) => {
   fs.removeSync(schemasPath)
   fs.ensureDirSync(schemasPath)
 
-  const openAPIContent = fs.readFileSync(openApiPath, 'utf8')
+  let openAPIContent
+
+  try {
+    openAPIContent = fs.readFileSync(openApiPath, 'utf8')
+  } catch (e) {
+    console.error('❌ Could not find the openapi file')
+    exit(1)
+  }
+
   const parsedOpenAPIContent = YAML.parse(openAPIContent)
 
   Object.entries(parsedOpenAPIContent.components.schemas).forEach(

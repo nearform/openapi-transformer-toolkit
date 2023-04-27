@@ -2,9 +2,18 @@ import { Command } from 'commander'
 import fs from 'fs-extra'
 import path from 'path'
 import { convertJsonToTs } from '../utils/json2ts-utils.js'
+import { exit } from 'process'
 
 const runCommand = (schemasPath, tsTypesPath) => {
-  const schemaPaths = fs.readdirSync(schemasPath)
+  let schemaPaths
+
+  try {
+    schemaPaths = fs.readdirSync(schemasPath)
+  } catch (e) {
+    console.error('❌ Could not find the schemas folder')
+    exit(1)
+  }
+
   fs.ensureDirSync(tsTypesPath)
 
   schemaPaths.forEach(schemaFileName => {
