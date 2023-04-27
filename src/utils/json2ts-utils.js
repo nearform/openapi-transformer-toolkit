@@ -1,5 +1,5 @@
-const path = require('path')
-const json2TsModule = require('json2ts')
+import path from 'path'
+import json2TsModule from 'json2ts'
 
 function convertJsonToTs(jsonContent, fileName) {
   let tsType = json2TsModule.convert(jsonContent)
@@ -9,6 +9,4 @@ function convertJsonToTs(jsonContent, fileName) {
   return tsType
 }
 
-module.exports = {
-  convertJsonToTs
-}
+export { convertJsonToTs }

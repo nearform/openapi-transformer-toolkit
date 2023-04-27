@@ -1,7 +1,7 @@
-const { Command } = require('commander')
-const fs = require('fs-extra')
-const path = require('path')
-const { convertJsonToTs } = require('../utils/json2ts-utils.cjs')
+import { Command } from 'commander'
+import fs from 'fs-extra'
+import path from 'path'
+import { convertJsonToTs } from '../utils/json2ts-utils.js'
 
 const runCommand = (schemasPath, tsTypesPath) => {
   const schemaPaths = fs.readdirSync(schemasPath)
@@ -40,4 +40,4 @@ json2ts
   .allowExcessArguments(true)
   .action(main)
 
-module.exports = { json2ts }
+export { json2ts }

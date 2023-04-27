@@ -1,8 +1,8 @@
-const { Command } = require('commander');
-const fs = require('fs-extra');
-const YAML = require('yaml');
-const schemaGenerator = require('@openapi-contrib/openapi-schema-to-json-schema');
-const path = require('path');
+import { Command } from 'commander'
+import fs from 'fs-extra'
+import YAML from 'yaml'
+import schemaGenerator from '../utils/oas2json-module.cjs'
+import path from 'path'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 
@@ -57,13 +57,11 @@ const description = `This command takes an OpenAPI file and generates JSON schem
 
 oas2json
   .summary('Creates a JSON schema from a TypeScript type')
-  .description(
-    description
-  )
+  .description(description)
   .option('-i, --input <string>', 'OpenAPI file path')
   .option('-o, --output <string>', 'Folder to save the generated schemas')
   .allowUnknownOption()
   .allowExcessArguments(true)
   .action(main)
 
-module.exports = { oas2json };
+export { oas2json }

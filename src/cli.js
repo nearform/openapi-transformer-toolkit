@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
-const { Command } = require('commander')
-const { oas2json } = require('./commands/oas2json.cjs')
-const { json2ts } = require('./commands/json2ts.cjs')
+import { Command } from 'commander'
+import { oas2json } from './commands/oas2json.js'
+import { json2ts } from './commands/json2ts.js'
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
 const packageJson = require('../package.json')
 
 const program = new Command()
