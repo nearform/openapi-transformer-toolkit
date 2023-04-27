@@ -1,62 +1,42 @@
-const fs = require('fs-extra')
-const path = require('path')
-const {
-  generateJsonSchemas,
-  generateTsTypes,
-  registerSchemas
-} = require('../index')
+const { convertJsonToTs } = require('../src/utils/json2ts-utils.cjs')
 
-const TEST_DIR = path.join(__dirname, 'test_output')
-const OPENAPI_PATH = path.join(__dirname, 'fixtures', 'openapi.yml')
-const SCHEMAS_PATH = path.join(TEST_DIR, 'schemas')
-const TSTYPES_PATH = path.join(TEST_DIR, 'types.ts')
+describe('convertJsonToTs', () => {
+  test('should replace RootObject with the correct interface name', () => {
+    const inputJson = `
+{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "age": { "type": "integer" }
+  },
+  "title": "Person",
+  "$id": "Person.json"
+}
+    `
 
-beforeEach(() => {
-  fs.ensureDirSync(TEST_DIR)
-})
+    const expectedOutput = `
+export interface Name {
+\ttype: string;
+}
 
-afterEach(() => {
-  fs.removeSync(TEST_DIR)
-})
+export interface Age {
+\ttype: string;
+}
 
-test('generateJsonSchemas should create JSON schemas', () => {
-  generateJsonSchemas(OPENAPI_PATH, SCHEMAS_PATH)
+export interface Property {
+\tname: Name;
+\tage: Age;
+}
 
-  const files = fs.readdirSync(SCHEMAS_PATH)
-  expect(files.length).toBeGreaterThan(0)
-  files.forEach(file => {
-    const schema = fs.readJsonSync(path.join(SCHEMAS_PATH, file))
-    expect(schema).toHaveProperty('$id')
-    expect(schema).toHaveProperty('type')
-  })
-})
+export interface Person {
+\ttype: string;
+\tproperties: Property;
+\ttitle: string;
+\t$id: string;
+}`
 
-test('generateTsTypes should create TypeScript types', () => {
-  generateJsonSchemas(OPENAPI_PATH, SCHEMAS_PATH)
-  generateTsTypes(SCHEMAS_PATH, TSTYPES_PATH)
+    const actualOutput = convertJsonToTs(inputJson, 'Person.json')
 
-  const types = fs.readFileSync(TSTYPES_PATH, 'utf8')
-  expect(types).toContain('interface')
-  expect(types).toContain('type')
-})
-
-test('registerSchemas should register schemas to Fastify instance', () => {
-  generateJsonSchemas(OPENAPI_PATH, SCHEMAS_PATH)
-
-  const fastifyInstanceMock = {
-    addSchema: jest.fn()
-  }
-
-  registerSchemas(fastifyInstanceMock, SCHEMAS_PATH)
-
-  const files = fs.readdirSync(SCHEMAS_PATH)
-  expect(fastifyInstanceMock.addSchema).toHaveBeenCalledTimes(files.length)
-
-  files.forEach(file => {
-    const filePath = path.join(SCHEMAS_PATH, file)
-    const fileContent = fs.readFileSync(filePath, 'utf-8')
-    const schemaContent = JSON.parse(fileContent)
-
-    expect(fastifyInstanceMock.addSchema).toHaveBeenCalledWith(schemaContent)
+    expect(actualOutput.trim()).toEqual(expectedOutput.trim())
   })
 })

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "oas2json": "./src/cli.cjs oas2json -i ./example/openapi.yml -o ./example/output/json",
-    "json2ts": "./src/cli.cjs json2ts -i ./example/output/json -o ./example/output/types.ts",
+    "json2ts": "./src/cli.cjs json2ts -i ./example/output/json -o ./example/output/types",
     "lint": "eslint .",
     "prepare": "husky install",
     "test": "jest"

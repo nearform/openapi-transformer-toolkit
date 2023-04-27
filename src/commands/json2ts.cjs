@@ -1,24 +1,22 @@
-const { Command } = require('commander');
-const fs = require('fs-extra');
-const path = require('path');
-const json2TsModule = require('json2ts')
+const { Command } = require('commander')
+const fs = require('fs-extra')
+const path = require('path')
+const { convertJsonToTs } = require('../utils/json2ts-utils.cjs')
 
 const runCommand = (schemasPath, tsTypesPath) => {
-  const schemaPaths = fs.readdirSync(schemasPath);
-  let tsTypes = '';
+  const schemaPaths = fs.readdirSync(schemasPath)
+  fs.ensureDirSync(tsTypesPath)
 
   schemaPaths.forEach(schemaFileName => {
-    // const schemaName = path.basename(schemaFileName, '.json');
-    const schemaPath = path.join(schemasPath, schemaFileName);
-    const schemaContent = fs.readFileSync(schemaPath, 'utf-8');
+    const schemaPath = path.join(schemasPath, schemaFileName)
+    const schemaContent = fs.readFileSync(schemaPath, 'utf-8')
 
-    let tsType = json2TsModule.convert(schemaContent);
+    const tsType = convertJsonToTs(schemaContent, schemaFileName)
 
-
-    tsTypes += tsType;
-  });
-
-  fs.writeFileSync(tsTypesPath, tsTypes);
+    const tsFileName = schemaFileName.replace('.json', '.d.ts')
+    const tsFilePath = path.join(tsTypesPath, tsFileName)
+    fs.writeFileSync(tsFilePath, tsType)
+  })
 }
 
 const main = () => {
@@ -32,13 +30,14 @@ const description = `This command takes an OpenAPI file and generates JSON schem
 
 json2ts
   .summary('Creates a JSON schema from a TypeScript type')
-  .description(
-    description
-  )
+  .description(description)
   .option('-i, --input <string>', 'Path to the schemas folder')
-  .option('-o, --output <string>', 'Path where to output to the TypeScript types file')
+  .option(
+    '-o, --output <string>',
+    'Path where to output to the TypeScript types file'
+  )
   .allowUnknownOption()
   .allowExcessArguments(true)
   .action(main)
 
-module.exports = { json2ts };
+module.exports = { json2ts }
