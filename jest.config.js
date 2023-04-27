@@ -1,5 +1,4 @@
-module.exports = {
-  preset: 'ts-jest',
+export default {
   testEnvironment: 'node',
   transformIgnorePatterns: ['node_modules/(?!(json2ts)/)'],
   moduleFileExtensions: ['cjs', 'js', 'json', 'node'],

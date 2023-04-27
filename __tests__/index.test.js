@@ -1,4 +1,4 @@
-const { convertJsonToTs } = require('../src/utils/json2ts-utils.cjs')
+import { convertJsonToTs } from '../src/utils/json2ts-utils.js'
 
 describe('convertJsonToTs', () => {
   test('should replace RootObject with the correct interface name', () => {
