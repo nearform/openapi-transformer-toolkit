@@ -11,7 +11,7 @@ const schemaGenerator = require('@openapi-contrib/openapi-schema-to-json-schema'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 
-export const schemaAdapter = (generatedSchema, name) => {
+export const adaptSchema = (generatedSchema, name) => {
   delete generatedSchema.$schema
   generatedSchema.title = name
   generatedSchema.$id = `${name}.json`
@@ -19,6 +19,22 @@ export const schemaAdapter = (generatedSchema, name) => {
   if (generatedSchema.format?.includes('date')) {
     generatedSchema.tsType = 'Date'
   }
+}
+
+const processSchema = (name, schema, schemasPath) => {
+  const generatedSchema = schemaGenerator.fromSchema(schema)
+  adaptSchema(generatedSchema, name)
+
+  let stringifiedSchema = JSON.stringify(generatedSchema, undefined, 2)
+  const results = stringifiedSchema.match(COMPONENT_REF_REGEXP)
+
+  ;(results || []).forEach(element => {
+    const refName = element.split('/').slice(-1)
+    stringifiedSchema = stringifiedSchema.replace(element, `${refName}.json`)
+  })
+
+  const destinationPath = path.join(schemasPath, `${name}.json`)
+  fs.writeFileSync(destinationPath, stringifiedSchema)
 }
 
 export const runCommand = (openApiPath, schemasPath) => {
@@ -38,23 +54,7 @@ export const runCommand = (openApiPath, schemasPath) => {
 
   Object.entries(parsedOpenAPIContent.components.schemas).forEach(
     ([name, schema]) => {
-      const generatedSchema = schemaGenerator.fromSchema(schema)
-      schemaAdapter(generatedSchema, name)
-
-      let stringifiedSchema = JSON.stringify(generatedSchema, undefined, 2)
-      const results = stringifiedSchema.match(COMPONENT_REF_REGEXP)
-
-      ;(results || []).forEach(element => {
-        const refName = element.split('/').at(-1)
-
-        stringifiedSchema = stringifiedSchema.replace(
-          element,
-          `${refName}.json`
-        )
-      })
-
-      const destinationPath = path.join(schemasPath, `${name}.json`)
-      fs.writeFileSync(destinationPath, stringifiedSchema)
+      processSchema(name, schema, schemasPath)
     }
   )
 }

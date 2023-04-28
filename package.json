@@ -2,7 +2,7 @@
   "name": "oas-codegen",
   "version": "1.0.0",
   "description": "Generating schemas and types from OpenAPI for Fastify and React apps",
-  "main": "index.cjs",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json2ts-config.json",
@@ -15,6 +15,7 @@
     "oas-codegen": "./src/cli.js"
   },
   "files": [
+    "index.js",
     "src"
   ],
   "repository": {
