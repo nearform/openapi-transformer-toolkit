@@ -1,6 +1,7 @@
 import { adaptSchema, runCommand } from '../src/commands/oas2json.js'
 import fs from 'fs-extra'
 import path from 'path'
+import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
 describe('adaptSchema', () => {
   it('should properly modify the generated schema object', () => {
@@ -22,12 +23,14 @@ describe('adaptSchema', () => {
   })
 })
 
+const TEST_DIRECTORY = resolveFromPackageRoot('__tests__', 'temp')
+
 describe('runCommand', () => {
   const inputPath = './__tests__/fixtures/openapi.yml'
-  const outputPath = './__tests__/test_output/oas2json-schemas'
+  const outputPath = './__tests__/temp/schemas'
 
-  afterEach(() => {
-    fs.removeSync(outputPath)
+  afterAll(() => {
+    fs.removeSync(TEST_DIRECTORY)
   })
 
   it('should generate JSON schema files from the OpenAPI input', () => {

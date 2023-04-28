@@ -3,23 +3,23 @@ import path from 'path'
 import { runCommand } from '../src/commands/json2ts'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
-const TEST_DIR = resolveFromPackageRoot('__tests__', 'test_output')
+const TEST_DIRECTORY = resolveFromPackageRoot('__tests__', 'temp')
+
+const inputPath = '__tests__/fixtures/schemas'
+const outputPath = '__tests__/temp/types'
 
 beforeAll(() => {
-  fs.ensureDirSync(TEST_DIR)
+  fs.ensureDirSync(TEST_DIRECTORY)
 })
 
-afterAll(() => {
-  // fs.removeSync(TEST_DIR)
+afterEach(() => {
+  fs.removeSync(TEST_DIRECTORY)
 })
 
 describe('json2ts', () => {
   it('should generate TypeScript types from JSON schemas', async () => {
-    const inputPath = '__tests__/test_output/schemas'
-    const outputPath = '__tests__/test_output/types'
-
     const customOptions = {
-      bannerComment: '// Test banner comment'
+      bannerComment: '// DO NOT EDIT'
     }
 
     await runCommand(inputPath, outputPath, customOptions)
@@ -28,7 +28,7 @@ describe('json2ts', () => {
     expect(fs.existsSync(generatedFilePath)).toBeTruthy()
 
     const generatedFileContent = fs.readFileSync(generatedFilePath, 'utf-8')
-    expect(generatedFileContent).toContain('Test banner comment')
+    expect(generatedFileContent).toContain('// DO NOT EDIT')
     expect(generatedFileContent).toContain('export interface Example')
   })
 })

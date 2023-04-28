@@ -2,46 +2,55 @@
 
 Effortlessly automate your design-first API development workflow with an npm package that generates JSON schemas, TypeScript types, and integrates with Fastify and React applications from OpenAPI specifications.
 
-
 ## Installation
-
-Install the package with npm:
+First, install the package:
 
 ```sh
-npm install --save bmg-api-tool
+$ npm install @neaform/oas-codegen
 ```
 
-## Usage
-First, import the necessary functions from the package:
+## CLI
 
+The package includes CLI commands for easier usage. First, install the package globally:
+
+```sh
+$ npm install @nearform/oas-codegen
 ```
-const { generateJsonSchemas, generateTsTypes, registerSchemas } = require('bmg-api-tool');
+
+Then, use the oas-codegen command followed by the subcommand and required options:
+
+- oas-codegen oas2json -i < input > -o < output >: Generate JSON schemas from an OpenAPI file
+- oas-codegen json2ts -i < input > -o < output > [-c < config >]: Generate TypeScript types from JSON schemas
+For example:
+
+```sh
+$ oas-codegen oas2json -i ./openapi.yml -o ./schemas
+$ oas-codegen json2ts -i ./schemas -o ./types
+```
+
+## Programmatic Usage
+You can also use the package programmatically by importing the necessary functions:
+
+```javascript
+const { generateJsonSchemas, generateTsTypes, registerSchemas } = require('oas-codegen');
 ```
 
 ### Generate JSON Schemas
 To generate JSON schemas from your OpenAPI specification, provide the path to the OpenAPI file and the output directory for the generated schemas:
 
-```
+```javascript
 const openAPIPath = 'path/to/openapi.yml';
 const schemasPath = 'path/to/output/schemas';
 generateJsonSchemas(openAPIPath, schemasPath);
 ```
 
 ### Generate TypeScript Types
-To generate TypeScript types from the generated JSON schemas, provide the path to the JSON schema directory and the output file for the TypeScript types:
+To generate TypeScript types from the generated JSON schemas, provide the path to the JSON schema directory and the output directory for the TypeScript types:
 
-```
-const tsTypesPath = 'path/to/output/types.ts';
+```javascript
+const schemasPath = 'path/to/output/schemas';
+const tsTypesPath = 'path/to/output/types';
 generateTsTypes(schemasPath, tsTypesPath);
-```
-
-### Register Schemas in Fastify
-To register the generated JSON schemas in Fastify, provide a Fastify instance and the path to the schema package:
-
-```
-const fastify = require('fastify')();
-const schemaPackagePath = 'path/to/schema/package';
-registerSchemas(fastify, schemaPackagePath);
 ```
 
 ## License
