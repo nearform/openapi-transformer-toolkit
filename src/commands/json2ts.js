@@ -6,9 +6,10 @@ import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
 import { resolveFromPackageRoot } from '../utils/paths.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
+import $RefParser from '@bcherny/json-schema-ref-parser'
 // import { doNotEditText } from '../utils/do-not-edit-text.js'
 
-const runCommand = (schemasPath, tsTypesPath) => {
+const runCommand = async (schemasPath, tsTypesPath) => {
   let schemaPaths
 
   try {
@@ -20,16 +21,39 @@ const runCommand = (schemasPath, tsTypesPath) => {
 
   fs.ensureDirSync(tsTypesPath)
 
-  schemaPaths.forEach(schemaFileName => {
+  for (const schemaFileName of schemaPaths) {
     const schemaPath = resolveFromPackageRoot(schemasPath, schemaFileName)
-    compileFromFile(schemaPath, {
+
+    const ts = await compileFromFile(schemaPath, {
       cwd: schemasPath,
-      bannerComment: doNotEditText
-    }).then(ts => {
-      const tsFileName = schemaFileName.replace('.json', '.d.ts')
-      fs.writeFileSync(path.join(tsTypesPath, tsFileName), ts)
+      bannerComment: doNotEditText,
+      declareExternallyReferenced: false
     })
-  })
+
+    const interfaceName = schemaFileName.replace('.json', '')
+
+    const parser = new $RefParser()
+    await parser.dereference(schemaPath)
+
+    const imports = Object.values(parser.$refs.values())
+      .filter(
+        refSchema =>
+          refSchema.$id && refSchema.title && refSchema.title !== interfaceName
+      )
+      .map(
+        refSchema =>
+          `import { ${refSchema.title} } from './${refSchema.$id.replace(
+            '.json',
+            ''
+          )}'`
+      )
+      .join('\n')
+
+    const tsWithImports = `${imports ? `${imports}\n\n` : ''}${ts}`
+    const tsFileName = schemaFileName.replace('.json', '.d.ts')
+
+    fs.writeFileSync(path.join(tsTypesPath, tsFileName), tsWithImports)
+  }
 }
 
 const main = () => {
