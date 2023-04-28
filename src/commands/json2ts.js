@@ -1,7 +1,6 @@
 import { Command } from 'commander'
 import fs from 'fs-extra'
 import path from 'path'
-// import { convertJsonToTs } from '../utils/json2ts-utils.js'
 import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
 import {
@@ -64,8 +63,20 @@ const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
 
 const readConfigFile = configPath => {
   const resolvedPath = resolveFromWorkingDirectory(configPath)
-  const fileContents = fs.readFileSync(resolvedPath, 'utf-8')
-  return JSON.parse(fileContents)
+
+  try {
+    return require(resolvedPath)
+  } catch (error) {
+    try {
+      const fileContents = fs.readFileSync(resolvedPath, 'utf-8')
+      return JSON.parse(fileContents)
+    } catch (jsonError) {
+      console.error(
+        '❌ Could not load the config file as a JS module or parse it as JSON. Please check the file content.'
+      )
+      exit(1)
+    }
+  }
 }
 
 const main = () => {
@@ -92,7 +103,7 @@ json2ts
   )
   .option(
     '-c, --config <string>',
-    'Path to the JSON config file with these options: https://www.npmjs.com/package/json-schema-to-typescript'
+    'Path to the JSON/JS config file with these options: https://www.npmjs.com/package/json-schema-to-typescript'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)
