@@ -1,6 +1,5 @@
 import { adaptSchema, runCommand } from '../src/commands/oas2json.js'
 import fs from 'fs-extra'
-import path from 'path'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
 describe('adaptSchema', () => {
@@ -39,7 +38,9 @@ describe('runCommand', () => {
     const generatedFiles = fs.readdirSync(outputPath)
     expect(generatedFiles).toContain('Example.json')
 
-    const exampleSchema = fs.readJsonSync(path.join(outputPath, 'Example.json'))
+    const exampleSchema = fs.readJsonSync(
+      resolveFromPackageRoot(outputPath, 'Example.json')
+    )
     expect(exampleSchema.title).toBe('Example')
     expect(exampleSchema.$id).toBe('Example.json')
     expect(exampleSchema.properties).toEqual({
