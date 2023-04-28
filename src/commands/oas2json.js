@@ -3,11 +3,7 @@ import fs from 'fs-extra'
 import YAML from 'yaml'
 import path from 'path'
 import { exit } from 'process'
-import { createRequire } from 'node:module'
-import { fileURLToPath } from 'node:url'
-const __filename = fileURLToPath(import.meta.url)
-const require = createRequire(__filename)
-const schemaGenerator = require('@openapi-contrib/openapi-schema-to-json-schema')
+import { fromSchema } from '@openapi-contrib/openapi-schema-to-json-schema'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 
@@ -22,7 +18,7 @@ export const adaptSchema = (generatedSchema, name) => {
 }
 
 const processSchema = (name, schema, schemasPath) => {
-  const generatedSchema = schemaGenerator.fromSchema(schema)
+  const generatedSchema = fromSchema(schema)
   adaptSchema(generatedSchema, name)
 
   let stringifiedSchema = JSON.stringify(generatedSchema, undefined, 2)

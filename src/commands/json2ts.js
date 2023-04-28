@@ -11,6 +11,7 @@ import { doNotEditText } from '../utils/do-not-edit-text.js'
 import $RefParser from '@bcherny/json-schema-ref-parser'
 
 const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
+  console.log('schemaPath', schemaPath)
   const ts = await compileFromFile(schemaPath, options)
 
   const interfaceName = path.basename(schemaPath, '.json')

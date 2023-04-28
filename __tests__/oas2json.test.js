@@ -1,8 +1,8 @@
-import { schemaAdapter, runCommand } from '../src/commands/oas2json.js'
+import { adaptSchema, runCommand } from '../src/commands/oas2json.js'
 import fs from 'fs-extra'
 import path from 'path'
 
-describe('schemaAdapter', () => {
+describe('adaptSchema', () => {
   it('should properly modify the generated schema object', () => {
     const schema = {
       $schema: 'http://json-schema.org/draft-07/schema#',
@@ -10,7 +10,7 @@ describe('schemaAdapter', () => {
       format: 'date'
     }
 
-    schemaAdapter(schema, 'TestSchema')
+    adaptSchema(schema, 'TestSchema')
 
     expect(schema).toEqual({
       type: 'string',
@@ -24,10 +24,9 @@ describe('schemaAdapter', () => {
 
 describe('runCommand', () => {
   const inputPath = './__tests__/fixtures/openapi.yml'
-  const outputPath = './__tests__/test_output/schemas'
+  const outputPath = './__tests__/test_output/oas2json-schemas'
 
   afterEach(() => {
-    // Clean up the output directory after each test
     fs.removeSync(outputPath)
   })
 
