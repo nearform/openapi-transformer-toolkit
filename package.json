@@ -5,7 +5,7 @@
   "main": "index.cjs",
   "type": "module",
   "scripts": {
-    "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types",
+    "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json2ts-config.json",
     "lint": "eslint .",
     "oas2json": "./src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
     "prepare": "husky install",

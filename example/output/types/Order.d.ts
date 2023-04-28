@@ -13,7 +13,7 @@ export interface Order {
   /**
    * Order Status
    */
-  status?: "placed" | "approved" | "delivered";
+  status?: 'placed' | 'approved' | 'delivered';
   complete?: boolean;
   [k: string]: unknown;
 }

@@ -4,12 +4,14 @@ import path from 'path'
 // import { convertJsonToTs } from '../utils/json2ts-utils.js'
 import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
-import { resolveFromPackageRoot } from '../utils/paths.js'
+import {
+  resolveFromPackageRoot,
+  resolveFromWorkingDirectory
+} from '../utils/paths.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 import $RefParser from '@bcherny/json-schema-ref-parser'
-// import { doNotEditText } from '../utils/do-not-edit-text.js'
 
-const runCommand = async (schemasPath, tsTypesPath) => {
+const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
   let schemaPaths
 
   try {
@@ -24,11 +26,15 @@ const runCommand = async (schemasPath, tsTypesPath) => {
   for (const schemaFileName of schemaPaths) {
     const schemaPath = resolveFromPackageRoot(schemasPath, schemaFileName)
 
-    const ts = await compileFromFile(schemaPath, {
+    const defaultOptions = {
       cwd: schemasPath,
       bannerComment: doNotEditText,
       declareExternallyReferenced: false
-    })
+    }
+
+    const options = { ...defaultOptions, ...customOptions }
+
+    const ts = await compileFromFile(schemaPath, options)
 
     const interfaceName = schemaFileName.replace('.json', '')
 
@@ -56,9 +62,16 @@ const runCommand = async (schemasPath, tsTypesPath) => {
   }
 }
 
+const readConfigFile = configPath => {
+  const resolvedPath = resolveFromWorkingDirectory(configPath)
+  const fileContents = fs.readFileSync(resolvedPath, 'utf-8')
+  return JSON.parse(fileContents)
+}
+
 const main = () => {
   const options = json2ts.optsWithGlobals()
-  runCommand(options.input, options.output)
+  const customOptions = options.config ? readConfigFile(options.config) : {}
+  runCommand(options.input, options.output, customOptions)
 }
 
 const json2ts = new Command('json2ts')
@@ -76,6 +89,10 @@ json2ts
   .option(
     '-o, --output <string>',
     'Path where to output to the TypeScript types file'
+  )
+  .option(
+    '-c, --config <string>',
+    'Path to the JSON config file with these options: https://www.npmjs.com/package/json-schema-to-typescript'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)
