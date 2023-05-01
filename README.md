@@ -54,3 +54,25 @@ const schemasPath = 'path/to/output/schemas';
 const tsTypesPath = 'path/to/output/types';
 generateTsTypes(schemasPath, tsTypesPath);
 ```
+
+## Tests
+Run the tests with:
+
+```sh
+$ npm test
+```
+
+## Example
+The example folder contains an example OpenAPI specification and the generated JSON schemas and TypeScript types. To generate the JSON schemas and TypeScript types from the example OpenAPI specification, run:
+
+```sh
+$ npm run oas2json
+```
+
+and then:
+
+```sh
+$ npm run json2ts
+```
+
+The generated JSON schemas and TypeScript types will be saved in the schemas and types folders respectively (`example/output`).
