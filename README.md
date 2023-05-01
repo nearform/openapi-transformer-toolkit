@@ -11,7 +11,7 @@ $ npm install @neaform/oas-codegen
 
 ## CLI
 
-The package includes CLI commands for easier usage. First, install the package globally:
+The package includes CLI commands for easier usage. First, install the package:
 
 ```sh
 $ npm install @nearform/oas-codegen
