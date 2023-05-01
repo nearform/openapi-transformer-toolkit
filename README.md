@@ -1,6 +1,6 @@
 # OpenAPI Codegen
 
-Effortlessly automate your design-first API development workflow with an npm package that generates JSON schemas, TypeScript types, and integrates with Fastify and React applications from OpenAPI specifications.
+Effortlessly automate your design-first API development workflow with an npm package that generates JSON schemas and TypeScript types.
 
 ## Installation
 First, install the package:
