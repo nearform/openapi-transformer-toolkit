@@ -17,18 +17,20 @@ afterEach(() => {
 })
 
 describe('json2ts', () => {
-  it('should generate TypeScript types from JSON schemas', async () => {
-    const customOptions = {
-      bannerComment: '// DO NOT EDIT'
-    }
+  describe('runCommand function', () => {
+    it('should generate TypeScript types from JSON schemas', async () => {
+      const customOptions = {
+        bannerComment: '// DO NOT EDIT'
+      }
 
-    await runCommand(inputPath, outputPath, customOptions)
+      await runCommand(inputPath, outputPath, customOptions)
 
-    const generatedFilePath = path.join(outputPath, 'Example.d.ts')
-    expect(fs.existsSync(generatedFilePath)).toBeTruthy()
+      const generatedFilePath = path.join(outputPath, 'Example.d.ts')
+      expect(fs.existsSync(generatedFilePath)).toBeTruthy()
 
-    const generatedFileContent = fs.readFileSync(generatedFilePath, 'utf-8')
-    expect(generatedFileContent).toContain('// DO NOT EDIT')
-    expect(generatedFileContent).toContain('export interface Example')
+      const generatedFileContent = fs.readFileSync(generatedFilePath, 'utf-8')
+      expect(generatedFileContent).toContain('// DO NOT EDIT')
+      expect(generatedFileContent).toContain('export interface Example')
+    })
   })
 })

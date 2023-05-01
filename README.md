@@ -25,6 +25,8 @@ For example:
 
 ```sh
 $ oas-codegen oas2json -i ./openapi.yml -o ./schemas
+```
+```sh
 $ oas-codegen json2ts -i ./schemas -o ./types
 ```
 
@@ -32,7 +34,7 @@ $ oas-codegen json2ts -i ./schemas -o ./types
 You can also use the package programmatically by importing the necessary functions:
 
 ```javascript
-const { generateJsonSchemas, generateTsTypes, registerSchemas } = require('oas-codegen');
+import { generateJsonSchemas, generateTsTypes } from 'oas-codegen';
 ```
 
 ### Generate JSON Schemas
@@ -52,9 +54,3 @@ const schemasPath = 'path/to/output/schemas';
 const tsTypesPath = 'path/to/output/types';
 generateTsTypes(schemasPath, tsTypesPath);
 ```
-
-## License
-MIT License
-
-## Contributing
-If you'd like to contribute to the project, please submit a pull request or open an issue on the project's GitHub repository.

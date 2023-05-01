@@ -62,9 +62,9 @@ const main = () => {
 
 const oas2json = new Command('oas2json')
 
-const description = `This command takes an OpenAPI file and generates JSON schemas for each component schema defined within. The resulting JSON schemas can be used for validation and other purposes in your applications.
+const description = `This command takes an OpenAPI file and generates JSON schemas for each component schema defined within.
 
-Examples
+Examples:
   $ oas-codegen oas2json -i ./openapi.yml -o ./schemas
 `
 

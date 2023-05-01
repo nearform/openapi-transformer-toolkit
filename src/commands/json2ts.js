@@ -92,7 +92,7 @@ const json2ts = new Command('json2ts')
 
 const description = `This command will generate TypeScript types from JSON schemas.
 
-Examples
+Examples:
   $ oas-codegen json2ts -i ./schemas -o ./types
   $ oas-codegen json2ts -i ./schemas -o ./types -c ./config.json
   $ oas-codegen json2ts -i ./schemas -o ./types -c ./config.js
@@ -104,7 +104,7 @@ json2ts
   .requiredOption('-i, --input <string>', 'Path to the schemas folder')
   .requiredOption(
     '-o, --output <string>',
-    'Path where to output to the TypeScript types file'
+    'Path where to output to the TS files'
   )
   .option(
     '-c, --config <string>',
