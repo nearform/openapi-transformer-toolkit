@@ -99,7 +99,7 @@ Examples:
 `
 
 json2ts
-  .summary('Creates a JSON schema from a TypeScript type')
+  .summary('Creates TypeScript types from JSON schemas')
   .description(description)
   .requiredOption('-i, --input <string>', 'Path to the schemas folder')
   .requiredOption(

@@ -69,7 +69,7 @@ Examples:
 `
 
 oas2json
-  .summary('Creates a JSON schema from a TypeScript type')
+  .summary('Create JSON schemas from an OpenAPI file')
   .description(description)
   .requiredOption('-i, --input <string>', 'OpenAPI file path')
   .requiredOption(

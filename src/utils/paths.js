@@ -13,10 +13,8 @@ const resolvePath = (basePath, ...pathParts) => {
   }
 }
 
-export const resolveFromPackageRoot = (...pathParts) => {
-  return resolvePath(packageRoot, ...pathParts)
-}
+export const resolveFromPackageRoot = (...pathParts) =>
+  resolvePath(packageRoot, ...pathParts)
 
-export const resolveFromWorkingDirectory = (...pathParts) => {
-  return resolvePath(workingDirectory, ...pathParts)
-}
+export const resolveFromWorkingDirectory = (...pathParts) =>
+  resolvePath(workingDirectory, ...pathParts)
