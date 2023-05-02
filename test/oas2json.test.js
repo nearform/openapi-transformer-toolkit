@@ -47,10 +47,10 @@ tap.test('oas2json', async t => {
           'User.json'
         ])
 
-        const exampleSchema = fs.readJsonSync(
+        const petSchema = fs.readJsonSync(
           resolveFromPackageRoot(outputPath, 'Pet.json')
         )
-        t.same(exampleSchema, {
+        t.same(petSchema, {
           required: ['name', 'photoUrls'],
           type: 'object',
           properties: {
@@ -87,6 +87,32 @@ tap.test('oas2json', async t => {
           title: 'Pet',
           $id: 'Pet.json'
         })
+        const customerSchema = fs.readJsonSync(
+          resolveFromPackageRoot(outputPath, 'Customer.json')
+        )
+        t.same(customerSchema, {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'integer',
+              format: 'int64',
+              minimum: -9223372036854776000,
+              maximum: 9223372036854776000
+            },
+            username: {
+              type: 'string'
+            },
+            address: {
+              type: 'array',
+              items: {
+                $ref: 'Address.json'
+              }
+            }
+          },
+          title: 'Customer',
+          $id: 'Customer.json'
+        })
+
         t.end()
       }
     )

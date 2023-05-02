@@ -51,15 +51,14 @@ export interface Pet {
 `,
       'Pet.d.ts is created correctly'
     )
-  })
 
-  const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
-  t.ok(fs.existsSync(CustomerFile), 'Customer.d.ts file should exist')
-  const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
+    const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
+    t.ok(fs.existsSync(CustomerFile), 'Customer.d.ts file should exist')
+    const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
 
-  t.same(
-    generatedCustomerFile,
-    `import { Address } from './Address'
+    t.same(
+      generatedCustomerFile,
+      `import { Address } from './Address'
 
 /* tslint:disable */
 /**
@@ -75,8 +74,9 @@ export interface Customer {
   [k: string]: unknown;
 }
 `,
-    'Customer.d.ts is created correctly'
-  )
+      'Customer.d.ts is created correctly'
+    )
+  })
 
   t.end()
 })
