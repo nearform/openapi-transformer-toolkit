@@ -6,29 +6,29 @@ Effortlessly automate your design-first API development workflow with an npm pac
 First, install the package:
 
 ```sh
-$ npm install @nearform/oas-codegen
+$ npm install @nearform/openapi-codegen
 ```
 
 ## CLI
 
-The package includes CLI commands for easier usage. Use the `oas-codegen` command followed by the subcommand and required options:
+The package includes CLI commands for easier usage. Use the `openapi-codegen` command followed by the subcommand and required options:
 
-- oas-codegen oas2json -i < input > -o < output >: Generate JSON schemas from an OpenAPI file
-- oas-codegen json2ts -i < input > -o < output > [-c < config >]: Generate TypeScript types from JSON schemas
+- openapi-codegen oas2json -i < input > -o < output >: Generate JSON schemas from an OpenAPI file
+- openapi-codegen json2ts -i < input > -o < output > [-c < config >]: Generate TypeScript types from JSON schemas
 For example:
 
 ```sh
-$ oas-codegen oas2json -i ./openapi.yml -o ./schemas
+$ openapi-codegen oas2json -i ./openapi.yml -o ./schemas
 ```
 ```sh
-$ oas-codegen json2ts -i ./schemas -o ./types
+$ openapi-codegen json2ts -i ./schemas -o ./types
 ```
 
 ## Programmatic Usage
 You can also use the package programmatically by importing the necessary functions:
 
 ```javascript
-import { oas2json, json2ts } from 'oas-codegen';
+import { oas2json, json2ts } from '@nearform/openapi-codegen';
 ```
 
 ### Generate JSON Schemas
