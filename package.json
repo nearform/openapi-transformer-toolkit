@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "oas2json": "./src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "tap"
   },
   "bin": {
     "oas-codegen": "./src/cli.js"
@@ -32,6 +32,7 @@
   "dependencies": {
     "@openapi-contrib/openapi-schema-to-json-schema": "^4.0.4",
     "commander": "^10.0.1",
+    "desm": "^1.3.0",
     "fs-extra": "^11.1.1",
     "json-schema-to-typescript": "^12.0.0",
     "yaml": "^2.2.2"
@@ -43,13 +44,11 @@
     "babel-plugin-transform-import-meta": "^2.2.0",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
-    "jest": "^29.5.0",
     "lint-staged": "^13.2.1",
     "prettier": "^2.8.8",
-    "ts-jest": "^29.1.0"
+    "tap": "^16.3.4"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix"

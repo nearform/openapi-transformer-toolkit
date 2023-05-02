@@ -1,25 +1,22 @@
-import { fileURLToPath } from 'node:url'
-import { dirname, join, resolve } from 'node:path'
 import { cwd } from 'node:process'
+import { join as joinDesm } from 'desm'
+import { resolve, join } from 'node:path'
 
-const getDirname = () => dirname(fileURLToPath(import.meta.url))
+const workingDirectory = cwd()
+const packageRoot = joinDesm(import.meta.url, '..', '..')
 
-export const workingDirectory = cwd()
-
-export const packageRoot = resolve(join(getDirname(), '..', '..'))
-
-export const resolveFromPackageRoot = (...pathParts) => {
+const resolvePath = (basePath, ...pathParts) => {
   try {
-    return resolve(join(packageRoot, ...pathParts))
+    return resolve(join(basePath, ...pathParts))
   } catch {
     return
   }
 }
 
+export const resolveFromPackageRoot = (...pathParts) => {
+  return resolvePath(packageRoot, ...pathParts)
+}
+
 export const resolveFromWorkingDirectory = (...pathParts) => {
-  try {
-    return resolve(join(workingDirectory, ...pathParts))
-  } catch {
-    return
-  }
+  return resolvePath(workingDirectory, ...pathParts)
 }
