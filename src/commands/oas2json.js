@@ -53,6 +53,8 @@ export const runCommand = (openApiPath, schemasPath) => {
       processSchema(name, schema, schemasPath)
     }
   )
+
+  console.log('✅ JSON schemas generated successfully')
 }
 
 const main = () => {

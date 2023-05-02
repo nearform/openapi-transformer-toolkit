@@ -3,10 +3,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
-import {
-  resolveFromPackageRoot,
-  resolveFromWorkingDirectory
-} from '../utils/paths.js'
+import { resolveFromWorkingDirectory } from '../utils/paths.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 import $RefParser from '@bcherny/json-schema-ref-parser'
 
@@ -44,7 +41,7 @@ export const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
   try {
     schemaPaths = fs.readdirSync(schemasPath)
   } catch (e) {
-    console.error('❌ Could not find the schemas folder')
+    console.error('❌ Could not find the JSON schemas folder')
     exit(1)
   }
 
@@ -59,9 +56,11 @@ export const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
   const options = { ...defaultOptions, ...customOptions }
 
   for (const schemaFileName of schemaPaths) {
-    const schemaPath = resolveFromPackageRoot(schemasPath, schemaFileName)
+    const schemaPath = resolveFromWorkingDirectory(schemasPath, schemaFileName)
     await generateAndWriteTsFile(schemaPath, tsTypesPath, options)
   }
+
+  console.log('✅ TypeScript types generated successfully')
 }
 
 const readConfigFile = configPath => {
