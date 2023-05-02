@@ -1,6 +1,6 @@
 {
   "name": "oas-codegen",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Generating schemas and types from OpenAPI for Fastify and React apps",
   "main": "index.js",
   "type": "module",
