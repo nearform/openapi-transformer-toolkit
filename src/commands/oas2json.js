@@ -42,7 +42,7 @@ export const runCommand = (openApiPath, schemasPath) => {
   try {
     openAPIContent = fs.readFileSync(openApiPath, 'utf8')
   } catch (e) {
-    console.error('❌ Could not find the openapi file')
+    console.error('❌ Could not find the OpenAPI file')
     exit(1)
   }
 

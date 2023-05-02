@@ -36,7 +36,6 @@ tap.test('json2ts', t => {
     )
 
     const PetFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
-    t.ok(fs.existsSync(PetFile), 'Pet.d.ts file should exist')
     const generatedPetFile = fs.readFileSync(PetFile, 'utf-8')
 
     t.same(
@@ -68,7 +67,6 @@ export interface Pet {
     )
 
     const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
-    t.ok(fs.existsSync(CustomerFile), 'Customer.d.ts file should exist')
     const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
 
     t.same(
