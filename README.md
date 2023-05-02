@@ -1,6 +1,6 @@
 # OpenAPI Codegen
 
-Effortlessly automate your design-first API development workflow with an npm package that generates JSON schemas and TypeScript types.
+Effortlessly automate your design-first API development workflow with an npm package that generates JSON schemas and TypeScript types from an OpenAPI specification.
 
 ## Installation
 First, install the package:
@@ -11,13 +11,7 @@ $ npm install @nearform/oas-codegen
 
 ## CLI
 
-The package includes CLI commands for easier usage. First, install the package:
-
-```sh
-$ npm install @nearform/oas-codegen
-```
-
-Then, use the oas-codegen command followed by the subcommand and required options:
+The package includes CLI commands for easier usage. Use the `oas-codegen` command followed by the subcommand and required options:
 
 - oas-codegen oas2json -i < input > -o < output >: Generate JSON schemas from an OpenAPI file
 - oas-codegen json2ts -i < input > -o < output > [-c < config >]: Generate TypeScript types from JSON schemas
