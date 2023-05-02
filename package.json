@@ -1,5 +1,5 @@
 {
-  "name": "openapi-codegen",
+  "name": "openapi-transformer-toolkit",
   "version": "1.0.0",
   "description": "Generates schemas and types from OpenAPI specifications",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "test": "tap"
   },
   "bin": {
-    "openapi-codegen": "./src/cli.js"
+    "openapi-transformer-toolkit": "./src/cli.js"
   },
   "files": [
     "index.js",
@@ -21,15 +21,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nearform/openapi-codegen.git"
+    "url": "git+https://github.com/nearform/openapi-transformer-toolkit.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nearform/openapi-codegen/issues"
+    "url": "https://github.com/nearform/openapi-transformer-toolkit/issues"
   },
-  "homepage": "https://github.com/nearform/openapi-codegen#readme",
+  "homepage": "https://github.com/nearform/openapi-transformer-toolkit#readme",
   "dependencies": {
     "@openapi-contrib/openapi-schema-to-json-schema": "^4.0.4",
     "commander": "^10.0.1",
