@@ -19,8 +19,23 @@ tap.test('json2ts', t => {
 
     await runCommand(inputPath, outputPath, customOptions)
 
-    const PetFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
+    const generatedFiles = fs.readdirSync(outputPath)
+    t.match(
+      generatedFiles,
+      [
+        'Address.d.ts',
+        'ApiResponse.d.ts',
+        'Category.d.ts',
+        'Customer.d.ts',
+        'Order.d.ts',
+        'Pet.d.ts',
+        'Tag.d.ts',
+        'User.d.ts'
+      ],
+      'generates the expected TS files'
+    )
 
+    const PetFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
     t.ok(fs.existsSync(PetFile), 'Pet.d.ts file should exist')
     const generatedPetFile = fs.readFileSync(PetFile, 'utf-8')
 
