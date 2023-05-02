@@ -8,3 +8,7 @@ node_modules
 
 # OS X
 .DS_Store
+
+# tests
+test/temp
+.nyc_output

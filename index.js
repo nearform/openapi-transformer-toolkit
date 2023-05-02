@@ -1,0 +1,2 @@
+export { runCommand as oas2json } from './src/commands/oas2json.js'
+export { runCommand as json2ts } from './src/commands/json2ts.js'

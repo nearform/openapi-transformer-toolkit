@@ -1,0 +1,4 @@
+{
+  "files": ["test/*.test.js"],
+  "reporter": "spec"
+}
