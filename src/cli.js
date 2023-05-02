@@ -10,7 +10,7 @@ const packageJson = require('../package.json')
 
 const program = new Command()
 program
-  .name('openapi-codegen')
+  .name('openapi-transformer-toolkit')
   .description('Generates schemas and types from OpenAPI specifications')
   .version(packageJson.version)
   .option('-d, --debug', 'Output debugging information')

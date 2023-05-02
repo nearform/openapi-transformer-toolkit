@@ -6,29 +6,29 @@ Effortlessly automate your design-first API development workflow with an npm pac
 First, install the package:
 
 ```sh
-$ npm install openapi-codegen
+$ npm install openapi-transformer-toolkit
 ```
 
 ## CLI
 
-The package includes CLI commands for easier usage. Use the `openapi-codegen` command followed by the subcommand and required options:
+The package includes CLI commands for easier usage. Use the `openapi-transformer-toolkit` command followed by the subcommand and required options:
 
-- openapi-codegen oas2json -i < input > -o < output >: Generate JSON schemas from an OpenAPI file
-- openapi-codegen json2ts -i < input > -o < output > [-c < config >]: Generate TypeScript types from JSON schemas
+- openapi-transformer-toolkit oas2json -i < input > -o < output >: Generate JSON schemas from an OpenAPI file
+- openapi-transformer-toolkit json2ts -i < input > -o < output > [-c < config >]: Generate TypeScript types from JSON schemas
 For example:
 
 ```sh
-$ openapi-codegen oas2json -i ./openapi.yml -o ./schemas
+$ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas
 ```
 ```sh
-$ openapi-codegen json2ts -i ./schemas -o ./types
+$ openapi-transformer-toolkit json2ts -i ./schemas -o ./types
 ```
 
 ## Programmatic Usage
 You can also use the package programmatically by importing the necessary functions:
 
 ```javascript
-import { oas2json, json2ts } from 'openapi-codegen';
+import { oas2json, json2ts } from 'openapi-transformer-toolkit';
 ```
 
 ### Generate JSON Schemas

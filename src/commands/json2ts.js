@@ -92,9 +92,9 @@ const json2ts = new Command('json2ts')
 const description = `This command will generate TypeScript types from JSON schemas.
 
 Examples:
-  $ openapi-codegen json2ts -i ./schemas -o ./types
-  $ openapi-codegen json2ts -i ./schemas -o ./types -c ./config.json
-  $ openapi-codegen json2ts -i ./schemas -o ./types -c ./config.js
+  $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types
+  $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.json
+  $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.js
 `
 
 json2ts
