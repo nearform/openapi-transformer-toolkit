@@ -1,9 +1,10 @@
 {
-  "name": "oas-codegen",
+  "name": "openapi-codegen",
   "version": "1.0.0",
-  "description": "Generating schemas and types from OpenAPI for Fastify and React apps",
+  "description": "Generates schemas and types from OpenAPI specifications",
   "main": "index.js",
   "type": "module",
+  "licenses": "ISC",
   "scripts": {
     "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json2ts-config.json",
     "lint": "eslint .",
@@ -12,7 +13,7 @@
     "test": "tap"
   },
   "bin": {
-    "oas-codegen": "./src/cli.js"
+    "openapi-codegen": "./src/cli.js"
   },
   "files": [
     "index.js",
@@ -20,15 +21,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nearform/oas-codegen.git"
+    "url": "git+https://github.com/nearform/openapi-codegen.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nearform/oas-codegen/issues"
+    "url": "https://github.com/nearform/openapi-codegen/issues"
   },
-  "homepage": "https://github.com/nearform/oas-codegen#readme",
+  "homepage": "https://github.com/nearform/openapi-codegen#readme",
   "dependencies": {
     "@openapi-contrib/openapi-schema-to-json-schema": "^4.0.4",
     "commander": "^10.0.1",

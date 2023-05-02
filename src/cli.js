@@ -10,8 +10,8 @@ const packageJson = require('../package.json')
 
 const program = new Command()
 program
-  .name('oas-codegen')
-  .description('Generates schemas and types from OpenAPI')
+  .name('openapi-codegen')
+  .description('Generates schemas and types from OpenAPI specifications')
   .version(packageJson.version)
   .option('-d, --debug', 'Output debugging information')
 

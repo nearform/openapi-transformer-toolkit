@@ -65,7 +65,7 @@ const oas2json = new Command('oas2json')
 const description = `This command will generate JSON schemas from an OpenAPI file.
 
 Examples:
-  $ oas-codegen oas2json -i ./openapi.yml -o ./schemas
+  $ openapi-codegen oas2json -i ./openapi.yml -o ./schemas
 `
 
 oas2json
