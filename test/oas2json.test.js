@@ -13,14 +13,17 @@ tap.test('oas2json', async t => {
 
     adaptSchema(schema, 'TestSchema')
 
-    t.strictSame(schema, {
-      type: 'string',
-      format: 'date',
-      title: 'TestSchema',
-      $id: 'TestSchema.json',
-      tsType: 'Date'
-    })
-    t.end()
+    t.strictSame(
+      schema,
+      {
+        type: 'string',
+        format: 'date',
+        title: 'TestSchema',
+        $id: 'TestSchema.json',
+        tsType: 'Date'
+      },
+      'works as expected'
+    )
   })
 
   const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
@@ -30,13 +33,13 @@ tap.test('oas2json', async t => {
     const inputPath = './test/fixtures/openapi.yml'
     const outputPath = './test/temp/schemas'
 
-    t.test(
-      'should generate JSON schema files from the OpenAPI input',
-      async t => {
-        runCommand(inputPath, outputPath)
+    t.test('should generate JSON schema files from the OpenAPI input', t => {
+      runCommand(inputPath, outputPath)
 
-        const generatedFiles = fs.readdirSync(outputPath)
-        t.match(generatedFiles, [
+      const generatedFiles = fs.readdirSync(outputPath)
+      t.match(
+        generatedFiles,
+        [
           'Address.json',
           'ApiResponse.json',
           'Category.json',
@@ -45,12 +48,16 @@ tap.test('oas2json', async t => {
           'Pet.json',
           'Tag.json',
           'User.json'
-        ])
+        ],
+        'generates the expected JSON files'
+      )
 
-        const petSchema = fs.readJsonSync(
-          resolveFromPackageRoot(outputPath, 'Pet.json')
-        )
-        t.same(petSchema, {
+      const petSchema = fs.readJsonSync(
+        resolveFromPackageRoot(outputPath, 'Pet.json')
+      )
+      t.same(
+        petSchema,
+        {
           required: ['name', 'photoUrls'],
           type: 'object',
           properties: {
@@ -86,11 +93,15 @@ tap.test('oas2json', async t => {
           },
           title: 'Pet',
           $id: 'Pet.json'
-        })
-        const customerSchema = fs.readJsonSync(
-          resolveFromPackageRoot(outputPath, 'Customer.json')
-        )
-        t.same(customerSchema, {
+        },
+        'Pet.json schema is created correctly'
+      )
+      const customerSchema = fs.readJsonSync(
+        resolveFromPackageRoot(outputPath, 'Customer.json')
+      )
+      t.same(
+        customerSchema,
+        {
           type: 'object',
           properties: {
             id: {
@@ -111,11 +122,10 @@ tap.test('oas2json', async t => {
           },
           title: 'Customer',
           $id: 'Customer.json'
-        })
-
-        t.end()
-      }
-    )
+        },
+        'Customer.json schema is created correctly'
+      )
+      t.end()
+    })
   })
-  t.end()
 })
