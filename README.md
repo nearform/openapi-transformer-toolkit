@@ -28,7 +28,7 @@ $ openapi-codegen json2ts -i ./schemas -o ./types
 You can also use the package programmatically by importing the necessary functions:
 
 ```javascript
-import { oas2json, json2ts } from 'openapi-codegen';
+import { oas2json, json2ts } from '@nearform/openapi-codegen';
 ```
 
 ### Generate JSON Schemas
