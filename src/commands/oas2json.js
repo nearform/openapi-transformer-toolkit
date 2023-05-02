@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import YAML from 'yaml'
 import path from 'path'
 import { exit } from 'process'
-import { fromSchema } from '@openapi-contrib/openapi-schema-to-json-schema'
+import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 
