@@ -101,14 +101,14 @@ Examples:
 json2ts
   .summary('Creates TypeScript types from JSON schemas')
   .description(description)
-  .requiredOption('-i, --input <string>', 'Path to the schemas folder')
+  .requiredOption('-i, --input <string>', 'Path to the JSON schemas folder')
   .requiredOption(
     '-o, --output <string>',
-    'Path where to output to the TS files'
+    'Path to the folder where to output the TS files'
   )
   .option(
     '-c, --config <string>',
-    'Path to the JSON/JS config file with these options: https://www.npmjs.com/package/json-schema-to-typescript'
+    'Path to the JSON/JS config file with these possible options: https://www.npmjs.com/package/json-schema-to-typescript'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)
