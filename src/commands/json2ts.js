@@ -36,6 +36,9 @@ const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
 }
 
 export const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
+  fs.removeSync(tsTypesPath)
+  fs.ensureDirSync(tsTypesPath)
+
   let schemaPaths
 
   try {
@@ -44,8 +47,6 @@ export const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
     console.error('❌ Could not find the JSON schemas folder')
     exit(1)
   }
-
-  fs.ensureDirSync(tsTypesPath)
 
   const defaultOptions = {
     cwd: schemasPath,
