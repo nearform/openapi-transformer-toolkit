@@ -17,7 +17,8 @@
   },
   "files": [
     "index.js",
-    "src"
+    "src",
+    "example"
   ],
   "repository": {
     "type": "git",
