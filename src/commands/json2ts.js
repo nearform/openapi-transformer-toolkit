@@ -35,7 +35,12 @@ const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
   fs.writeFileSync(path.join(tsTypesPath, tsFileName), tsWithImports)
 }
 
-export const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
+export const runCommand = async (
+  schemasPath,
+  tsTypesPath,
+  customOptions,
+  muteConsoleLog
+) => {
   fs.removeSync(tsTypesPath)
   fs.ensureDirSync(tsTypesPath)
 
@@ -61,7 +66,9 @@ export const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
     await generateAndWriteTsFile(schemaPath, tsTypesPath, options)
   }
 
-  console.log('✅ TypeScript types generated successfully')
+  if (!muteConsoleLog) {
+    console.log('✅ TypeScript types generated successfully from JSON schemas')
+  }
 }
 
 const readConfigFile = configPath => {
@@ -85,7 +92,12 @@ const readConfigFile = configPath => {
 const main = () => {
   const options = json2ts.optsWithGlobals()
   const customOptions = options.config ? readConfigFile(options.config) : {}
-  runCommand(options.input, options.output, customOptions)
+  runCommand(
+    options.input,
+    options.output,
+    customOptions,
+    options.muteConsoleLog
+  )
 }
 
 const json2ts = new Command('json2ts')
@@ -95,7 +107,7 @@ const description = `This command will generate TypeScript types from JSON schem
 Examples:
   $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types
   $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.json
-  $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.js
+  $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.js -m
 `
 
 json2ts
@@ -109,6 +121,10 @@ json2ts
   .option(
     '-c, --config <string>',
     'Path to the JSON/JS config file with these possible options: https://www.npmjs.com/package/json-schema-to-typescript'
+  )
+  .option(
+    '-m, --mute-console-log',
+    'Mute console log when TypeScript types are generated successfully'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)

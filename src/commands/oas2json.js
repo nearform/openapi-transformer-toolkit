@@ -33,7 +33,7 @@ const processSchema = (name, schema, schemasPath) => {
   fs.writeFileSync(destinationPath, stringifiedSchema)
 }
 
-export const runCommand = (openApiPath, schemasPath) => {
+export const runCommand = (openApiPath, schemasPath, muteConsoleLog) => {
   fs.removeSync(schemasPath)
   fs.ensureDirSync(schemasPath)
 
@@ -54,12 +54,14 @@ export const runCommand = (openApiPath, schemasPath) => {
     }
   )
 
-  console.log('✅ JSON schemas generated successfully')
+  if (!muteConsoleLog) {
+    console.log('✅ JSON schemas generated successfully from OpenAPI file')
+  }
 }
 
 const main = () => {
   const options = oas2json.optsWithGlobals()
-  runCommand(options.input, options.output)
+  runCommand(options.input, options.output, options.muteConsoleLog)
 }
 
 const oas2json = new Command('oas2json')
@@ -68,6 +70,7 @@ const description = `This command will generate JSON schemas from an OpenAPI fil
 
 Examples:
   $ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas
+  $ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas -m
 `
 
 oas2json
@@ -77,6 +80,10 @@ oas2json
   .requiredOption(
     '-o, --output <string>',
     'Path to the folder where to output the schemas'
+  )
+  .option(
+    '-m, --mute-console-log',
+    'Mute console log when JSON schemas are generated successfully'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)
