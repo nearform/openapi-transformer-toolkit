@@ -1,4 +1,4 @@
-# OpenAPI Transformer Toolkig
+# OpenAPI Transformer Toolkit
 
 Effortlessly automate your design-first API development workflow by generating JSON schemas and TypeScript types from an OpenAPI specification.
 
