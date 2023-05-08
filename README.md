@@ -79,6 +79,7 @@ To generate TypeScript types from the OpenAPI specification, provide the path to
 ```javascript
 const openAPIPath = 'path/to/openapi.yml';
 const tsTypesPath = 'path/to/output/types';
+
 await oas2ts(openAPIPath, tsTypesPath);
 ```
 
@@ -89,6 +90,7 @@ To generate TypeScript types from the generated JSON schemas, provide the path t
 ```javascript
 const schemasPath = 'path/to/output/schemas';
 const tsTypesPath = 'path/to/output/types';
+
 await json2ts(schemasPath, tsTypesPath);
 ```
 
