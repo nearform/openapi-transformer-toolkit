@@ -8,11 +8,10 @@ import { runCommand as runOas2JsonCommand } from './oas2json.js'
 
 const TEMP_FOLDER = path.join(os.tmpdir(), 'temp-json-schemas')
 
-const cleanUpTempFolder = logger => {
+const cleanUpTempFolder = logger =>
   fs.remove(TEMP_FOLDER).catch(error => {
     logger.error('❌ Failed to clean up temporary folder:', error.message)
   })
-}
 
 export const runCommand = async (
   openApiPath,
@@ -35,7 +34,7 @@ export const runCommand = async (
   } catch (error) {
     logger.error('❌ An error occurred during the process:', error.message)
   } finally {
-    cleanUpTempFolder(logger)
+    await cleanUpTempFolder(logger)
   }
 }
 
