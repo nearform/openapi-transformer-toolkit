@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import YAML from 'yaml'
 import path from 'path'
 import { exit } from 'process'
+import pino from 'pino'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
@@ -33,7 +34,7 @@ const processSchema = (name, schema, schemasPath) => {
   fs.writeFileSync(destinationPath, stringifiedSchema)
 }
 
-export const runCommand = (openApiPath, schemasPath) => {
+export const runCommand = (openApiPath, schemasPath, logger = pino()) => {
   fs.removeSync(schemasPath)
   fs.ensureDirSync(schemasPath)
 
@@ -42,7 +43,7 @@ export const runCommand = (openApiPath, schemasPath) => {
   try {
     openAPIContent = fs.readFileSync(openApiPath, 'utf8')
   } catch (e) {
-    console.error('❌ Could not find the OpenAPI file')
+    logger.error('❌ Could not find the OpenAPI file')
     exit(1)
   }
 
@@ -54,12 +55,12 @@ export const runCommand = (openApiPath, schemasPath) => {
     }
   )
 
-  console.log('✅ JSON schemas generated successfully')
+  logger.info('✅ JSON schemas generated successfully from OpenAPI file')
 }
 
 const main = () => {
   const options = oas2json.optsWithGlobals()
-  runCommand(options.input, options.output)
+  runCommand(options.input, options.output, options.logger)
 }
 
 const oas2json = new Command('oas2json')

@@ -2,6 +2,7 @@
 
 import { Command } from 'commander'
 import { oas2json } from './commands/oas2json.js'
+import { oas2ts } from './commands/oas2ts.js'
 import { json2ts } from './commands/json2ts.js'
 import { createRequire } from 'node:module'
 
@@ -17,5 +18,6 @@ program
 
 program.addCommand(oas2json)
 program.addCommand(json2ts)
+program.addCommand(oas2ts)
 
 program.parse()

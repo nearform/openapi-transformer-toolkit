@@ -3,9 +3,10 @@ import fs from 'fs-extra'
 import path from 'path'
 import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
-import { resolveFromWorkingDirectory } from '../utils/paths.js'
-import { doNotEditText } from '../utils/do-not-edit-text.js'
+import pino from 'pino'
 import $RefParser from '@bcherny/json-schema-ref-parser'
+import { readConfigFile } from '../utils/read-config-file.js'
+import { doNotEditText } from '../utils/do-not-edit-text.js'
 
 const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
   const ts = await compileFromFile(schemaPath, options)
@@ -35,17 +36,23 @@ const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
   fs.writeFileSync(path.join(tsTypesPath, tsFileName), tsWithImports)
 }
 
-export const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
+export const runCommand = async (
+  schemasPath,
+  tsTypesPath,
+  customOptions,
+  logger = pino()
+) => {
+  fs.removeSync(tsTypesPath)
+  fs.ensureDirSync(tsTypesPath)
+
   let schemaPaths
 
   try {
     schemaPaths = fs.readdirSync(schemasPath)
   } catch (e) {
-    console.error('❌ Could not find the JSON schemas folder')
+    logger.error('❌ Could not find the JSON schemas folder')
     exit(1)
   }
-
-  fs.ensureDirSync(tsTypesPath)
 
   const defaultOptions = {
     cwd: schemasPath,
@@ -56,35 +63,17 @@ export const runCommand = async (schemasPath, tsTypesPath, customOptions) => {
   const options = { ...defaultOptions, ...customOptions }
 
   for (const schemaFileName of schemaPaths) {
-    const schemaPath = resolveFromWorkingDirectory(schemasPath, schemaFileName)
+    const schemaPath = path.join(schemasPath, schemaFileName)
     await generateAndWriteTsFile(schemaPath, tsTypesPath, options)
   }
 
-  console.log('✅ TypeScript types generated successfully')
-}
-
-const readConfigFile = configPath => {
-  const resolvedPath = resolveFromWorkingDirectory(configPath)
-
-  try {
-    return require(resolvedPath)
-  } catch (error) {
-    try {
-      const fileContents = fs.readFileSync(resolvedPath, 'utf-8')
-      return JSON.parse(fileContents)
-    } catch (jsonError) {
-      console.error(
-        '❌ Could not load the config file as a JS module or parse it as JSON. Please check the file content.'
-      )
-      exit(1)
-    }
-  }
+  logger.info('✅ TypeScript types generated successfully from JSON schemas')
 }
 
 const main = () => {
   const options = json2ts.optsWithGlobals()
   const customOptions = options.config ? readConfigFile(options.config) : {}
-  runCommand(options.input, options.output, customOptions)
+  runCommand(options.input, options.output, customOptions, options.muteLogger)
 }
 
 const json2ts = new Command('json2ts')
@@ -94,7 +83,6 @@ const description = `This command will generate TypeScript types from JSON schem
 Examples:
   $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types
   $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.json
-  $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.js
 `
 
 json2ts

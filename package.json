@@ -6,9 +6,11 @@
   "type": "module",
   "licenses": "ISC",
   "scripts": {
-    "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json2ts-config.json",
+    "generate-toc": "markdown-toc -i README.md",
+    "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "lint": "eslint .",
     "oas2json": "./src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
+    "oas2ts": "./src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "prepare": "husky install",
     "test": "tap"
   },
@@ -17,13 +19,13 @@
   },
   "files": [
     "index.js",
-    "src"
+    "src",
+    "example"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nearform/openapi-transformer-toolkit.git"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -36,6 +38,7 @@
     "desm": "^1.3.0",
     "fs-extra": "^11.1.1",
     "json-schema-to-typescript": "^13.0.1",
+    "pino": "^8.14.1",
     "yaml": "^2.2.2"
   },
   "devDependencies": {
@@ -46,10 +49,30 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.1",
+    "markdown-toc": "^1.2.0",
     "prettier": "^2.8.8",
     "tap": "^16.3.4"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix"
-  }
+  },
+  "keywords": [
+    "openapi",
+    "openapi3",
+    "swagger",
+    "api",
+    "json-schema",
+    "typescript",
+    "codegen",
+    "code-generation",
+    "autogenerate",
+    "schema",
+    "api-design",
+    "api-development",
+    "rest-api",
+    "oas",
+    "json",
+    "transformer",
+    "toolkit"
+  ]
 }

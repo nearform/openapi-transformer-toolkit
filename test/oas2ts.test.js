@@ -1,23 +1,18 @@
 import tap from 'tap'
 import fs from 'fs-extra'
-import { runCommand } from '../src/commands/json2ts.js'
+import { runCommand } from '../src/commands/oas2ts.js'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
-import { doNotEditText } from '../src/utils/do-not-edit-text.js'
 
 const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 
-const inputPath = './test/fixtures/schemas'
-const outputPath = './test/temp/types-from-json'
+const inputPath = './test/fixtures/openapi.yml'
+const outputPath = './test/temp/types-from-oas'
 
-tap.test('json2ts', t => {
+tap.test('oas2ts', t => {
   t.test('runCommand function', async t => {
     fs.ensureDirSync(TEST_DIRECTORY)
 
-    const customOptions = {
-      bannerComment: doNotEditText
-    }
-
-    await runCommand(inputPath, outputPath, customOptions)
+    await runCommand(inputPath, outputPath)
 
     const generatedFiles = fs.readdirSync(outputPath)
     t.match(
