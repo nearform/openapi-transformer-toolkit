@@ -66,10 +66,6 @@ oas2ts
     '-c, --config <string>',
     'Path to the JSON/JS config file with these possible options: https://www.npmjs.com/package/json-schema-to-typescript'
   )
-  .option(
-    '-l, --logger <string>',
-    'Logger instance (pino, winston, bunyan, etc.)'
-  )
   .allowUnknownOption()
   .allowExcessArguments(true)
   .action(main)
