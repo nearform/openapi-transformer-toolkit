@@ -16,7 +16,7 @@ Effortlessly automate your design-first API development workflow by generating J
 
 <!-- tocstop -->
 
-## Installation test
+## Installation
 
 You can install the package with npm (or another package manager):
 
