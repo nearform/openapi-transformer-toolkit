@@ -2,11 +2,15 @@ import { Command } from 'commander'
 import fs from 'fs-extra'
 import { runCommand as runJson2TsCommand } from './json2ts.js'
 import { runCommand as runOas2JsonCommand } from './oas2json.js'
+import os from 'os'
+import path from 'path'
 
-const TEMP_FOLDER = 'temp-json-schemas'
+const TEMP_FOLDER = path.join(os.tmpdir(), 'temp-json-schemas')
 
 const cleanUpTempFolder = () => {
-  fs.removeSync(TEMP_FOLDER)
+  fs.remove(TEMP_FOLDER).catch(error => {
+    console.error('❌ Failed to clean up temporary folder:', error.message)
+  })
 }
 
 export const runCommand = async (
@@ -17,6 +21,7 @@ export const runCommand = async (
 ) => {
   try {
     const muteConsoleLogInIntermediateSteps = true
+
     runOas2JsonCommand(
       openApiPath,
       TEMP_FOLDER,

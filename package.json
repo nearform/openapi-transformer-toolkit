@@ -25,7 +25,6 @@
     "type": "git",
     "url": "git+https://github.com/nearform/openapi-transformer-toolkit.git"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -53,5 +52,24 @@
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix"
-  }
+  },
+  "keywords": [
+    "openapi",
+    "openapi3",
+    "swagger",
+    "api",
+    "json-schema",
+    "typescript",
+    "codegen",
+    "code-generation",
+    "autogenerate",
+    "schema",
+    "api-design",
+    "api-development",
+    "rest-api",
+    "oas",
+    "json",
+    "transformer",
+    "toolkit"
+  ]
 }

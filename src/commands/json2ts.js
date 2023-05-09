@@ -62,7 +62,7 @@ export const runCommand = async (
   const options = { ...defaultOptions, ...customOptions }
 
   for (const schemaFileName of schemaPaths) {
-    const schemaPath = resolveFromWorkingDirectory(schemasPath, schemaFileName)
+    const schemaPath = path.join(schemasPath, schemaFileName)
     await generateAndWriteTsFile(schemaPath, tsTypesPath, options)
   }
 

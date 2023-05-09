@@ -17,6 +17,6 @@ export interface Pet {
   /**
    * pet status in the store
    */
-  status?: 'available' | 'pending' | 'sold';
+  status?: "available" | "pending" | "sold";
   [k: string]: unknown;
 }
