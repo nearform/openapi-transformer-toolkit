@@ -6,6 +6,7 @@
   "type": "module",
   "licenses": "ISC",
   "scripts": {
+    "generate-toc": "markdown-toc -i README.md",
     "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json2ts-config.json",
     "lint": "eslint .",
     "oas2json": "./src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
@@ -47,6 +48,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.1",
+    "markdown-toc": "^1.2.0",
     "prettier": "^2.8.8",
     "tap": "^16.3.4"
   },

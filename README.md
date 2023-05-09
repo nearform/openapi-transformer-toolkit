@@ -4,13 +4,17 @@ Effortlessly automate your design-first API development workflow by generating J
 
 ## Table of Contents
 
+<!-- toc -->
+
 - [Installation](#installation)
 - [CLI](#cli)
 - [Programmatic Usage](#programmatic-usage)
-  - [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
-  - [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
-  - [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
+  * [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
+  * [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
+  * [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
 - [Example](#example)
+
+<!-- tocstop -->
 
 ## Installation
 
