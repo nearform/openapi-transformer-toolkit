@@ -3,9 +3,12 @@ import fs from 'fs-extra'
 import path from 'path'
 import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
+import pino from 'pino'
+import $RefParser from '@bcherny/json-schema-ref-parser'
 import { resolveFromWorkingDirectory } from '../utils/paths.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
-import $RefParser from '@bcherny/json-schema-ref-parser'
+
+const logger = pino()
 
 const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
   const ts = await compileFromFile(schemaPath, options)
@@ -39,7 +42,7 @@ export const runCommand = async (
   schemasPath,
   tsTypesPath,
   customOptions,
-  muteConsoleLog
+  muteLogger
 ) => {
   fs.removeSync(tsTypesPath)
   fs.ensureDirSync(tsTypesPath)
@@ -49,7 +52,7 @@ export const runCommand = async (
   try {
     schemaPaths = fs.readdirSync(schemasPath)
   } catch (e) {
-    console.error('❌ Could not find the JSON schemas folder')
+    logger.error('❌ Could not find the JSON schemas folder')
     exit(1)
   }
 
@@ -66,8 +69,8 @@ export const runCommand = async (
     await generateAndWriteTsFile(schemaPath, tsTypesPath, options)
   }
 
-  if (!muteConsoleLog) {
-    console.log('✅ TypeScript types generated successfully from JSON schemas')
+  if (!muteLogger) {
+    logger.info('✅ TypeScript types generated successfully from JSON schemas')
   }
 }
 
@@ -81,7 +84,7 @@ const readConfigFile = configPath => {
       const fileContents = fs.readFileSync(resolvedPath, 'utf-8')
       return JSON.parse(fileContents)
     } catch (jsonError) {
-      console.error(
+      logger.error(
         '❌ Could not load the config file as a JS module or parse it as JSON. Please check the file content.'
       )
       exit(1)
@@ -92,12 +95,7 @@ const readConfigFile = configPath => {
 const main = () => {
   const options = json2ts.optsWithGlobals()
   const customOptions = options.config ? readConfigFile(options.config) : {}
-  runCommand(
-    options.input,
-    options.output,
-    customOptions,
-    options.muteConsoleLog
-  )
+  runCommand(options.input, options.output, customOptions, options.muteLogger)
 }
 
 const json2ts = new Command('json2ts')
@@ -123,8 +121,8 @@ json2ts
     'Path to the JSON/JS config file with these possible options: https://www.npmjs.com/package/json-schema-to-typescript'
   )
   .option(
-    '-m, --mute-console-log',
-    'Mute console log when TypeScript types are generated successfully'
+    '-m, --mute-logger',
+    'Mute logger when TypeScript types are generated successfully'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)

@@ -3,7 +3,10 @@ import fs from 'fs-extra'
 import YAML from 'yaml'
 import path from 'path'
 import { exit } from 'process'
+import pino from 'pino'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
+
+const logger = pino()
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 
@@ -33,7 +36,7 @@ const processSchema = (name, schema, schemasPath) => {
   fs.writeFileSync(destinationPath, stringifiedSchema)
 }
 
-export const runCommand = (openApiPath, schemasPath, muteConsoleLog) => {
+export const runCommand = (openApiPath, schemasPath, muteLogger) => {
   fs.removeSync(schemasPath)
   fs.ensureDirSync(schemasPath)
 
@@ -42,7 +45,7 @@ export const runCommand = (openApiPath, schemasPath, muteConsoleLog) => {
   try {
     openAPIContent = fs.readFileSync(openApiPath, 'utf8')
   } catch (e) {
-    console.error('❌ Could not find the OpenAPI file')
+    logger.error('❌ Could not find the OpenAPI file')
     exit(1)
   }
 
@@ -54,14 +57,14 @@ export const runCommand = (openApiPath, schemasPath, muteConsoleLog) => {
     }
   )
 
-  if (!muteConsoleLog) {
-    console.log('✅ JSON schemas generated successfully from OpenAPI file')
+  if (!muteLogger) {
+    logger.info('✅ JSON schemas generated successfully from OpenAPI file')
   }
 }
 
 const main = () => {
   const options = oas2json.optsWithGlobals()
-  runCommand(options.input, options.output, options.muteConsoleLog)
+  runCommand(options.input, options.output, options.muteLogger)
 }
 
 const oas2json = new Command('oas2json')
@@ -82,8 +85,8 @@ oas2json
     'Path to the folder where to output the schemas'
   )
   .option(
-    '-m, --mute-console-log',
-    'Mute console log when JSON schemas are generated successfully'
+    '-m, --mute-logger',
+    'Mute logger when JSON schemas are generated successfully'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)
