@@ -5,7 +5,7 @@ import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
 import pino from 'pino'
 import $RefParser from '@bcherny/json-schema-ref-parser'
-import { resolveFromWorkingDirectory } from '../utils/paths.js'
+import { readConfigFile } from '../utils/read-config-file.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 
 const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
@@ -68,25 +68,6 @@ export const runCommand = async (
   }
 
   logger.info('✅ TypeScript types generated successfully from JSON schemas')
-}
-
-const readConfigFile = configPath => {
-  const logger = pino()
-  const resolvedPath = resolveFromWorkingDirectory(configPath)
-
-  try {
-    return require(resolvedPath)
-  } catch (error) {
-    try {
-      const fileContents = fs.readFileSync(resolvedPath, 'utf-8')
-      return JSON.parse(fileContents)
-    } catch (jsonError) {
-      logger.error(
-        '❌ Could not load the config file as a JS module or parse it as JSON. Please check the file content.'
-      )
-      exit(1)
-    }
-  }
 }
 
 const main = () => {

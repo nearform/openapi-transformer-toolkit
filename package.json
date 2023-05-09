@@ -7,10 +7,10 @@
   "licenses": "ISC",
   "scripts": {
     "generate-toc": "markdown-toc -i README.md",
-    "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json2ts-config.json",
+    "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "lint": "eslint .",
     "oas2json": "./src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
-    "oas2ts": "./src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types",
+    "oas2ts": "./src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "prepare": "husky install",
     "test": "tap"
   },

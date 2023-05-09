@@ -5,6 +5,7 @@ import os from 'os'
 import path from 'path'
 import { runCommand as runJson2TsCommand } from './json2ts.js'
 import { runCommand as runOas2JsonCommand } from './oas2json.js'
+import { readConfigFile } from '../utils/read-config-file.js'
 
 const TEMP_FOLDER = path.join(os.tmpdir(), 'temp-json-schemas')
 
@@ -16,7 +17,7 @@ const cleanUpTempFolder = logger =>
 export const runCommand = async (
   openApiPath,
   tsTypesPath,
-  configPath,
+  customOptions,
   logger = pino()
 ) => {
   try {
@@ -26,7 +27,7 @@ export const runCommand = async (
     await runJson2TsCommand(
       TEMP_FOLDER,
       tsTypesPath,
-      configPath ? { config: configPath } : {},
+      customOptions,
       silentLogger
     )
 
@@ -40,8 +41,8 @@ export const runCommand = async (
 
 const main = async () => {
   const options = oas2ts.optsWithGlobals()
-
-  runCommand(options.input, options.output, options.config, options.logger)
+  const customOptions = options.config ? readConfigFile(options.config) : {}
+  runCommand(options.input, options.output, customOptions, options.logger)
 }
 
 const oas2ts = new Command('oas2ts')
