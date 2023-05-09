@@ -8,8 +8,6 @@ import $RefParser from '@bcherny/json-schema-ref-parser'
 import { resolveFromWorkingDirectory } from '../utils/paths.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 
-const logger = pino()
-
 const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
   const ts = await compileFromFile(schemaPath, options)
 
@@ -42,7 +40,7 @@ export const runCommand = async (
   schemasPath,
   tsTypesPath,
   customOptions,
-  muteLogger
+  logger = pino()
 ) => {
   fs.removeSync(tsTypesPath)
   fs.ensureDirSync(tsTypesPath)
@@ -69,12 +67,11 @@ export const runCommand = async (
     await generateAndWriteTsFile(schemaPath, tsTypesPath, options)
   }
 
-  if (!muteLogger) {
-    logger.info('✅ TypeScript types generated successfully from JSON schemas')
-  }
+  logger.info('✅ TypeScript types generated successfully from JSON schemas')
 }
 
 const readConfigFile = configPath => {
+  const logger = pino()
   const resolvedPath = resolveFromWorkingDirectory(configPath)
 
   try {
@@ -105,7 +102,6 @@ const description = `This command will generate TypeScript types from JSON schem
 Examples:
   $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types
   $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.json
-  $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.js -m
 `
 
 json2ts
@@ -119,10 +115,6 @@ json2ts
   .option(
     '-c, --config <string>',
     'Path to the JSON/JS config file with these possible options: https://www.npmjs.com/package/json-schema-to-typescript'
-  )
-  .option(
-    '-m, --mute-logger',
-    'Mute logger when TypeScript types are generated successfully'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)

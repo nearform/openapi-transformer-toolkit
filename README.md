@@ -37,11 +37,11 @@ $ npx openapi-transformer-toolkit
 The package includes CLI commands for easier usage. Use the `openapi-transformer-toolkit` executable followed by the command and required options:
 
 - Generate JSON schemas from OpenAPI:
-  - `openapi-transformer-toolkit oas2json -i < input > -o < output > [-m]`
+  - `openapi-transformer-toolkit oas2json -i < input > -o < output >`
 - Generate TS types from OpenAPI:
-  - `openapi-transformer-toolkit oas2ts -i < input > -o < output > [-c < config > -m]`
+  - `openapi-transformer-toolkit oas2ts -i < input > -o < output > [-c < config >]`
 - Generate TS types from JSON schemas:
-  - `openapi-transformer-toolkit json2ts -i < input > -o < output > [-c < config > -m]`
+  - `openapi-transformer-toolkit json2ts -i < input > -o < output > [-c < config >]`
 
 The `-c` arguments accepts a configuration file for the [json-schema-to-typescript](https://www.npmjs.com/package/json-schema-to-typescript) package.
 

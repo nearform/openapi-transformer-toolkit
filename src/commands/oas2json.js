@@ -6,8 +6,6 @@ import { exit } from 'process'
 import pino from 'pino'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
 
-const logger = pino()
-
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 
 export const adaptSchema = (generatedSchema, name) => {
@@ -36,7 +34,7 @@ const processSchema = (name, schema, schemasPath) => {
   fs.writeFileSync(destinationPath, stringifiedSchema)
 }
 
-export const runCommand = (openApiPath, schemasPath, muteLogger) => {
+export const runCommand = (openApiPath, schemasPath, logger = pino()) => {
   fs.removeSync(schemasPath)
   fs.ensureDirSync(schemasPath)
 
@@ -57,14 +55,12 @@ export const runCommand = (openApiPath, schemasPath, muteLogger) => {
     }
   )
 
-  if (!muteLogger) {
-    logger.info('✅ JSON schemas generated successfully from OpenAPI file')
-  }
+  logger.info('✅ JSON schemas generated successfully from OpenAPI file')
 }
 
 const main = () => {
   const options = oas2json.optsWithGlobals()
-  runCommand(options.input, options.output, options.muteLogger)
+  runCommand(options.input, options.output, options.logger)
 }
 
 const oas2json = new Command('oas2json')
@@ -73,7 +69,6 @@ const description = `This command will generate JSON schemas from an OpenAPI fil
 
 Examples:
   $ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas
-  $ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas -m
 `
 
 oas2json
@@ -83,10 +78,6 @@ oas2json
   .requiredOption(
     '-o, --output <string>',
     'Path to the folder where to output the schemas'
-  )
-  .option(
-    '-m, --mute-logger',
-    'Mute logger when JSON schemas are generated successfully'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)

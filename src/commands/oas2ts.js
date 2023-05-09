@@ -6,11 +6,9 @@ import path from 'path'
 import { runCommand as runJson2TsCommand } from './json2ts.js'
 import { runCommand as runOas2JsonCommand } from './oas2json.js'
 
-const logger = pino()
-
 const TEMP_FOLDER = path.join(os.tmpdir(), 'temp-json-schemas')
 
-const cleanUpTempFolder = () => {
+const cleanUpTempFolder = logger => {
   fs.remove(TEMP_FOLDER).catch(error => {
     logger.error('❌ Failed to clean up temporary folder:', error.message)
   })
@@ -20,36 +18,31 @@ export const runCommand = async (
   openApiPath,
   tsTypesPath,
   configPath,
-  muteLogger
+  logger = pino()
 ) => {
   try {
-    const muteLoggerInIntermediateSteps = true
-
-    runOas2JsonCommand(openApiPath, TEMP_FOLDER, muteLoggerInIntermediateSteps)
+    const silentLogger = pino({ level: 'silent' })
+    runOas2JsonCommand(openApiPath, TEMP_FOLDER, silentLogger)
 
     await runJson2TsCommand(
       TEMP_FOLDER,
       tsTypesPath,
       configPath ? { config: configPath } : {},
-      muteLoggerInIntermediateSteps
+      silentLogger
     )
 
-    if (!muteLogger) {
-      logger.info(
-        '✅ TypeScript types generated successfully from OpenAPI file'
-      )
-    }
+    logger.info('✅ TypeScript types generated successfully from OpenAPI file')
   } catch (error) {
     logger.error('❌ An error occurred during the process:', error.message)
   } finally {
-    cleanUpTempFolder()
+    cleanUpTempFolder(logger)
   }
 }
 
 const main = async () => {
   const options = oas2ts.optsWithGlobals()
 
-  runCommand(options.input, options.output, options.config, options.muteLogger)
+  runCommand(options.input, options.output, options.config, options.logger)
 }
 
 const oas2ts = new Command('oas2ts')
@@ -59,7 +52,6 @@ const description = `This command will generate TypeScript types from an OpenAPI
 Examples:
   $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types
   $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types -c ./config.json
-  $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types -c ./config.json -m
 `
 
 oas2ts
@@ -75,8 +67,8 @@ oas2ts
     'Path to the JSON/JS config file with these possible options: https://www.npmjs.com/package/json-schema-to-typescript'
   )
   .option(
-    '-m, --mute-logger',
-    'Mute logger when TypeScript types are generated successfully'
+    '-l, --logger <string>',
+    'Logger instance (pino, winston, bunyan, etc.)'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)
