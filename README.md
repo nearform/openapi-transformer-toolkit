@@ -8,11 +8,21 @@ Effortlessly automate your API design-first development workflow by generating [
 
 - [Installation](#installation)
 - [CLI](#cli)
+      - [Usage](#usage)
+      - [Example](#example)
+      - [Options](#options)
+      - [Usage](#usage-1)
+      - [Example](#example-1)
+      - [Options](#options-1)
+      - [Usage](#usage-2)
+      - [Example](#example-2)
+      - [Options](#options-2)
 - [Programmatic Usage](#programmatic-usage)
   * [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
   * [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
   * [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
-- [Example](#example)
+- [Example](#example-3)
+    + [Additional Configuration](#additional-configuration)
 
 <!-- tocstop -->
 
@@ -37,7 +47,7 @@ $ npx openapi-transformer-toolkit [command] [options]
 For easier usage, the package includes the `openapi-transformer-toolkit` executable you can use from your CLI.
 
 <details>
-<summary>**Create JSON Schema From OpenAPI Definitions**</summary>
+<summary>Create JSON Schema From OpenAPI Definitions</summary>
 
 Using the `oas2json` command you can create JSON schema records from OpenAPI definitions. 
 
@@ -64,7 +74,7 @@ $ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas
 
 <details>
 <summary>
-	**Generate TypeScript types from OpenAPI Defintions**
+	Generate TypeScript types from OpenAPI Defintions
 </summary>
 
 Using the `oas2ts` command you can create TypeScript types from your OpenAPI definitions. 
@@ -96,7 +106,7 @@ $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types -c ./config.jso
 
 <details>
 <summary>
-	**Generate TypeScript types from JSON schemas**
+Generate TypeScript types from JSON schemas
 </summary>
 
 Using the `json2ts` command you can create TypeScript types from your JSON Schema definitions. 
