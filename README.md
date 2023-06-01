@@ -51,7 +51,7 @@ For easier usage, the package includes the `openapi-transformer-toolkit` executa
 
 <details>
 <summary>
-### Create JSON Schema From OpenAPI Definitions
+<h3 id="create-json-schema-from-openapi-definitions">Create JSON Schema From OpenAPI Definitions</h3>
 </summary>
 
 Using the `oas2json` command you can create JSON schema records from OpenAPI definitions. 
@@ -79,7 +79,7 @@ $ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas
 
 <details>
 <summary>
-### Generate TypeScript types from OpenAPI Defintions
+<h3 id="generate-typescript-types-from-openapi-defintions">Generate TypeScript types from OpenAPI Defintions</h3>
 </summary>
 
 Using the `oas2ts` command you can create TypeScript types from your OpenAPI definitions. 
@@ -113,7 +113,8 @@ See [Additional Configuration](#additional-configuration) for the `-c, --config`
 
 <details>
 <summary>
-### Generate TypeScript types from JSON schemas
+<h3 id="generate-typescript-types-from-json-schemas">Generate TypeScript types from JSON schemas
+</h3>
 </summary>
 
 Using the `json2ts` command you can create TypeScript types from your JSON Schema definitions. 
