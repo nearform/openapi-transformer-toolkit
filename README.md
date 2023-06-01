@@ -99,9 +99,11 @@ $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types -c ./config.jso
 ```
 -i, --input <string>        Path to the OpenAPI file
 -o, --output <string>    Path to the folder where to output the TypeScript types
--c, --config <string>    [Path to the JSON/JS config file](#additional-configuration)
+-c, --config <string>    Path to the JSON/JS config file
 -h, --help                      display help for command
 ```
+
+See [Additional Configuration](#additional-configuration) for the `-c, --config` option.
 </details>
 
 <details>
@@ -131,9 +133,11 @@ $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.json
 ```
 -i, --input <string>          Path to the JSON schemas folder
 -o, --output <string>       Path to the folder where to output the TS files
--c, --config <string>       [Path to the JSON/JS config file](#additional-configuration)
+-c, --config <string>       Path to the JSON/JS config file
 -h, --help                         display help for command
 ```
+
+See [Additional Configuration](#additional-configuration) for the `-c, --config` option.
 </details>
 
 ## Programmatic Usage
@@ -203,7 +207,7 @@ $ npm run json2ts
 
 The generated JSON schemas and TypeScript types will be saved in the output schemas and types folders respectively.
 
-#### Additional Configuration
+## Additional Configuration
 
 OpenAPI Transformer Toolkit package utilises the [json-schema-to-typescript](https://www.npmjs.com/package/json-schema-to-typescript) package. 
 
