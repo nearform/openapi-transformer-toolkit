@@ -11,7 +11,7 @@ tap.test('oas2json', async t => {
       format: 'date'
     }
 
-    adaptSchema(schema, 'TestSchema')
+    adaptSchema(schema, 'TestSchema', 'TestSchema')
 
     t.strictSame(
       schema,
@@ -32,11 +32,12 @@ tap.test('oas2json', async t => {
     fs.ensureDirSync(TEST_DIRECTORY)
     const inputPath = './test/fixtures/openapi.yml'
     const outputPath = './test/temp/schemas'
+    const schemasDir = `${outputPath}/components.schemas`
 
     t.test('should generate JSON schema files from the OpenAPI input', t => {
       runCommand(inputPath, outputPath)
 
-      const generatedFiles = fs.readdirSync(outputPath)
+      const generatedFiles = fs.readdirSync(schemasDir)
       t.match(
         generatedFiles,
         [
@@ -53,7 +54,7 @@ tap.test('oas2json', async t => {
       )
 
       const petSchema = fs.readJsonSync(
-        resolveFromPackageRoot(outputPath, 'Pet.json')
+        resolveFromPackageRoot(schemasDir, 'Pet.json')
       )
       t.same(
         petSchema,
@@ -97,7 +98,7 @@ tap.test('oas2json', async t => {
         'Pet.json schema is created correctly'
       )
       const customerSchema = fs.readJsonSync(
-        resolveFromPackageRoot(outputPath, 'Customer.json')
+        resolveFromPackageRoot(schemasDir, 'Customer.json')
       )
       t.same(
         customerSchema,
@@ -127,5 +128,77 @@ tap.test('oas2json', async t => {
       )
       t.end()
     })
+
+    t.test(
+      'should convert components.schemas automatically if $ref exists in targeted property',
+      t => {
+        runCommand(inputPath, outputPath, 'components.requestBodies')
+
+        const generatedDirs = fs.readdirSync(outputPath)
+        t.match(
+          generatedDirs,
+          ['components.requestBodies', 'components.schemas'],
+          'generates the expected directories'
+        )
+
+        const petReqBody = fs.readJSONSync(
+          resolveFromPackageRoot(
+            outputPath,
+            'components.requestBodies/Pet.json'
+          )
+        )
+        t.same(
+          petReqBody,
+          {
+            description: 'Pet object that needs to be added to the store',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '../components.schemas/Pet.json'
+                }
+              },
+              'application/xml': {
+                schema: {
+                  $ref: '../components.schemas/Pet.json'
+                }
+              }
+            },
+            title: 'Pet',
+            $id: 'Pet.json'
+          },
+          'generates the expected JSON with $ref set correctly'
+        )
+
+        t.end()
+      }
+    )
+
+    t.test(
+      'should dynamically find the name when converting an array property',
+      t => {
+        runCommand(inputPath, outputPath, 'tags')
+
+        const generatedDirs = fs.readdirSync(outputPath)
+        t.match(generatedDirs, ['tags'], 'generates the expected directories')
+        const generatedFiles = fs.readdirSync(`${outputPath}/tags`)
+        t.match(generatedFiles, ['pet.json', 'store.json', 'user.json'])
+
+        const petTag = fs.readJSONSync(
+          resolveFromPackageRoot(outputPath, 'tags/Pet.json')
+        )
+        t.same(
+          petTag,
+          {
+            name: 'pet',
+            description: 'Everything about your Pets',
+            title: 'pet',
+            $id: 'pet.json'
+          },
+          'generates the expected name for array elements'
+        )
+
+        t.end()
+      }
+    )
   })
 })
