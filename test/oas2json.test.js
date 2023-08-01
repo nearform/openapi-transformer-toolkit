@@ -184,7 +184,7 @@ tap.test('oas2json', async t => {
         t.match(generatedFiles, ['pet.json', 'store.json', 'user.json'])
 
         const petTag = fs.readJSONSync(
-          resolveFromPackageRoot(outputPath, 'tags/Pet.json')
+          resolveFromPackageRoot(outputPath, 'tags/pet.json')
         )
         t.same(
           petTag,
