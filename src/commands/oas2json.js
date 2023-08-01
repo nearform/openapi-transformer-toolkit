@@ -23,18 +23,12 @@ export const adaptSchema = (generatedSchema, name, filename) => {
   }
 }
 
-const processSchema = (
-  name,
-  schema,
-  schemasPath,
-  logger = pino(),
-  dirname = ''
-) => {
+const processSchema = (name, schema, schemasPath, logger, dirname = '') => {
   let generatedSchema
   try {
     generatedSchema = fromSchema(schema)
   } catch (error) {
-    logger.warn(`Failed to generate schema for property ${dirname}, skipping`)
+    logger.warn('Failed to convert non-object attribute, skipping')
     return
   }
 
@@ -147,7 +141,7 @@ oas2json
   )
   .option(
     '-p, --properties <string>',
-    'Comma-separated list of properties to export from the OpenAPI file'
+    'Comma-separated list of properties to convert from the OpenAPI file'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)
