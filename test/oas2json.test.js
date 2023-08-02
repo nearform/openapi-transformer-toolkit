@@ -34,104 +34,106 @@ tap.test('oas2json', async t => {
     const outputPath = './test/temp/schemas'
     const schemasDir = `${outputPath}/components.schemas`
 
-    t.test('should generate JSON schema files from the OpenAPI input', t => {
-      runCommand(inputPath, outputPath)
+    t.test(
+      'should generate JSON schema files from the OpenAPI input',
+      async t => {
+        runCommand(inputPath, outputPath)
 
-      const generatedFiles = fs.readdirSync(schemasDir)
-      t.match(
-        generatedFiles,
-        [
-          'Address.json',
-          'ApiResponse.json',
-          'Category.json',
-          'Customer.json',
-          'Order.json',
-          'Pet.json',
-          'Tag.json',
-          'User.json'
-        ],
-        'generates the expected JSON files'
-      )
+        const generatedFiles = fs.readdirSync(schemasDir)
+        t.match(
+          generatedFiles,
+          [
+            'Address.json',
+            'ApiResponse.json',
+            'Category.json',
+            'Customer.json',
+            'Order.json',
+            'Pet.json',
+            'Tag.json',
+            'User.json'
+          ],
+          'generates the expected JSON files'
+        )
 
-      const petSchema = fs.readJsonSync(
-        resolveFromPackageRoot(schemasDir, 'Pet.json')
-      )
-      t.same(
-        petSchema,
-        {
-          required: ['name', 'photoUrls'],
-          type: 'object',
-          properties: {
-            id: {
-              type: 'integer',
-              format: 'int64',
-              minimum: -9223372036854776000,
-              maximum: 9223372036854776000
-            },
-            name: {
-              type: 'string'
-            },
-            category: {
-              $ref: 'Category.json'
-            },
-            photoUrls: {
-              type: 'array',
-              items: {
+        const petSchema = fs.readJsonSync(
+          resolveFromPackageRoot(schemasDir, 'Pet.json')
+        )
+        t.same(
+          petSchema,
+          {
+            required: ['name', 'photoUrls'],
+            type: 'object',
+            properties: {
+              id: {
+                type: 'integer',
+                format: 'int64',
+                minimum: -9223372036854776000,
+                maximum: 9223372036854776000
+              },
+              name: {
                 type: 'string'
+              },
+              category: {
+                $ref: 'Category.json'
+              },
+              photoUrls: {
+                type: 'array',
+                items: {
+                  type: 'string'
+                }
+              },
+              tags: {
+                type: 'array',
+                items: {
+                  $ref: 'Tag.json'
+                }
+              },
+              status: {
+                type: 'string',
+                description: 'pet status in the store',
+                enum: ['available', 'pending', 'sold']
               }
             },
-            tags: {
-              type: 'array',
-              items: {
-                $ref: 'Tag.json'
-              }
-            },
-            status: {
-              type: 'string',
-              description: 'pet status in the store',
-              enum: ['available', 'pending', 'sold']
-            }
+            title: 'Pet',
+            $id: 'Pet.json'
           },
-          title: 'Pet',
-          $id: 'Pet.json'
-        },
-        'Pet.json schema is created correctly'
-      )
-      const customerSchema = fs.readJsonSync(
-        resolveFromPackageRoot(schemasDir, 'Customer.json')
-      )
-      t.same(
-        customerSchema,
-        {
-          type: 'object',
-          properties: {
-            id: {
-              type: 'integer',
-              format: 'int64',
-              minimum: -9223372036854776000,
-              maximum: 9223372036854776000
-            },
-            username: {
-              type: 'string'
-            },
-            address: {
-              type: 'array',
-              items: {
-                $ref: 'Address.json'
+          'Pet.json schema is created correctly'
+        )
+        const customerSchema = fs.readJsonSync(
+          resolveFromPackageRoot(schemasDir, 'Customer.json')
+        )
+        t.same(
+          customerSchema,
+          {
+            type: 'object',
+            properties: {
+              id: {
+                type: 'integer',
+                format: 'int64',
+                minimum: -9223372036854776000,
+                maximum: 9223372036854776000
+              },
+              username: {
+                type: 'string'
+              },
+              address: {
+                type: 'array',
+                items: {
+                  $ref: 'Address.json'
+                }
               }
-            }
+            },
+            title: 'Customer',
+            $id: 'Customer.json'
           },
-          title: 'Customer',
-          $id: 'Customer.json'
-        },
-        'Customer.json schema is created correctly'
-      )
-      t.end()
-    })
+          'Customer.json schema is created correctly'
+        )
+      }
+    )
 
     t.test(
       'should convert components.schemas automatically if $ref exists in targeted property',
-      t => {
+      async t => {
         runCommand(inputPath, outputPath, 'components.requestBodies')
 
         const generatedDirs = fs.readdirSync(outputPath)
@@ -168,14 +170,12 @@ tap.test('oas2json', async t => {
           },
           'generates the expected JSON with $ref set correctly'
         )
-
-        t.end()
       }
     )
 
     t.test(
       'should dynamically find the name when converting an array property',
-      t => {
+      async t => {
         runCommand(inputPath, outputPath, 'tags')
 
         const generatedDirs = fs.readdirSync(outputPath)
@@ -196,8 +196,6 @@ tap.test('oas2json', async t => {
           },
           'generates the expected name for array elements'
         )
-
-        t.end()
       }
     )
   })
