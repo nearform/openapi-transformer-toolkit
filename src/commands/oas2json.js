@@ -11,7 +11,6 @@ import YAML from 'yaml'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
-let hasComponentsSchemaReferences = false
 
 export const adaptSchema = (generatedSchema, name, filename) => {
   delete generatedSchema.$schema
@@ -46,12 +45,6 @@ const processSchema = (name, schema, schemasPath, logger, dirname = '') => {
   const schemaRefs = stringifiedSchema.match(COMPONENT_REF_REGEXP)
 
   ;(schemaRefs || []).forEach(element => {
-    if (!hasComponentsSchemaReferences) {
-      // set the flag to indicate that we need to process components.schemas
-      // once finished if the user didn't explicitly pass it so that the
-      // referenced files exist in the output
-      hasComponentsSchemaReferences = true
-    }
     let refName = element.split('/').slice(-1)
     if (dirname && dirname !== 'components.schemas') {
       refName = `../components.schemas/${refName}`
@@ -65,23 +58,12 @@ const processSchema = (name, schema, schemasPath, logger, dirname = '') => {
   fs.writeFileSync(destinationPath, stringifiedSchema)
 }
 
-const writeSchemaToFile = (parsedContent, property, outputPath, logger) => {
-  const desired = _get(parsedContent, property)
-  const directoryName = filenamify(property, { replacement: '-' })
-
-  Object.entries(desired).forEach(([name, schema]) => {
-    processSchema(name, schema, outputPath, logger, directoryName)
-  })
-}
-
 export const runCommand = (
   openApiPath,
   schemasPath,
   propertiesToExport = 'components.schemas',
   logger = pino()
 ) => {
-  hasComponentsSchemaReferences = false
-
   fs.removeSync(schemasPath)
   fs.ensureDirSync(schemasPath)
 
@@ -96,24 +78,17 @@ export const runCommand = (
 
   const parsedOpenAPIContent = YAML.parse(openAPIContent)
 
-  propertiesToExport.split(',').forEach(property => {
-    writeSchemaToFile(parsedOpenAPIContent, property, schemasPath, logger)
-  })
+  const propertiesArray = [
+    ...new Set([...propertiesToExport.split(','), 'components.schemas'])
+  ]
+  propertiesArray.forEach(property => {
+    const desired = _get(parsedOpenAPIContent, property)
+    const directoryName = filenamify(property, { replacement: '-' })
 
-  if (
-    hasComponentsSchemaReferences &&
-    !propertiesToExport.includes('components.schemas')
-  ) {
-    logger.info(
-      'ℹ️ Property(/ies) being converted contain references to a schema file, parsing components.schemas in addition to ensure these files are available'
-    )
-    writeSchemaToFile(
-      parsedOpenAPIContent,
-      'components.schemas',
-      schemasPath,
-      logger
-    )
-  }
+    Object.entries(desired).forEach(([name, schema]) => {
+      processSchema(name, schema, schemasPath, logger, directoryName)
+    })
+  })
 
   logger.info('✅ JSON schemas generated successfully from OpenAPI file')
 }
