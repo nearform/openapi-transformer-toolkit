@@ -75,7 +75,7 @@ const main = () => {
   const customOptions = options.config ? readConfigFile(options.config) : {}
   // JSON schemas will always be generated under components.schemas inside the specified
   //  input path, so interpolate that into the string here for use downstream
-  const schemasPath = `${options.input}/components.schemas`
+  const schemasPath = path.join(options.input, 'components.schemas')
   runCommand(schemasPath, options.output, customOptions, options.muteLogger)
 }
 
