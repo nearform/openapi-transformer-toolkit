@@ -69,7 +69,10 @@ export const runCommand = (
   const parsedOpenAPIContent = YAML.parse(openAPIContent)
 
   const propertiesArray = [
-    ...new Set([...propertiesToExport.split(','), 'components.schemas'])
+    ...new Set([
+      ...(propertiesToExport?.split(',') || []),
+      'components.schemas'
+    ])
   ]
   propertiesArray.forEach(property => {
     const desired = _get(parsedOpenAPIContent, property)
