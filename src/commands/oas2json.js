@@ -39,9 +39,6 @@ const processSchema = (name, schema, schemasPath, logger, dirname = '') => {
 
   ;(schemaRefs || []).forEach(element => {
     let refName = element.split('/').slice(-1)
-    if (dirname && dirname !== 'components.schemas') {
-      refName = `../components.schemas/${refName}`
-    }
     stringifiedSchema = stringifiedSchema.replace(element, `${refName}.json`)
   })
 
