@@ -8,22 +8,22 @@ Effortlessly automate your API design-first development workflow by generating [
 
 - [Installation](#installation)
 - [CLI](#cli)
-  * [Create JSON Schema From OpenAPI Definitions](#create-json-schema-from-openapi-definitions)
-      - [Usage](#usage)
-      - [Example](#example)
-      - [Options](#options)
-  * [Generate TypeScript types from OpenAPI Defintions](#generate-typescript-types-from-openapi-defintions)
-      - [Usage](#usage-1)
-      - [Example](#example-1)
-      - [Options](#options-1)
-  * [Generate TypeScript types from JSON schemas](#generate-typescript-types-from-json-schemas)
-      - [Usage](#usage-2)
-      - [Example](#example-2)
-      - [Options](#options-2)
+  - [Create JSON Schema From OpenAPI Definitions](#create-json-schema-from-openapi-definitions)
+    - [Usage](#usage)
+    - [Example](#example)
+    - [Options](#options)
+  - [Generate TypeScript types from OpenAPI Defintions](#generate-typescript-types-from-openapi-defintions)
+    - [Usage](#usage-1)
+    - [Example](#example-1)
+    - [Options](#options-1)
+  - [Generate TypeScript types from JSON schemas](#generate-typescript-types-from-json-schemas)
+    - [Usage](#usage-2)
+    - [Example](#example-2)
+    - [Options](#options-2)
 - [Programmatic Usage](#programmatic-usage)
-  * [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
-  * [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
-  * [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
+  - [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
+  - [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
+  - [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
 - [Example](#example-3)
 - [Additional Configuration](#additional-configuration)
 
@@ -67,7 +67,7 @@ openapi-transformer-toolkit oas2json [options]
 ##### Example
 
 ```sh
-$ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas -p paths,components.schemas
+$ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas -p paths
 ```
 
 ##### Options
@@ -75,7 +75,7 @@ $ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas -p paths,co
 ```
 -i, --input <string>       Specify the path to the OpenAPI file
 -o, --output <string>      Specify the path to the folder where you wish to output the schemas
--p, --properties <string>  Specify the properties/definitions in the OpenAPI file to convert in a comma-separated list (defaults to 'components.schemas')
+-p, --properties <string>  Specify the properties/definitions in the OpenAPI file to convert in a comma-separated list (optional)
 -h, --help                 Display help for command
 ```
 
@@ -172,7 +172,7 @@ To generate JSON schemas from your OpenAPI specification, provide the path to th
 ```javascript
 const openAPIPath = 'path/to/openapi.yml'
 const schemasPath = 'path/to/output/schemas'
-const propertiesToConvert = 'paths,components.schemas'
+const propertiesToConvert = 'paths'
 
 oas2json(openAPIPath, schemasPath, propertiesToExport)
 ```
