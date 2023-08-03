@@ -8,22 +8,22 @@ Effortlessly automate your API design-first development workflow by generating [
 
 - [Installation](#installation)
 - [CLI](#cli)
-  - [Create JSON Schema From OpenAPI Definitions](#create-json-schema-from-openapi-definitions)
-    - [Usage](#usage)
-    - [Example](#example)
-    - [Options](#options)
-  - [Generate TypeScript types from OpenAPI Defintions](#generate-typescript-types-from-openapi-defintions)
-    - [Usage](#usage-1)
-    - [Example](#example-1)
-    - [Options](#options-1)
-  - [Generate TypeScript types from JSON schemas](#generate-typescript-types-from-json-schemas)
-    - [Usage](#usage-2)
-    - [Example](#example-2)
-    - [Options](#options-2)
+  * [Create JSON Schema From OpenAPI Definitions](#create-json-schema-from-openapi-definitions)
+      - [Usage](#usage)
+      - [Example](#example)
+      - [Options](#options)
+  * [Generate TypeScript types from OpenAPI Defintions](#generate-typescript-types-from-openapi-defintions)
+      - [Usage](#usage-1)
+      - [Example](#example-1)
+      - [Options](#options-1)
+  * [Generate TypeScript types from JSON schemas](#generate-typescript-types-from-json-schemas)
+      - [Usage](#usage-2)
+      - [Example](#example-2)
+      - [Options](#options-2)
 - [Programmatic Usage](#programmatic-usage)
-  - [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
-  - [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
-  - [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
+  * [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
+  * [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
+  * [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
 - [Example](#example-3)
 - [Additional Configuration](#additional-configuration)
 
@@ -109,10 +109,10 @@ $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types -c ./config.jso
 ##### Options
 
 ```
--i, --input <string>        Path to the OpenAPI file
+-i, --input <string>     Path to the OpenAPI file
 -o, --output <string>    Path to the folder where to output the TypeScript types
 -c, --config <string>    Path to the JSON/JS config file
--h, --help                      display help for command
+-h, --help               Display help for command
 ```
 
 See [Additional Configuration](#additional-configuration) for the `-c, --config` option.
@@ -147,10 +147,10 @@ $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.json
 ##### Options
 
 ```
--i, --input <string>          Path to the JSON schemas folder
+-i, --input <string>        Path to the JSON schemas folder
 -o, --output <string>       Path to the folder where to output the TS files
 -c, --config <string>       Path to the JSON/JS config file
--h, --help                         display help for command
+-h, --help                  Display help for command
 ```
 
 See [Additional Configuration](#additional-configuration) for the `-c, --config` option.
