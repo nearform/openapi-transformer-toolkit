@@ -151,19 +151,19 @@ tap.test('oas2json', async t => {
           content: {
             'application/json': {
               schema: {
-                $ref: '../components.schemas/Pet.json'
+                $ref: 'Pet.json'
               }
             },
             'application/xml': {
               schema: {
-                $ref: '../components.schemas/Pet.json'
+                $ref: 'Pet.json'
               }
             }
           },
           title: 'Pet',
           $id: 'Pet.json'
         },
-        'generates the expected JSON with $ref set correctly'
+        'generates the expected JSON'
       )
     })
 
