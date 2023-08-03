@@ -51,7 +51,7 @@ const processSchema = (name, schema, schemasPath, logger, dirname = '') => {
 export const runCommand = (
   openApiPath,
   schemasPath,
-  propertiesToExport = 'components.schemas',
+  propertiesToExport,
   logger = pino()
 ) => {
   fs.removeSync(schemasPath)
