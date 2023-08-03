@@ -31,13 +31,6 @@ const processSchema = (name, schema, schemasPath, logger, dirname = '') => {
     return
   }
 
-  // for elements in an array the name would be its index in the array,
-  // so go into the parsed schema to get the actual name so that the files
-  // are more easily identifiable
-  if (!isNaN(Number(name))) {
-    name = generatedSchema.name
-  }
-
   const filename = _trimStart(filenamify(name, { replacement: '-' }), '-')
   adaptSchema(generatedSchema, name, filename)
 
@@ -86,7 +79,11 @@ export const runCommand = (
     const directoryName = filenamify(property, { replacement: '-' })
 
     Object.entries(desired).forEach(([name, schema]) => {
-      processSchema(name, schema, schemasPath, logger, directoryName)
+      // for elements in an array the name would be its index in the array,
+      // so go into the parsed schema to get the actual name so that the files
+      // are more easily identifiable
+      const filename = Array.isArray(desired) ? schema.name : name
+      processSchema(filename, schema, schemasPath, logger, directoryName)
     })
   })
 
