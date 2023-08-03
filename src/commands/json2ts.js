@@ -73,10 +73,7 @@ export const runCommand = async (
 const main = () => {
   const options = json2ts.optsWithGlobals()
   const customOptions = options.config ? readConfigFile(options.config) : {}
-  // JSON schemas will always be generated under components.schemas inside the specified
-  //  input path, so interpolate that into the string here for use downstream
-  const schemasPath = path.join(options.input, 'components.schemas')
-  runCommand(schemasPath, options.output, customOptions, options.muteLogger)
+  runCommand(options.input, options.output, customOptions, options.muteLogger)
 }
 
 const json2ts = new Command('json2ts')
