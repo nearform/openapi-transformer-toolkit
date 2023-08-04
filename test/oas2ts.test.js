@@ -8,7 +8,7 @@ const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 const inputPath = './test/fixtures/openapi.yml'
 const outputPath = './test/temp/types-from-oas'
 
-tap.test('oas2ts', t => {
+tap.test('oas2ts', async t => {
   t.test('runCommand function', async t => {
     fs.ensureDirSync(TEST_DIRECTORY)
 
@@ -55,6 +55,10 @@ export interface Pet {
    * pet status in the store
    */
   status?: "available" | "pending" | "sold";
+  /**
+   * example nullable value
+   */
+  nullableValue?: string | null;
   [k: string]: unknown;
 }
 `,
@@ -85,6 +89,4 @@ export interface Customer {
       'Customer.d.ts is created correctly'
     )
   })
-
-  t.end()
 })

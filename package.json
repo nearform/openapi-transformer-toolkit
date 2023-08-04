@@ -7,7 +7,7 @@
   "licenses": "ISC",
   "scripts": {
     "generate-toc": "markdown-toc -i README.md",
-    "json2ts": "./src/cli.js json2ts -i ./example/output/json -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
+    "json2ts": "./src/cli.js json2ts -i ./example/output/json/components.schemas -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "lint": "eslint .",
     "oas2json": "./src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
     "oas2ts": "./src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
@@ -36,8 +36,11 @@
     "@openapi-contrib/openapi-schema-to-json-schema": "^5.1.0",
     "commander": "^11.0.0",
     "desm": "^1.3.0",
+    "filenamify": "^6.0.0",
     "fs-extra": "^11.1.1",
     "json-schema-to-typescript": "^13.0.1",
+    "lodash.get": "^4.4.2",
+    "lodash.trimstart": "^4.5.1",
     "pino": "^8.14.1",
     "yaml": "^2.2.2"
   },

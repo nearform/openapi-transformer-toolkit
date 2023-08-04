@@ -51,50 +51,57 @@ For easier usage, the package includes the `openapi-transformer-toolkit` executa
 
 <details>
 <summary>
-<h3 id="create-json-schema-from-openapi-definitions">Create JSON Schema From OpenAPI Definitions</h3>
+
+### Create JSON Schema From OpenAPI Definitions
+
 </summary>
 
-Using the `oas2json` command you can create JSON schema records from OpenAPI definitions. 
+Using the `oas2json` command you can create JSON schema records from OpenAPI definitions.
 
-#####  Usage
+##### Usage
 
 ```sh
 openapi-transformer-toolkit oas2json [options]
 ```
 
-#####  Example
+##### Example
 
 ```sh
-$ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas
+$ openapi-transformer-toolkit oas2json -i ./openapi.yml -o ./schemas -p paths
 ```
 
 ##### Options
 
 ```
 -i, --input <string>       Specify the path to the OpenAPI file
--o, --output <string>   Specify the path to the folder where you wish to output the schemas
--h, --help                      Display help for command
+-o, --output <string>      Specify the path to the folder where you wish to output the schemas
+-p, --properties <string>  Specify the properties/definitions in the OpenAPI file to convert in a comma-separated list (optional)
+-h, --help                 Display help for command
 ```
+
 </details>
 
 <details>
 <summary>
-<h3 id="generate-typescript-types-from-openapi-defintions">Generate TypeScript types from OpenAPI Defintions</h3>
+
+### Generate TypeScript types from OpenAPI Defintions
+
 </summary>
 
-Using the `oas2ts` command you can create TypeScript types from your OpenAPI definitions. 
+Using the `oas2ts` command you can create TypeScript types from your OpenAPI definitions.
 
-#####  Usage
+##### Usage
 
 ```sh
 openapi-transformer-toolkit oas2ts [options]
 ```
 
-#####  Example
+##### Example
 
 ```sh
 $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types
 ```
+
 ```sh
 $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types -c ./config.json
 ```
@@ -102,34 +109,37 @@ $ openapi-transformer-toolkit oas2ts -i ./openapi.yml -o ./types -c ./config.jso
 ##### Options
 
 ```
--i, --input <string>        Path to the OpenAPI file
+-i, --input <string>     Path to the OpenAPI file
 -o, --output <string>    Path to the folder where to output the TypeScript types
 -c, --config <string>    Path to the JSON/JS config file
--h, --help                      display help for command
+-h, --help               Display help for command
 ```
 
 See [Additional Configuration](#additional-configuration) for the `-c, --config` option.
+
 </details>
 
 <details>
 <summary>
-<h3 id="generate-typescript-types-from-json-schemas">Generate TypeScript types from JSON schemas
-</h3>
+
+### Generate TypeScript types from JSON schemas
+
 </summary>
 
-Using the `json2ts` command you can create TypeScript types from your JSON Schema definitions. 
+Using the `json2ts` command you can create TypeScript types from your JSON Schema definitions.
 
-#####  Usage
+##### Usage
 
 ```sh
 openapi-transformer-toolkit json2ts [options]
 ```
 
-#####  Example
+##### Example
 
 ```sh
 $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types
 ```
+
 ```sh
 $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.json
 ```
@@ -137,13 +147,14 @@ $ openapi-transformer-toolkit json2ts -i ./schemas -o ./types -c ./config.json
 ##### Options
 
 ```
--i, --input <string>          Path to the JSON schemas folder
+-i, --input <string>        Path to the JSON schemas folder
 -o, --output <string>       Path to the folder where to output the TS files
 -c, --config <string>       Path to the JSON/JS config file
--h, --help                         display help for command
+-h, --help                  Display help for command
 ```
 
 See [Additional Configuration](#additional-configuration) for the `-c, --config` option.
+
 </details>
 
 ## Programmatic Usage
@@ -151,7 +162,7 @@ See [Additional Configuration](#additional-configuration) for the `-c, --config`
 You can also use the package programmatically by importing the necessary functions:
 
 ```javascript
-import { oas2json, oas2ts, json2ts } from 'openapi-transformer-toolkit';
+import { oas2json, oas2ts, json2ts } from 'openapi-transformer-toolkit'
 ```
 
 ### Generate JSON Schemas from OpenAPI
@@ -159,10 +170,11 @@ import { oas2json, oas2ts, json2ts } from 'openapi-transformer-toolkit';
 To generate JSON schemas from your OpenAPI specification, provide the path to the OpenAPI file and the output directory for the generated schemas:
 
 ```javascript
-const openAPIPath = 'path/to/openapi.yml';
-const schemasPath = 'path/to/output/schemas';
+const openAPIPath = 'path/to/openapi.yml'
+const schemasPath = 'path/to/output/schemas'
+const propertiesToConvert = 'paths'
 
-oas2json(openAPIPath, schemasPath);
+oas2json(openAPIPath, schemasPath, propertiesToExport)
 ```
 
 ### Generate TypeScript Types from OpenAPI
@@ -170,14 +182,14 @@ oas2json(openAPIPath, schemasPath);
 To generate TypeScript types from the OpenAPI specification, provide the path to the OpenAPI file and the output directory for the TypeScript types. Optionally, the third parameter can contain [configuration options](#additional-configuration)
 
 ```javascript
-const openAPIPath = 'path/to/openapi.yml';
-const tsTypesPath = 'path/to/output/types';
-// 
+const openAPIPath = 'path/to/openapi.yml'
+const tsTypesPath = 'path/to/output/types'
+//
 const options = {
-  bannerComment: "Custom banner content"
+  bannerComment: 'Custom banner content'
 }
 
-await oas2ts(openAPIPath, tsTypesPath, options);
+await oas2ts(openAPIPath, tsTypesPath, options)
 ```
 
 ### Generate TypeScript Types from JSON Schemas
@@ -185,10 +197,10 @@ await oas2ts(openAPIPath, tsTypesPath, options);
 To generate TypeScript types from the generated JSON schemas, provide the path to the JSON schema directory and the output directory for the TypeScript types. Optionally, the third parameter can contain [configuration options](#additional-configuration)
 
 ```javascript
-const schemasPath = 'path/to/output/schemas';
-const tsTypesPath = 'path/to/output/types';
+const schemasPath = 'path/to/output/schemas'
+const tsTypesPath = 'path/to/output/types'
 
-await json2ts(schemasPath, tsTypesPath);
+await json2ts(schemasPath, tsTypesPath)
 ```
 
 ## Example
@@ -215,7 +227,7 @@ The generated JSON schemas and TypeScript types will be saved in the output sche
 
 ## Additional Configuration
 
-OpenAPI Transformer Toolkit package utilises the [json-schema-to-typescript](https://www.npmjs.com/package/json-schema-to-typescript) package. 
+OpenAPI Transformer Toolkit package utilises the [json-schema-to-typescript](https://www.npmjs.com/package/json-schema-to-typescript) package.
 
 This package allows you to specify [additional options which can be passed to the command when executing](https://www.npmjs.com/package/json-schema-to-typescript#user-content-options), for example to affect the style of output, or change how `additionalProperties` from your API definition is handled.
 

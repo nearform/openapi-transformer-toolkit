@@ -9,38 +9,37 @@ const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 const inputPath = './test/fixtures/schemas'
 const outputPath = './test/temp/types-from-json'
 
-tap.test('json2ts', t => {
-  t.test('runCommand function', async t => {
-    fs.ensureDirSync(TEST_DIRECTORY)
+tap.test('json2ts runCommand', async t => {
+  fs.ensureDirSync(TEST_DIRECTORY)
 
-    const customOptions = {
-      bannerComment: doNotEditText
-    }
+  const customOptions = {
+    bannerComment: doNotEditText
+  }
 
-    await runCommand(inputPath, outputPath, customOptions)
+  await runCommand(inputPath, outputPath, customOptions)
 
-    const generatedFiles = fs.readdirSync(outputPath)
-    t.match(
-      generatedFiles,
-      [
-        'Address.d.ts',
-        'ApiResponse.d.ts',
-        'Category.d.ts',
-        'Customer.d.ts',
-        'Order.d.ts',
-        'Pet.d.ts',
-        'Tag.d.ts',
-        'User.d.ts'
-      ],
-      'generates the expected TS files'
-    )
+  const generatedFiles = fs.readdirSync(outputPath)
+  t.match(
+    generatedFiles,
+    [
+      'Address.d.ts',
+      'ApiResponse.d.ts',
+      'Category.d.ts',
+      'Customer.d.ts',
+      'Order.d.ts',
+      'Pet.d.ts',
+      'Tag.d.ts',
+      'User.d.ts'
+    ],
+    'generates the expected TS files'
+  )
 
-    const PetFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
-    const generatedPetFile = fs.readFileSync(PetFile, 'utf-8')
+  const PetFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
+  const generatedPetFile = fs.readFileSync(PetFile, 'utf-8')
 
-    t.same(
-      generatedPetFile,
-      `import { Category } from './Category'
+  t.same(
+    generatedPetFile,
+    `import { Category } from './Category'
 import { Tag } from './Tag'
 
 /* eslint-disable */
@@ -63,15 +62,15 @@ export interface Pet {
   [k: string]: unknown;
 }
 `,
-      'Pet.d.ts is created correctly'
-    )
+    'Pet.d.ts is created correctly'
+  )
 
-    const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
-    const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
+  const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
+  const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
 
-    t.same(
-      generatedCustomerFile,
-      `import { Address } from './Address'
+  t.same(
+    generatedCustomerFile,
+    `import { Address } from './Address'
 
 /* eslint-disable */
 /**
@@ -87,9 +86,6 @@ export interface Customer {
   [k: string]: unknown;
 }
 `,
-      'Customer.d.ts is created correctly'
-    )
-  })
-
-  t.end()
+    'Customer.d.ts is created correctly'
+  )
 })
