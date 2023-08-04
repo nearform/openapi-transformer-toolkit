@@ -92,6 +92,10 @@ tap.test('oas2json', async t => {
                 type: 'string',
                 description: 'pet status in the store',
                 enum: ['available', 'pending', 'sold']
+              },
+              nullableValue: {
+                type: ['string', 'null'],
+                description: 'example nullable value'
               }
             },
             title: 'Pet',

@@ -22,30 +22,32 @@ export const adaptSchema = (generatedSchema, name, filename) => {
   }
 }
 
-const processSchema = (name, schema, schemasPath, logger, dirname = '') => {
-  let generatedSchema
-  try {
-    generatedSchema = fromSchema(schema)
-  } catch (error) {
-    logger.warn('Failed to convert non-object attribute, skipping')
-    return
-  }
+const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
+  Object.entries(schema).forEach(([key, value]) => {
+    // for elements in an array the name would be its index if we were
+    // to just use its key, so go into the parsed schema and get the
+    // actual name so the files are more easily identifiable
+    const name = isArray ? value.name : key
+    const filename = _trimStart(filenamify(name, { replacement: '-' }), '-')
 
-  const filename = _trimStart(filenamify(name, { replacement: '-' }), '-')
-  adaptSchema(generatedSchema, name, filename)
+    adaptSchema(value, name, filename)
 
-  let stringifiedSchema = JSON.stringify(generatedSchema, undefined, 2)
-  const schemaRefs = stringifiedSchema.match(COMPONENT_REF_REGEXP)
+    let schemaAsString = JSON.stringify(value, null, 2)
+    // N.B. - this obviously only supports refs where the string contains 'components/schemas'
+    // if we want to support refs in places other than this, we'll need to revisit this
+    // approach to be more flexible
+    const refs = schemaAsString.match(COMPONENT_REF_REGEXP)
+    refs?.forEach(ref => {
+      let refName = ref.split('/').slice(-1)
+      schemaAsString = schemaAsString.replace(ref, `${refName}.json`)
+    })
 
-  ;(schemaRefs || []).forEach(element => {
-    let refName = element.split('/').slice(-1)
-    stringifiedSchema = stringifiedSchema.replace(element, `${refName}.json`)
+    const destinationDir = path.join(schemasPath, definitionKeyword)
+    const destinationPath = path.join(destinationDir, `${filename}.json`)
+
+    fs.ensureDirSync(destinationDir)
+    fs.writeFileSync(destinationPath, schemaAsString)
   })
-
-  const destinationDir = path.join(schemasPath, dirname)
-  const destinationPath = path.join(destinationDir, `${filename}.json`)
-  fs.ensureDirSync(destinationDir)
-  fs.writeFileSync(destinationPath, stringifiedSchema)
 }
 
 export const runCommand = (
@@ -68,24 +70,27 @@ export const runCommand = (
 
   const parsedOpenAPIContent = YAML.parse(openAPIContent)
 
-  const propertiesArray = [
+  const definitionKeywords = [
     ...new Set([
       ...(propertiesToExport?.split(',') || []),
       'components.schemas'
     ])
   ]
-  propertiesArray.forEach(property => {
-    const desired = _get(parsedOpenAPIContent, property)
-    const directoryName = filenamify(property, { replacement: '-' })
 
-    Object.entries(desired).forEach(([name, schema]) => {
-      // for elements in an array the name would be its index in the array,
-      // so go into the parsed schema to get the actual name so that the files
-      // are more easily identifiable
-      const filename = Array.isArray(desired) ? schema.name : name
-      processSchema(filename, schema, schemasPath, logger, directoryName)
+  try {
+    const generatedSchema = fromSchema(parsedOpenAPIContent, {
+      definitionKeywords
     })
-  })
+
+    definitionKeywords.forEach(key => {
+      const schema = _get(generatedSchema, key)
+      const isArray = Array.isArray(_get(parsedOpenAPIContent, key))
+      processSchema(schema, schemasPath, key, isArray)
+    })
+  } catch (error) {
+    logger.warn('Failed to convert non-object attribute, skipping')
+    return
+  }
 
   logger.info('✅ JSON schemas generated successfully from OpenAPI file')
 }
