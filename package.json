@@ -17,11 +17,7 @@
   "bin": {
     "openapi-transformer-toolkit": "./src/cli.js"
   },
-  "files": [
-    "index.js",
-    "src",
-    "example"
-  ],
+  "files": ["index.js", "src", "example"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nearform/openapi-transformer-toolkit.git"
@@ -49,7 +45,7 @@
     "@commitlint/config-conventional": "^17.6.1",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.0",
     "markdown-toc": "^1.2.0",
