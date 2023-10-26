@@ -1,6 +1,6 @@
 {
   "name": "openapi-transformer-toolkit",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Generates schemas and types from OpenAPI specifications",
   "main": "index.js",
   "type": "module",
@@ -17,7 +17,11 @@
   "bin": {
     "openapi-transformer-toolkit": "./src/cli.js"
   },
-  "files": ["index.js", "src", "example"],
+  "files": [
+    "index.js",
+    "src",
+    "example"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nearform/openapi-transformer-toolkit.git"
