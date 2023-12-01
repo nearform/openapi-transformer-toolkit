@@ -14,7 +14,7 @@ tap.test('oas2tson', async t => {
 
     await runCommand(inputPath, outputPath)
 
-    const generatedFiles = fs.readdirSync(`${outputPath}/components.schemas`)
+    const generatedFiles = fs.readdirSync(outputPath)
 
     t.match(
       generatedFiles,
@@ -31,10 +31,7 @@ tap.test('oas2tson', async t => {
       'generates the expected TS files'
     )
 
-    const PetFile = resolveFromPackageRoot(
-      `${outputPath}/components.schemas`,
-      'Pet.ts'
-    )
+    const PetFile = resolveFromPackageRoot(outputPath, 'Pet.ts')
     const generatedPetFile = fs.readFileSync(PetFile, 'utf-8')
 
     t.same(
@@ -99,10 +96,7 @@ tap.test('oas2tson', async t => {
       'Pet.ts is created correctly'
     )
 
-    const CustomerFile = resolveFromPackageRoot(
-      `${outputPath}/components.schemas`,
-      'Customer.ts'
-    )
+    const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.ts')
     const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
 
     t.same(

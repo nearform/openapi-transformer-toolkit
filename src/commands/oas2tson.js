@@ -45,10 +45,7 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
       schemaAsString = schemaAsString.replace(ref, `${refName}.json`)
     })
 
-    const destinationDir = path.join(
-      schemasPath.replace('ts', 'json'),
-      definitionKeyword
-    )
+    const destinationDir = path.join(schemasPath, 'tempjson')
     const destinationPath = path.join(destinationDir, `${filename}.json`)
 
     outputSchemasMetaData.push({ dir: destinationDir, path: destinationPath })
@@ -58,21 +55,20 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
   })
 }
 
-const processJSON = async () => {
+const processJSON = async schemasPath => {
   for (const currentSchema of outputSchemasMetaData) {
     const dereferencedSchema = await $RefParser.dereference(currentSchema.path)
-    const tsSchema = `export const ${
-      path.parse(currentSchema.path).name
-    } = ${JSON.stringify(dereferencedSchema)} as const`
+    const fileName = path.parse(currentSchema.path).name
+    const tsSchema = `export const ${fileName} = ${JSON.stringify(
+      dereferencedSchema
+    )} as const`
     const formattedSchema = await prettier.format(tsSchema, {
       parser: 'typescript'
     })
-    fs.ensureDirSync(currentSchema.dir.replace('json', 'ts'))
-    fs.writeFileSync(
-      currentSchema.path.replaceAll('json', 'ts'),
-      formattedSchema
-    )
+    fs.ensureDirSync(schemasPath)
+    fs.writeFileSync(path.join(schemasPath, `${fileName}.ts`), formattedSchema)
   }
+  fs.removeSync(path.join(schemasPath, 'tempjson'))
 }
 
 export const runCommand = async (
@@ -112,7 +108,7 @@ export const runCommand = async (
       const isArray = Array.isArray(_get(parsedOpenAPIContent, key))
       processSchema(schema, schemasPath, key, isArray)
     })
-    await processJSON()
+    await processJSON(schemasPath)
   } catch (error) {
     logger.warn('Failed to convert non-object attribute, skipping')
     return
