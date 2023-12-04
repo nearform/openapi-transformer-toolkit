@@ -28,8 +28,8 @@ Effortlessly automate your API design-first development workflow by generating [
   * [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
   * [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
   * [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
-  * [Generate TypeScript exported JSON Schemas from OpenAPI](#generate-typeScript-exported-json-schemas-from-openapi)
-- [Example](#example-3)
+  * [Generate TypeScript exported JSON Schemas from OpenAPI](#generate-typescript-exported-json-schemas-from-openapi)
+- [Example](#example-4)
 - [Additional Configuration](#additional-configuration)
 
 <!-- tocstop -->

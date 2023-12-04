@@ -11,6 +11,7 @@ import $RefParser from '@apidevtools/json-schema-ref-parser'
 
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
 import prettier from 'prettier'
+import os from 'os'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 let outputSchemasMetaData = []
@@ -41,7 +42,7 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
     // approach to be more flexible
     const refs = schemaAsString.match(COMPONENT_REF_REGEXP)
     refs?.forEach(ref => {
-      let refName = ref.split('/').slice(-1)
+      const refName = ref.split('/').slice(-1)
       schemaAsString = schemaAsString.replace(ref, `${refName}.json`)
     })
 
@@ -55,7 +56,8 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
   })
 }
 
-const processJSON = async schemasPath => {
+const processJSON = async (schemasPath, tempdir) => {
+  fs.ensureDirSync(schemasPath)
   for (const currentSchema of outputSchemasMetaData) {
     const dereferencedSchema = await $RefParser.dereference(currentSchema.path)
     const fileName = path.parse(currentSchema.path).name
@@ -65,10 +67,9 @@ const processJSON = async schemasPath => {
     const formattedSchema = await prettier.format(tsSchema, {
       parser: 'typescript'
     })
-    fs.ensureDirSync(schemasPath)
     fs.writeFileSync(path.join(schemasPath, `${fileName}.ts`), formattedSchema)
   }
-  fs.removeSync(path.join(schemasPath, 'tempjson'))
+  fs.removeSync(path.join(tempdir, 'tempjson'))
 }
 
 export const runCommand = async (
@@ -103,13 +104,15 @@ export const runCommand = async (
       definitionKeywords
     })
 
+    const tempdir = os.tmpdir()
     definitionKeywords.forEach(key => {
       const schema = _get(generatedSchema, key)
       const isArray = Array.isArray(_get(parsedOpenAPIContent, key))
-      processSchema(schema, schemasPath, key, isArray)
+      processSchema(schema, tempdir, key, isArray)
     })
-    await processJSON(schemasPath)
+    await processJSON(schemasPath, tempdir)
   } catch (error) {
+    logger.warn(error)
     logger.warn('Failed to convert non-object attribute, skipping')
     return
   }
