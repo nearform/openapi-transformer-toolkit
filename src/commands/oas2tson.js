@@ -112,8 +112,7 @@ export const runCommand = async (
     })
     await processJSON(schemasPath, tempdir)
   } catch (error) {
-    logger.warn(error)
-    logger.warn('Failed to convert non-object attribute, skipping')
+    logger.warn(error, 'Failed to convert non-object attribute, skipping')
     return
   }
 
