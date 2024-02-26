@@ -46,18 +46,7 @@ paths:
       description: Update an existing pet by Id
       operationId: updatePet
       requestBody:
-        description: Update an existent pet in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        required: true
+        $ref: '#/components/requestBodies/PetBody'
       responses:
         '200':
           description: Successful operation
@@ -85,18 +74,7 @@ paths:
       description: Add a new pet to the store
       operationId: addPet
       requestBody:
-        description: Create a new pet in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        required: true
+        $ref: '#/components/requestBodies/PetBody'
       responses:
         '200':
           description: Successful operation
@@ -422,17 +400,7 @@ paths:
       description: This can only be done by the logged in user.
       operationId: createUser
       requestBody:
-        description: Created user object
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
+        $ref: '#/components/requestBodies/UserBody'
       responses:
         default:
           description: successful operation
@@ -565,17 +533,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Update an existent user in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/User'
+        $ref: '#/components/requestBodies/UserBody'
       responses:
         default:
           description: successful operation
@@ -774,8 +732,9 @@ components:
       xml:
         name: '##default'
   requestBodies:
-    Pet:
-      description: Pet object that needs to be added to the store
+    PetBody:
+      description: A JSON object containing pet information
+      required: true
       content:
         application/json:
           schema:
@@ -783,14 +742,22 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Pet'
-    UserArray:
-      description: List of user object
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/Pet'
+    UserBody:
+      description: A JSON object containing user information
+      required: true
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
+            $ref: '#/components/schemas/User'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/User'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/User'
   securitySchemes:
     petstore_auth:
       type: oauth2

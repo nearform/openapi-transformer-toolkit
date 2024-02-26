@@ -33,15 +33,16 @@ tap.test('oas2json', async t => {
     const inputPath = './test/fixtures/openapi.yml'
     const outputPath = './test/temp/schemas'
     const schemasDir = `${outputPath}/components.schemas`
+    const pathsDir = `${outputPath}/paths`
 
     t.test(
       'should generate JSON schema files from the OpenAPI input',
       async t => {
-        runCommand(inputPath, outputPath)
+        runCommand(inputPath, outputPath, 'paths')
 
-        const generatedFiles = fs.readdirSync(schemasDir)
+        const generatedSchemas = fs.readdirSync(schemasDir)
         t.match(
-          generatedFiles,
+          generatedSchemas,
           [
             'Address.json',
             'ApiResponse.json',
@@ -52,7 +53,28 @@ tap.test('oas2json', async t => {
             'Tag.json',
             'User.json'
           ],
-          'generates the expected JSON files'
+          'generates the expected JSON files for schemas'
+        )
+
+        const generatedPaths = fs.readdirSync(pathsDir)
+        t.match(
+          generatedPaths,
+          [
+            'pet-findByStatus.json',
+            'pet-findByTags.json',
+            'pet-{petId}-uploadImage.json',
+            'pet-{petId}.json',
+            'pet.json',
+            'store-inventory.json',
+            'store-order-{orderId}.json',
+            'store-order.json',
+            'user-createWithList.json',
+            'user-login.json',
+            'user-logout.json',
+            'user-{username}.json',
+            'user.json'
+          ],
+          'generates the expected JSON files for paths'
         )
 
         const petSchema = fs.readJsonSync(
@@ -103,6 +125,7 @@ tap.test('oas2json', async t => {
           },
           'Pet.json schema is created correctly'
         )
+
         const customerSchema = fs.readJsonSync(
           resolveFromPackageRoot(schemasDir, 'Customer.json')
         )
@@ -132,6 +155,234 @@ tap.test('oas2json', async t => {
           },
           'Customer.json schema is created correctly'
         )
+
+        const petPath = fs.readJsonSync(
+          resolveFromPackageRoot(pathsDir, 'pet.json')
+        )
+        t.same(
+          petPath,
+          {
+            put: {
+              tags: ['pet'],
+              summary: 'Update an existing pet',
+              description: 'Update an existing pet by Id',
+              operationId: 'updatePet',
+              requestBody: {
+                $ref: 'PetBody.json' // File generated from #/components/requestBodies/PetBody
+              },
+              responses: {
+                200: {
+                  description: 'Successful operation',
+                  content: {
+                    'application/json': {
+                      schema: {
+                        $ref: 'Pet.json'
+                      }
+                    },
+                    'application/xml': {
+                      schema: {
+                        $ref: 'Pet.json'
+                      }
+                    }
+                  }
+                },
+                400: {
+                  description: 'Invalid ID supplied'
+                },
+                404: {
+                  description: 'Pet not found'
+                },
+                405: {
+                  description: 'Validation exception'
+                }
+              },
+              security: [
+                {
+                  petstore_auth: ['write:pets', 'read:pets']
+                }
+              ]
+            },
+            post: {
+              tags: ['pet'],
+              summary: 'Add a new pet to the store',
+              description: 'Add a new pet to the store',
+              operationId: 'addPet',
+              requestBody: {
+                $ref: 'PetBody.json'
+              },
+              responses: {
+                200: {
+                  description: 'Successful operation',
+                  content: {
+                    'application/json': {
+                      schema: {
+                        $ref: 'Pet.json'
+                      }
+                    },
+                    'application/xml': {
+                      schema: {
+                        $ref: 'Pet.json'
+                      }
+                    }
+                  }
+                },
+                405: {
+                  description: 'Invalid input'
+                }
+              },
+              security: [
+                {
+                  petstore_auth: ['write:pets', 'read:pets']
+                }
+              ]
+            },
+            title: '/pet',
+            $id: 'pet.json'
+          },
+          'pet.json path is created correctly'
+        )
+
+        const petPetIdPath = fs.readJsonSync(
+          resolveFromPackageRoot(pathsDir, 'pet-{petId}.json')
+        )
+        t.same(
+          petPetIdPath,
+          {
+            get: {
+              tags: ['pet'],
+              summary: 'Find pet by ID',
+              description: 'Returns a single pet',
+              operationId: 'getPetById',
+              parameters: [
+                {
+                  name: 'petId',
+                  in: 'path',
+                  description: 'ID of pet to return',
+                  required: true,
+                  schema: {
+                    type: 'integer',
+                    format: 'int64'
+                  }
+                }
+              ],
+              responses: {
+                200: {
+                  description: 'successful operation',
+                  content: {
+                    'application/json': {
+                      schema: {
+                        $ref: 'Pet.json'
+                      }
+                    },
+                    'application/xml': {
+                      schema: {
+                        $ref: 'Pet.json'
+                      }
+                    }
+                  }
+                },
+                400: {
+                  description: 'Invalid ID supplied'
+                },
+                404: {
+                  description: 'Pet not found'
+                }
+              },
+              security: [
+                {
+                  api_key: []
+                },
+                {
+                  petstore_auth: ['write:pets', 'read:pets']
+                }
+              ]
+            },
+            post: {
+              tags: ['pet'],
+              summary: 'Updates a pet in the store with form data',
+              description: '',
+              operationId: 'updatePetWithForm',
+              parameters: [
+                {
+                  name: 'petId',
+                  in: 'path',
+                  description: 'ID of pet that needs to be updated',
+                  required: true,
+                  schema: {
+                    type: 'integer',
+                    format: 'int64'
+                  }
+                },
+                {
+                  name: 'name',
+                  in: 'query',
+                  description: 'Name of pet that needs to be updated',
+                  schema: {
+                    type: 'string'
+                  }
+                },
+                {
+                  name: 'status',
+                  in: 'query',
+                  description: 'Status of pet that needs to be updated',
+                  schema: {
+                    type: 'string'
+                  }
+                }
+              ],
+              responses: {
+                405: {
+                  description: 'Invalid input'
+                }
+              },
+              security: [
+                {
+                  petstore_auth: ['write:pets', 'read:pets']
+                }
+              ]
+            },
+            delete: {
+              tags: ['pet'],
+              summary: 'Deletes a pet',
+              description: 'delete a pet',
+              operationId: 'deletePet',
+              parameters: [
+                {
+                  name: 'api_key',
+                  in: 'header',
+                  description: '',
+                  required: false,
+                  schema: {
+                    type: 'string'
+                  }
+                },
+                {
+                  name: 'petId',
+                  in: 'path',
+                  description: 'Pet id to delete',
+                  required: true,
+                  schema: {
+                    type: 'integer',
+                    format: 'int64'
+                  }
+                }
+              ],
+              responses: {
+                400: {
+                  description: 'Invalid pet value'
+                }
+              },
+              security: [
+                {
+                  petstore_auth: ['write:pets', 'read:pets']
+                }
+              ]
+            },
+            title: '/pet/{petId}',
+            $id: 'pet-petId.json' // Does not contain any invalid URI chars (i.e. curly braces)
+          },
+          'pet-{petId}.json path is created correctly'
+        )
       }
     )
 
@@ -146,12 +397,16 @@ tap.test('oas2json', async t => {
       )
 
       const petReqBody = fs.readJSONSync(
-        resolveFromPackageRoot(outputPath, 'components.requestBodies/Pet.json')
+        resolveFromPackageRoot(
+          outputPath,
+          'components.requestBodies/PetBody.json'
+        )
       )
       t.same(
         petReqBody,
         {
-          description: 'Pet object that needs to be added to the store',
+          description: 'A JSON object containing pet information',
+          required: true,
           content: {
             'application/json': {
               schema: {
@@ -162,10 +417,15 @@ tap.test('oas2json', async t => {
               schema: {
                 $ref: 'Pet.json'
               }
+            },
+            'application/x-www-form-urlencoded': {
+              schema: {
+                $ref: 'Pet.json'
+              }
             }
           },
-          title: 'Pet',
-          $id: 'Pet.json'
+          title: 'PetBody',
+          $id: 'PetBody.json'
         },
         'generates the expected JSON'
       )
