@@ -12,11 +12,13 @@ import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
 
 const COMPONENT_REF_REGEXP =
   /#\/components\/(callbacks|examples|headers|links|parameters|requestBodies|responses|schemas|securitySchemes)\/[^"]+/g
+const INVALID_URI_CHARS_REGEXP = /[^a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=]/g
 
 export const adaptSchema = (generatedSchema, name, filename) => {
+  const sanitizedFilename = filename.replace(INVALID_URI_CHARS_REGEXP, '')
   delete generatedSchema.$schema
   generatedSchema.title = name
-  generatedSchema.$id = `${filename}.json`
+  generatedSchema.$id = `${sanitizedFilename}.json`
 
   if (generatedSchema.format?.includes('date')) {
     generatedSchema.tsType = 'Date'
