@@ -12,7 +12,7 @@
     "oas2json": "./src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
     "oas2ts": "./src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "oas2tson": "./src/cli.js oas2tson -i ./example/openapi.yml -o ./example/output/ts",
-    "prepare": "husky install",
+    "prepare": "husky",
     "test": "tap"
   },
   "bin": {
@@ -52,7 +52,7 @@
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "husky": "^9.0.7",
+    "husky": "^9.0.11",
     "lint-staged": "^15.0.2",
     "markdown-toc": "^1.2.0",
     "prettier": "^3.0.1",
