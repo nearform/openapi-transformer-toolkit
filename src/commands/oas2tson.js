@@ -56,10 +56,26 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
   })
 }
 
-const processJSON = async (schemasPath, tempdir) => {
+const processJSON = async (schemasPath, tempdir, excludeDereferencedIds) => {
   fs.ensureDirSync(schemasPath)
   for (const currentSchema of outputSchemasMetaData) {
-    const dereferencedSchema = await $RefParser.dereference(currentSchema.path)
+    /**
+     * monitor https://github.com/APIDevTools/json-schema-ref-parser/issues/342
+     * to check if they accept a flag to exclude Ids and eventually remove the onDereference callback
+     */
+    const dereferencedSchema = await $RefParser.dereference(
+      currentSchema.path,
+      excludeDereferencedIds
+        ? {
+            dereference: {
+              onDereference: (path, value) => {
+                delete value.$id
+              }
+            }
+          }
+        : null
+    )
+
     const fileName = path.parse(currentSchema.path).name
     const tsSchema = `export const ${fileName} = ${JSON.stringify(
       dereferencedSchema
@@ -76,6 +92,7 @@ export const runCommand = async (
   openApiPath,
   schemasPath,
   propertiesToExport,
+  excludeDereferencedIds,
   logger = pino()
 ) => {
   fs.removeSync(schemasPath)
@@ -110,7 +127,7 @@ export const runCommand = async (
       const isArray = Array.isArray(_get(parsedOpenAPIContent, key))
       processSchema(schema, tempdir, key, isArray)
     })
-    await processJSON(schemasPath, tempdir)
+    await processJSON(schemasPath, tempdir, excludeDereferencedIds)
   } catch (error) {
     logger.warn(error, 'Failed to convert non-object attribute, skipping')
     return
@@ -121,7 +138,13 @@ export const runCommand = async (
 
 const main = () => {
   const options = oas2tson.optsWithGlobals()
-  runCommand(options.input, options.output, options.properties, options.logger)
+  runCommand(
+    options.input,
+    options.output,
+    options.properties,
+    options.excludeDereferencedIds,
+    options.logger
+  )
 }
 
 const oas2tson = new Command('oas2tson')
@@ -144,6 +167,7 @@ oas2tson
     '-p, --properties <string>',
     'Comma-separated list of properties to convert from the OpenAPI file'
   )
+  .option('--excludeDereferencedIds', 'exclude $id of dereferenced schemas')
   .allowUnknownOption()
   .allowExcessArguments(true)
   .action(main)
