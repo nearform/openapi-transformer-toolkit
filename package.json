@@ -1,6 +1,6 @@
 {
   "name": "openapi-transformer-toolkit",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Generates schemas and types from OpenAPI specifications",
   "main": "index.js",
   "type": "module",
