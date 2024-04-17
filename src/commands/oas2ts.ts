@@ -1,11 +1,12 @@
 import { Command } from 'commander'
 import fs from 'fs-extra'
-import pino, { Logger } from 'pino'
 import os from 'os'
 import path from 'path'
+import pino, { Logger } from 'pino'
+import { Json2TsOptions } from '../types/Json2TsOptions.js'
+import { readConfigFile } from '../utils/read-config-file.js'
 import { runCommand as runJson2TsCommand } from './json2ts.js'
 import { runCommand as runOas2JsonCommand } from './oas2json.js'
-import { readConfigFile } from '../utils/read-config-file.js'
 
 const TEMP_FOLDER = path.join(os.tmpdir(), 'temp-json-schemas')
 
@@ -17,7 +18,7 @@ const cleanUpTempFolder = (logger: Logger) =>
 export const runCommand = async (
   openApiPath: string,
   tsTypesPath: string,
-  customOptions,
+  customOptions: Json2TsOptions,
   logger = pino()
 ) => {
   try {

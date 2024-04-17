@@ -16,6 +16,8 @@ import type { JSONSchema4 } from "json-schema"
 
 import SchemasMetaData from '../types/SchemasMetaData'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
+import { Oas2Tson } from '../types/Oas2Tson'
+import { string } from 'yaml/dist/schema/common/string'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 const outputSchemasMetaData: SchemasMetaData[] = []
@@ -60,7 +62,7 @@ const processSchema = (schema: JSONSchema4, schemasPath: string, definitionKeywo
   })
 }
 
-const processJSON = async (schemasPath: string, tempdir: string, excludeDereferencedIds) => {
+const processJSON = async (schemasPath: string, tempdir: string, excludeDereferencedIds?: string) => {
   fs.ensureDirSync(schemasPath)
   for (const currentSchema of outputSchemasMetaData) {
     /**
@@ -96,7 +98,7 @@ export const runCommand = async (
   openApiPath: string,
   schemasPath: string,
   propertiesToExport?: string,
-  excludeDereferencedIds,
+  excludeDereferencedIds?: string,
   logger = pino()
 ) => {
   fs.removeSync(schemasPath)
@@ -141,7 +143,7 @@ export const runCommand = async (
 }
 
 const main = () => {
-  const options = oas2tson.optsWithGlobals()
+  const options = oas2tson.optsWithGlobals <Oas2Tson>()
   runCommand(
     options.input,
     options.output,
