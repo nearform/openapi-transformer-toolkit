@@ -14,8 +14,8 @@ import prettier from 'prettier'
 
 import type { JSONSchema4 } from "json-schema"
 
-import { Oas2Tson } from '../types/Oas2Tson'
-import SchemasMetaData from '../types/SchemasMetaData'
+import type { Oas2Tson } from '../types/Oas2Tson'
+import type SchemasMetaData from '../types/SchemasMetaData'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g

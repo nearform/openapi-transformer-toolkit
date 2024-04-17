@@ -1,4 +1,4 @@
 {
-  "files": ["test/*.test.js"],
+  "files": ["test/*.test.ts"],
   "reporter": "spec"
 }

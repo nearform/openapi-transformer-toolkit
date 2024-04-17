@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import tap from 'tap'
-import { adaptSchema, runCommand } from '../src/commands/oas2json'
-import { resolveFromPackageRoot } from '../src/utils/paths'
+import { adaptSchema, runCommand } from '../src/commands/oas2json.js'
+import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
 import type { JSONSchema4 } from "json-schema"
 

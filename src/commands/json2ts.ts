@@ -5,7 +5,7 @@ import { compileFromFile } from 'json-schema-to-typescript'
 import path from 'path'
 import pino from 'pino'
 import { exit } from 'process'
-import { Json2TsArgs, Json2TsDefaultOptions, Json2TsOptions } from '../types/Json2TsOptions.js'
+import type { Json2TsArgs, Json2TsDefaultOptions, Json2TsOptions } from '../types/Json2TsOptions'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 import { readConfigFile } from '../utils/read-config-file.js'
 

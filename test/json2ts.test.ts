@@ -1,8 +1,8 @@
 import fs from 'fs-extra'
 import tap from 'tap'
-import { runCommand } from '../src/commands/json2ts'
-import { doNotEditText } from '../src/utils/do-not-edit-text'
-import { resolveFromPackageRoot } from '../src/utils/paths'
+import { runCommand } from '../src/commands/json2ts.js'
+import { doNotEditText } from '../src/utils/do-not-edit-text.js'
+import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
 const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 
