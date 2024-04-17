@@ -1,4 +1,4 @@
-import $RefParser from '@apidevtools/json-schema-ref-parser'
+import $RefParser, { ParserOptions } from '@apidevtools/json-schema-ref-parser'
 import { Command } from 'commander'
 import filenamify from 'filenamify'
 import fs from 'fs-extra'
@@ -14,10 +14,9 @@ import prettier from 'prettier'
 
 import type { JSONSchema4 } from "json-schema"
 
+import { Oas2Tson } from '../types/Oas2Tson'
 import SchemasMetaData from '../types/SchemasMetaData'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
-import { Oas2Tson } from '../types/Oas2Tson'
-import { string } from 'yaml/dist/schema/common/string'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 const outputSchemasMetaData: SchemasMetaData[] = []
@@ -62,6 +61,14 @@ const processSchema = (schema: JSONSchema4, schemasPath: string, definitionKeywo
   })
 }
 
+const parserOptions: ParserOptions = {
+  dereference: {
+    onDereference: (path: string, value: JSONSchema4) => {
+      delete value.$id
+    }
+  }
+}
+
 const processJSON = async (schemasPath: string, tempdir: string, excludeDereferencedIds?: string) => {
   fs.ensureDirSync(schemasPath)
   for (const currentSchema of outputSchemasMetaData) {
@@ -69,18 +76,7 @@ const processJSON = async (schemasPath: string, tempdir: string, excludeDerefere
      * monitor https://github.com/APIDevTools/json-schema-ref-parser/issues/342
      * to check if they accept a flag to exclude Ids and eventually remove the onDereference callback
      */
-    const dereferencedSchema = await $RefParser.dereference(
-      currentSchema.path,
-      excludeDereferencedIds
-        ? {
-            dereference: {
-              onDereference: (path, value) => {
-                delete value.$id
-              }
-            }
-          }
-        : null
-    )
+    const dereferencedSchema = await (excludeDereferencedIds ? $RefParser.dereference(currentSchema.path, parserOptions) : $RefParser.dereference(currentSchema.path));
 
     const fileName = path.parse(currentSchema.path).name
     const tsSchema = `export const ${fileName} = ${JSON.stringify(
@@ -143,7 +139,7 @@ export const runCommand = async (
 }
 
 const main = () => {
-  const options = oas2tson.optsWithGlobals <Oas2Tson>()
+  const options = oas2tson.optsWithGlobals<Oas2Tson>()
   runCommand(
     options.input,
     options.output,
