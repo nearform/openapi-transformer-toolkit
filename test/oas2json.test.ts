@@ -1,11 +1,13 @@
-import tap from 'tap'
 import fs from 'fs-extra'
-import { adaptSchema, runCommand } from '../src/commands/oas2json.js'
-import { resolveFromPackageRoot } from '../src/utils/paths.js'
+import tap from 'tap'
+import { adaptSchema, runCommand } from '../src/commands/oas2json'
+import { resolveFromPackageRoot } from '../src/utils/paths'
+
+import type { JSONSchema4 } from "json-schema"
 
 tap.test('oas2json', async t => {
   t.test('adaptSchema function', async t => {
-    const schema = {
+    const schema: JSONSchema4 = {
       $schema: 'http://json-schema.org/draft-07/schema#',
       type: 'string',
       format: 'date'

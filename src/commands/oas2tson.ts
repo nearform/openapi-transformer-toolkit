@@ -69,7 +69,7 @@ const parserOptions: ParserOptions = {
   }
 }
 
-const processJSON = async (schemasPath: string, tempdir: string, excludeDereferencedIds?: string) => {
+const processJSON = async (schemasPath: string, tempdir: string, excludeDereferencedIds?: boolean) => {
   fs.ensureDirSync(schemasPath)
   for (const currentSchema of outputSchemasMetaData) {
     /**
@@ -94,7 +94,7 @@ export const runCommand = async (
   openApiPath: string,
   schemasPath: string,
   propertiesToExport?: string,
-  excludeDereferencedIds?: string,
+  excludeDereferencedIds?: boolean,
   logger = pino()
 ) => {
   fs.removeSync(schemasPath)

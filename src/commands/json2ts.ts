@@ -40,7 +40,7 @@ const generateAndWriteTsFile = async (schemaPath: string, tsTypesPath: string, o
 export const runCommand = async (
   schemasPath: string,
   tsTypesPath: string,
-  customOptions: Json2TsOptions,
+  customOptions?: Json2TsOptions,
   logger = pino()
 ) => {
   fs.removeSync(tsTypesPath)

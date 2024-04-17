@@ -4,6 +4,6 @@ export type Oas2Tson = {
   input: string;
   output: string;
   properties?: string;
-  excludeDereferencedIds?: string;
+  excludeDereferencedIds?: boolean;
   logger?: Logger;
 }

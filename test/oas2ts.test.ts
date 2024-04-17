@@ -1,7 +1,7 @@
-import tap from 'tap'
 import fs from 'fs-extra'
-import { runCommand } from '../src/commands/oas2ts.js'
-import { resolveFromPackageRoot } from '../src/utils/paths.js'
+import tap from 'tap'
+import { runCommand } from '../src/commands/oas2ts'
+import { resolveFromPackageRoot } from '../src/utils/paths'
 
 const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 

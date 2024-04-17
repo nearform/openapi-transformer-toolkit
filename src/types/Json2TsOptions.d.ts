@@ -10,4 +10,4 @@ export type Json2TsArgs = {
 
 export type Json2TsDefaultOptions = Pick<Options, 'cwd' | 'bannerComment' | 'declareExternallyReferenced'>
 
-export type Json2TsOptions = Options
+export type Json2TsOptions = Partial<Options>

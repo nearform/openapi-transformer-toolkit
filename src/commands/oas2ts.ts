@@ -18,8 +18,8 @@ const cleanUpTempFolder = (logger: Logger) =>
 export const runCommand = async (
   openApiPath: string,
   tsTypesPath: string,
-  customOptions: Json2TsOptions,
-  logger = pino()
+  customOptions?: Json2TsOptions,
+  logger: Logger = pino()
 ) => {
   try {
     const silentLogger = pino({ level: 'silent' })
@@ -35,7 +35,7 @@ export const runCommand = async (
 
     logger.info('✅ TypeScript types generated successfully from OpenAPI file')
   } catch (error) {
-    logger.error('❌ An error occurred during the process:', error.message)
+    logger.error('❌ An error occurred during the process:', (error as Error).message)
   } finally {
     await cleanUpTempFolder(logger)
   }
