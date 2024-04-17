@@ -11,12 +11,16 @@ import YAML from 'yaml'
 
 import os from 'os'
 import prettier from 'prettier'
+
+import type { JSONSchema4 } from "json-schema"
+
+import SchemasMetaData from '../types/SchemasMetaData'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
-let outputSchemasMetaData = []
+const outputSchemasMetaData: SchemasMetaData[] = []
 
-export const adaptSchema = (generatedSchema, name: string, filename: string) => {
+export const adaptSchema = (generatedSchema: JSONSchema4, name: string, filename: string) => {
   delete generatedSchema.$schema
   generatedSchema.title = name
   generatedSchema.$id = `${filename}.json`
@@ -26,7 +30,7 @@ export const adaptSchema = (generatedSchema, name: string, filename: string) => 
   }
 }
 
-const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
+const processSchema = (schema: JSONSchema4, schemasPath: string, definitionKeyword: string, isArray: boolean) => {
   Object.entries(schema).forEach(([key, value]) => {
     // for elements in an array the name would be its index if we were
     // to just use its key, so go into the parsed schema and get the
@@ -56,7 +60,7 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
   })
 }
 
-const processJSON = async (schemasPath, tempdir, excludeDereferencedIds) => {
+const processJSON = async (schemasPath: string, tempdir: string, excludeDereferencedIds) => {
   fs.ensureDirSync(schemasPath)
   for (const currentSchema of outputSchemasMetaData) {
     /**
@@ -91,7 +95,7 @@ const processJSON = async (schemasPath, tempdir, excludeDereferencedIds) => {
 export const runCommand = async (
   openApiPath: string,
   schemasPath: string,
-  propertiesToExport,
+  propertiesToExport?: string,
   excludeDereferencedIds,
   logger = pino()
 ) => {
