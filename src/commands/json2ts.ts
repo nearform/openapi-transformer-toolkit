@@ -8,7 +8,7 @@ import $RefParser from '@bcherny/json-schema-ref-parser'
 import { readConfigFile } from '../utils/read-config-file.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 
-const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
+const generateAndWriteTsFile = async (schemaPath: string, tsTypesPath: string, options) => {
   const ts = await compileFromFile(schemaPath, options)
 
   const interfaceName = path.basename(schemaPath, '.json')
@@ -37,8 +37,8 @@ const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
 }
 
 export const runCommand = async (
-  schemasPath,
-  tsTypesPath,
+  schemasPath: string,
+  tsTypesPath: string,
   customOptions,
   logger = pino()
 ) => {

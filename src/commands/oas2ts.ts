@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import fs from 'fs-extra'
-import pino from 'pino'
+import pino, { Logger } from 'pino'
 import os from 'os'
 import path from 'path'
 import { runCommand as runJson2TsCommand } from './json2ts.js'
@@ -9,14 +9,14 @@ import { readConfigFile } from '../utils/read-config-file.js'
 
 const TEMP_FOLDER = path.join(os.tmpdir(), 'temp-json-schemas')
 
-const cleanUpTempFolder = logger =>
+const cleanUpTempFolder = (logger: Logger) =>
   fs.remove(TEMP_FOLDER).catch(error => {
     logger.error('❌ Failed to clean up temporary folder:', error.message)
   })
 
 export const runCommand = async (
-  openApiPath,
-  tsTypesPath,
+  openApiPath: string,
+  tsTypesPath: string,
   customOptions,
   logger = pino()
 ) => {

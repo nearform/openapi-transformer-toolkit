@@ -1,3 +1,4 @@
+import $RefParser from '@apidevtools/json-schema-ref-parser'
 import { Command } from 'commander'
 import filenamify from 'filenamify'
 import fs from 'fs-extra'
@@ -7,16 +8,15 @@ import path from 'path'
 import pino from 'pino'
 import { exit } from 'process'
 import YAML from 'yaml'
-import $RefParser from '@apidevtools/json-schema-ref-parser'
 
-import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
-import prettier from 'prettier'
 import os from 'os'
+import prettier from 'prettier'
+import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 let outputSchemasMetaData = []
 
-export const adaptSchema = (generatedSchema, name, filename) => {
+export const adaptSchema = (generatedSchema, name: string, filename: string) => {
   delete generatedSchema.$schema
   generatedSchema.title = name
   generatedSchema.$id = `${filename}.json`
@@ -89,8 +89,8 @@ const processJSON = async (schemasPath, tempdir, excludeDereferencedIds) => {
 }
 
 export const runCommand = async (
-  openApiPath,
-  schemasPath,
+  openApiPath: string,
+  schemasPath: string,
   propertiesToExport,
   excludeDereferencedIds,
   logger = pino()

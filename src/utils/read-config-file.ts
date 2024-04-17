@@ -1,9 +1,9 @@
-import pino from 'pino'
-import { resolveFromWorkingDirectory } from './paths.js'
 import fs from 'fs-extra'
+import pino from 'pino'
 import { exit } from 'process'
+import { resolveFromWorkingDirectory } from './paths.js'
 
-const readConfigFile = configPath => {
+const readConfigFile = (configPath: string) => {
   const logger = pino()
   const resolvedPath = resolveFromWorkingDirectory(configPath)
 

@@ -8,13 +8,13 @@ import pino from 'pino'
 import { exit } from 'process'
 import YAML from 'yaml'
 
-import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
+import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
 
 const COMPONENT_REF_REGEXP =
   /#\/components\/(callbacks|examples|headers|links|parameters|requestBodies|responses|schemas|securitySchemes)\/[^"]+/g
 const INVALID_URI_CHARS_REGEXP = /[^a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=]/g
 
-export const adaptSchema = (generatedSchema, name, filename) => {
+export const adaptSchema = (generatedSchema, name: string, filename: string) => {
   const sanitizedFilename = filename.replace(INVALID_URI_CHARS_REGEXP, '')
   delete generatedSchema.$schema
   generatedSchema.title = name
@@ -51,8 +51,8 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
 }
 
 export const runCommand = (
-  openApiPath,
-  schemasPath,
+  openApiPath: string,
+  schemasPath: string,
   propertiesToExport,
   logger = pino()
 ) => {
