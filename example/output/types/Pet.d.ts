@@ -18,5 +18,9 @@ export interface Pet {
    * pet status in the store
    */
   status?: 'available' | 'pending' | 'sold';
+  /**
+   * example nullable value
+   */
+  nullableValue?: string | null;
   [k: string]: unknown;
 }

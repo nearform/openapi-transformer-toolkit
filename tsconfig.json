@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ESNext",
     "module": "esnext",
     "lib": [
       "esnext"
@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "strict": true,
     "strictNullChecks": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "outDir": "dist",
   }
 }
