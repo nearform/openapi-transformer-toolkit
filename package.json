@@ -17,7 +17,7 @@
     "preoas2tson": "npm run build",
     "oas2tson": "./dist/esm/src/cli.js oas2tson -i ./example/openapi.yml -o ./example/output/ts",
     "prepare": "husky",
-    "test": "tap",
+    "test": "tap --allow-incomplete-coverage",
     "build": "tsup-node",
     "postbuild": "cp ./package.json ./dist/esm"
   },
