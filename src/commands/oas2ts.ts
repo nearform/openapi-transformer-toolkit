@@ -35,7 +35,10 @@ export const runCommand = async (
 
     logger.info('✅ TypeScript types generated successfully from OpenAPI file')
   } catch (error) {
-    logger.error('❌ An error occurred during the process:', (error as Error).message)
+    logger.error(
+      '❌ An error occurred during the process:',
+      (error as Error).message
+    )
   } finally {
     await cleanUpTempFolder(logger)
   }

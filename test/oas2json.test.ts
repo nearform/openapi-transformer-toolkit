@@ -3,7 +3,7 @@ import tap from 'tap'
 import { adaptSchema, runCommand } from '../src/commands/oas2json.js'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
-import type { JSONSchema4 } from "json-schema"
+import type { JSONSchema4 } from 'json-schema'
 
 tap.test('oas2json', async t => {
   t.test('adaptSchema function', async t => {

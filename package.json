@@ -57,6 +57,8 @@
     "@types/lodash.get": "^4.4.9",
     "@types/lodash.trimstart": "^4.5.9",
     "@types/tap": "^15.0.11",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",

@@ -1,9 +1,9 @@
-import { Logger } from "pino";
+import { Logger } from 'pino'
 
 export type Oas2Tson = {
-  input: string;
-  output: string;
-  properties?: string;
-  excludeDereferencedIds?: boolean;
-  logger?: Logger;
+  input: string
+  output: string
+  properties?: string
+  excludeDereferencedIds?: boolean
+  logger?: Logger
 }

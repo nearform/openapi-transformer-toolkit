@@ -12,7 +12,7 @@ import YAML from 'yaml'
 import os from 'os'
 import prettier from 'prettier'
 
-import type { JSONSchema4 } from "json-schema"
+import type { JSONSchema4 } from 'json-schema'
 
 import type { Oas2Tson } from '../types/Oas2Tson'
 import type SchemasMetaData from '../types/SchemasMetaData'
@@ -21,7 +21,11 @@ import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 const outputSchemasMetaData: SchemasMetaData[] = []
 
-export const adaptSchema = (generatedSchema: JSONSchema4, name: string, filename: string) => {
+export const adaptSchema = (
+  generatedSchema: JSONSchema4,
+  name: string,
+  filename: string
+) => {
   delete generatedSchema.$schema
   generatedSchema.title = name
   generatedSchema.$id = `${filename}.json`
@@ -31,7 +35,12 @@ export const adaptSchema = (generatedSchema: JSONSchema4, name: string, filename
   }
 }
 
-const processSchema = (schema: JSONSchema4, schemasPath: string, definitionKeyword: string, isArray: boolean) => {
+const processSchema = (
+  schema: JSONSchema4,
+  schemasPath: string,
+  definitionKeyword: string,
+  isArray: boolean
+) => {
   Object.entries(schema).forEach(([key, value]) => {
     // for elements in an array the name would be its index if we were
     // to just use its key, so go into the parsed schema and get the
@@ -69,14 +78,20 @@ const parserOptions: ParserOptions = {
   }
 }
 
-const processJSON = async (schemasPath: string, tempdir: string, excludeDereferencedIds?: boolean) => {
+const processJSON = async (
+  schemasPath: string,
+  tempdir: string,
+  excludeDereferencedIds?: boolean
+) => {
   fs.ensureDirSync(schemasPath)
   for (const currentSchema of outputSchemasMetaData) {
     /**
      * monitor https://github.com/APIDevTools/json-schema-ref-parser/issues/342
      * to check if they accept a flag to exclude Ids and eventually remove the onDereference callback
      */
-    const dereferencedSchema = await (excludeDereferencedIds ? $RefParser.dereference(currentSchema.path, parserOptions) : $RefParser.dereference(currentSchema.path));
+    const dereferencedSchema = await (excludeDereferencedIds
+      ? $RefParser.dereference(currentSchema.path, parserOptions)
+      : $RefParser.dereference(currentSchema.path))
 
     const fileName = path.parse(currentSchema.path).name
     const tsSchema = `export const ${fileName} = ${JSON.stringify(

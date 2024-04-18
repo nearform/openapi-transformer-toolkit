@@ -5,11 +5,19 @@ import { compileFromFile } from 'json-schema-to-typescript'
 import path from 'path'
 import pino from 'pino'
 import { exit } from 'process'
-import type { Json2TsArgs, Json2TsDefaultOptions, Json2TsOptions } from '../types/Json2TsOptions'
+import type {
+  Json2TsArgs,
+  Json2TsDefaultOptions,
+  Json2TsOptions
+} from '../types/Json2TsOptions'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 import { readConfigFile } from '../utils/read-config-file.js'
 
-const generateAndWriteTsFile = async (schemaPath: string, tsTypesPath: string, options: Json2TsOptions) => {
+const generateAndWriteTsFile = async (
+  schemaPath: string,
+  tsTypesPath: string,
+  options: Json2TsOptions
+) => {
   const ts = await compileFromFile(schemaPath, options)
 
   const interfaceName = path.basename(schemaPath, '.json')

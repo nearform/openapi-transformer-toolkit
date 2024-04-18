@@ -5,7 +5,7 @@ import { oas2json } from './commands/oas2json.js'
 import { oas2ts } from './commands/oas2ts.js'
 import { json2ts } from './commands/json2ts.js'
 import { oas2tson } from './commands/oas2tson.js'
-import packageJson from '../package.json' with {type: 'json'}
+import packageJson from '../package.json' with { type: 'json' }
 
 const program = new Command()
 program
