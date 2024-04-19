@@ -58,6 +58,7 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
 
 const processJSON = async (schemasPath, tempdir, excludeDereferencedIds) => {
   fs.ensureDirSync(schemasPath)
+  const formattedSchemas = []
   for (const currentSchema of outputSchemasMetaData) {
     /**
      * monitor https://github.com/APIDevTools/json-schema-ref-parser/issues/342
@@ -83,8 +84,12 @@ const processJSON = async (schemasPath, tempdir, excludeDereferencedIds) => {
     const formattedSchema = await prettier.format(tsSchema, {
       parser: 'typescript'
     })
-    fs.writeFileSync(path.join(schemasPath, `${fileName}.ts`), formattedSchema)
+    formattedSchemas.push(formattedSchema)
   }
+  fs.writeFileSync(
+    path.join(schemasPath, `types.ts`),
+    formattedSchemas.join('\n')
+  )
   fs.removeSync(path.join(tempdir, 'tempjson'))
 }
 

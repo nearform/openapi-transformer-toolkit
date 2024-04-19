@@ -4,37 +4,8 @@ import path from 'path'
 import { compileFromFile } from 'json-schema-to-typescript'
 import { exit } from 'process'
 import pino from 'pino'
-import $RefParser from '@bcherny/json-schema-ref-parser'
 import { readConfigFile } from '../utils/read-config-file.js'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
-
-const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
-  const ts = await compileFromFile(schemaPath, options)
-
-  const interfaceName = path.basename(schemaPath, '.json')
-
-  const parser = new $RefParser()
-  await parser.dereference(schemaPath)
-
-  const imports = Object.values(parser.$refs.values())
-    .filter(
-      refSchema =>
-        refSchema.$id && refSchema.title && refSchema.title !== interfaceName
-    )
-    .map(
-      refSchema =>
-        `import { ${refSchema.title} } from './${refSchema.$id.replace(
-          '.json',
-          ''
-        )}'`
-    )
-    .join('\n')
-
-  const tsWithImports = `${imports ? `${imports}\n\n` : ''}${ts}`
-  const tsFileName = path.basename(schemaPath, '.json') + '.d.ts'
-
-  fs.writeFileSync(path.join(tsTypesPath, tsFileName), tsWithImports)
-}
 
 export const runCommand = async (
   schemasPath,
@@ -54,18 +25,27 @@ export const runCommand = async (
     exit(1)
   }
 
-  const defaultOptions = {
-    cwd: schemasPath,
-    bannerComment: doNotEditText,
-    declareExternallyReferenced: false
-  }
+  const types = []
 
-  const options = { ...defaultOptions, ...customOptions }
+  for (const [index, schemaFileName] of schemaPaths.entries()) {
+    const defaultOptions = {
+      cwd: schemasPath,
+      bannerComment: null,
+      declareExternallyReferenced: false
+    }
 
-  for (const schemaFileName of schemaPaths) {
+    if (index === 0) {
+      defaultOptions.bannerComment = doNotEditText
+    }
+
+    const options = { ...defaultOptions, ...customOptions }
+
     const schemaPath = path.join(schemasPath, schemaFileName)
-    await generateAndWriteTsFile(schemaPath, tsTypesPath, options)
+    const ts = await compileFromFile(schemaPath, options)
+    types.push(ts)
   }
+
+  fs.writeFileSync(path.join(tsTypesPath, 'types.d.ts'), types.join('\n'))
 
   logger.info('✅ TypeScript types generated successfully from JSON schemas')
 }
