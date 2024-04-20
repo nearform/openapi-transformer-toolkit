@@ -4,23 +4,28 @@
   "description": "Generates schemas and types from OpenAPI specifications",
   "main": "index.js",
   "type": "module",
-  "licenses": "ISC",
+  "license": "ISC",
   "scripts": {
     "generate-toc": "markdown-toc -i README.md",
-    "json2ts": "./src/cli.js json2ts -i ./example/output/json/components.schemas -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
+    "prejson2ts": "npm run build",
+    "json2ts": "./dist/esm/src/cli.js json2ts -i ./example/output/json/components.schemas -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "lint": "eslint .",
-    "oas2json": "./src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
-    "oas2ts": "./src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
-    "oas2tson": "./src/cli.js oas2tson -i ./example/openapi.yml -o ./example/output/ts",
+    "preoas2json": "npm run build",
+    "oas2json": "./dist/esm/src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
+    "preoas2ts": "npm run build",
+    "oas2ts": "./dist/esm/src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
+    "preoas2tson": "npm run build",
+    "oas2tson": "./dist/esm/src/cli.js oas2tson -i ./example/openapi.yml -o ./example/output/ts",
     "prepare": "husky",
-    "test": "tap"
+    "test": "tap --allow-incomplete-coverage",
+    "build": "tsup-node",
+    "postbuild": "cp ./package.json ./dist/esm"
   },
   "bin": {
-    "openapi-transformer-toolkit": "./src/cli.js"
+    "openapi-transformer-toolkit": "./dist/esm/src/cli.js"
   },
   "files": [
-    "index.js",
-    "src",
+    "dist",
     "example"
   ],
   "repository": {
@@ -28,7 +33,6 @@
     "url": "git+https://github.com/nearform/openapi-transformer-toolkit.git"
   },
   "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/nearform/openapi-transformer-toolkit/issues"
   },
@@ -49,6 +53,12 @@
   "devDependencies": {
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
+    "@types/fs-extra": "^11.0.4",
+    "@types/lodash.get": "^4.4.9",
+    "@types/lodash.trimstart": "^4.5.9",
+    "@types/tap": "^15.0.11",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -56,7 +66,9 @@
     "lint-staged": "^15.0.2",
     "markdown-toc": "^1.2.0",
     "prettier": "^3.0.1",
-    "tap": "^16.3.4"
+    "tap": "^18.7.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --cache --fix"

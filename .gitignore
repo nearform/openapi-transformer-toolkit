@@ -12,3 +12,7 @@ node_modules
 # tests
 test/temp
 .nyc_output
+.tap
+
+# build
+dist

@@ -1,14 +1,23 @@
+import $RefParser from '@bcherny/json-schema-ref-parser'
 import { Command } from 'commander'
 import fs from 'fs-extra'
-import path from 'path'
 import { compileFromFile } from 'json-schema-to-typescript'
-import { exit } from 'process'
+import path from 'path'
 import pino from 'pino'
-import $RefParser from '@bcherny/json-schema-ref-parser'
-import { readConfigFile } from '../utils/read-config-file.js'
+import { exit } from 'process'
+import type {
+  Json2TsArgs,
+  Json2TsDefaultOptions,
+  Json2TsOptions
+} from '../types/Json2TsOptions'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
+import { readConfigFile } from '../utils/read-config-file.js'
 
-const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
+const generateAndWriteTsFile = async (
+  schemaPath: string,
+  tsTypesPath: string,
+  options: Json2TsOptions
+) => {
   const ts = await compileFromFile(schemaPath, options)
 
   const interfaceName = path.basename(schemaPath, '.json')
@@ -37,9 +46,9 @@ const generateAndWriteTsFile = async (schemaPath, tsTypesPath, options) => {
 }
 
 export const runCommand = async (
-  schemasPath,
-  tsTypesPath,
-  customOptions,
+  schemasPath: string,
+  tsTypesPath: string,
+  customOptions?: Json2TsOptions,
   logger = pino()
 ) => {
   fs.removeSync(tsTypesPath)
@@ -54,7 +63,7 @@ export const runCommand = async (
     exit(1)
   }
 
-  const defaultOptions = {
+  const defaultOptions: Json2TsDefaultOptions = {
     cwd: schemasPath,
     bannerComment: doNotEditText,
     declareExternallyReferenced: false
@@ -71,7 +80,7 @@ export const runCommand = async (
 }
 
 const main = () => {
-  const options = json2ts.optsWithGlobals()
+  const options = json2ts.optsWithGlobals<Json2TsArgs>()
   const customOptions = options.config ? readConfigFile(options.config) : {}
   runCommand(options.input, options.output, customOptions, options.muteLogger)
 }

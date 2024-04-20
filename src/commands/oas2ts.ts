@@ -1,24 +1,25 @@
 import { Command } from 'commander'
 import fs from 'fs-extra'
-import pino from 'pino'
 import os from 'os'
 import path from 'path'
+import pino, { Logger } from 'pino'
+import type { Json2TsOptions } from '../types/Json2TsOptions'
+import { readConfigFile } from '../utils/read-config-file.js'
 import { runCommand as runJson2TsCommand } from './json2ts.js'
 import { runCommand as runOas2JsonCommand } from './oas2json.js'
-import { readConfigFile } from '../utils/read-config-file.js'
 
 const TEMP_FOLDER = path.join(os.tmpdir(), 'temp-json-schemas')
 
-const cleanUpTempFolder = logger =>
+const cleanUpTempFolder = (logger: Logger) =>
   fs.remove(TEMP_FOLDER).catch(error => {
     logger.error('❌ Failed to clean up temporary folder:', error.message)
   })
 
 export const runCommand = async (
-  openApiPath,
-  tsTypesPath,
-  customOptions,
-  logger = pino()
+  openApiPath: string,
+  tsTypesPath: string,
+  customOptions?: Json2TsOptions,
+  logger: Logger = pino()
 ) => {
   try {
     const silentLogger = pino({ level: 'silent' })
@@ -34,7 +35,10 @@ export const runCommand = async (
 
     logger.info('✅ TypeScript types generated successfully from OpenAPI file')
   } catch (error) {
-    logger.error('❌ An error occurred during the process:', error.message)
+    logger.error(
+      '❌ An error occurred during the process:',
+      (error as Error).message
+    )
   } finally {
     await cleanUpTempFolder(logger)
   }

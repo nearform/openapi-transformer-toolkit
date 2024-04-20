@@ -1,5 +1,5 @@
-import tap from 'tap'
 import fs from 'fs-extra'
+import tap from 'tap'
 import { runCommand } from '../src/commands/oas2tson.js'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
@@ -137,7 +137,7 @@ tap.test('oas2tson', async t => {
   t.test('runCommand function with excludeDereferencedIds', async t => {
     fs.ensureDirSync(TEST_DIRECTORY)
 
-    await runCommand(inputPath, outputPath, null, true)
+    await runCommand(inputPath, outputPath, undefined, true)
 
     const generatedFiles = fs.readdirSync(outputPath)
 

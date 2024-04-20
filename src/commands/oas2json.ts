@@ -8,13 +8,19 @@ import pino from 'pino'
 import { exit } from 'process'
 import YAML from 'yaml'
 
-import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
+import type { JSONSchema4 } from 'json-schema'
+
+import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
 
 const COMPONENT_REF_REGEXP =
   /#\/components\/(callbacks|examples|headers|links|parameters|requestBodies|responses|schemas|securitySchemes)\/[^"]+/g
 const INVALID_URI_CHARS_REGEXP = /[^a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=]/g
 
-export const adaptSchema = (generatedSchema, name, filename) => {
+export const adaptSchema = (
+  generatedSchema: JSONSchema4,
+  name: string,
+  filename: string
+) => {
   const sanitizedFilename = filename.replace(INVALID_URI_CHARS_REGEXP, '')
   delete generatedSchema.$schema
   generatedSchema.title = name
@@ -25,7 +31,12 @@ export const adaptSchema = (generatedSchema, name, filename) => {
   }
 }
 
-const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
+const processSchema = (
+  schema: JSONSchema4,
+  schemasPath: string,
+  definitionKeyword: string,
+  isArray: boolean
+) => {
   Object.entries(schema).forEach(([key, value]) => {
     // for elements in an array the name would be its index if we were
     // to just use its key, so go into the parsed schema and get the
@@ -38,7 +49,7 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
     let schemaAsString = JSON.stringify(value, null, 2)
     const refs = schemaAsString.match(COMPONENT_REF_REGEXP)
     refs?.forEach(ref => {
-      let refName = ref.split('/').slice(-1)
+      const refName = ref.split('/').slice(-1)
       schemaAsString = schemaAsString.replace(ref, `${refName}.json`)
     })
 
@@ -51,9 +62,9 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
 }
 
 export const runCommand = (
-  openApiPath,
-  schemasPath,
-  propertiesToExport,
+  openApiPath: string,
+  schemasPath: string,
+  propertiesToExport?: string,
   logger = pino()
 ) => {
   fs.removeSync(schemasPath)
@@ -83,7 +94,7 @@ export const runCommand = (
     })
 
     definitionKeywords.forEach(key => {
-      const schema = _get(generatedSchema, key)
+      const schema: JSONSchema4 = _get(generatedSchema, key)
       const isArray = Array.isArray(_get(parsedOpenAPIContent, key))
       processSchema(schema, schemasPath, key, isArray)
     })

@@ -1,3 +1,4 @@
+import $RefParser, { ParserOptions } from '@apidevtools/json-schema-ref-parser'
 import { Command } from 'commander'
 import filenamify from 'filenamify'
 import fs from 'fs-extra'
@@ -7,16 +8,24 @@ import path from 'path'
 import pino from 'pino'
 import { exit } from 'process'
 import YAML from 'yaml'
-import $RefParser from '@apidevtools/json-schema-ref-parser'
 
-import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.cjs'
-import prettier from 'prettier'
 import os from 'os'
+import prettier from 'prettier'
+
+import type { JSONSchema4 } from 'json-schema'
+
+import type { Oas2Tson } from '../types/Oas2Tson'
+import type SchemasMetaData from '../types/SchemasMetaData'
+import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
-let outputSchemasMetaData = []
+const outputSchemasMetaData: SchemasMetaData[] = []
 
-export const adaptSchema = (generatedSchema, name, filename) => {
+export const adaptSchema = (
+  generatedSchema: JSONSchema4,
+  name: string,
+  filename: string
+) => {
   delete generatedSchema.$schema
   generatedSchema.title = name
   generatedSchema.$id = `${filename}.json`
@@ -26,7 +35,12 @@ export const adaptSchema = (generatedSchema, name, filename) => {
   }
 }
 
-const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
+const processSchema = (
+  schema: JSONSchema4,
+  schemasPath: string,
+  definitionKeyword: string,
+  isArray: boolean
+) => {
   Object.entries(schema).forEach(([key, value]) => {
     // for elements in an array the name would be its index if we were
     // to just use its key, so go into the parsed schema and get the
@@ -56,25 +70,28 @@ const processSchema = (schema, schemasPath, definitionKeyword, isArray) => {
   })
 }
 
-const processJSON = async (schemasPath, tempdir, excludeDereferencedIds) => {
+const parserOptions: ParserOptions = {
+  dereference: {
+    onDereference: (path: string, value: JSONSchema4) => {
+      delete value.$id
+    }
+  }
+}
+
+const processJSON = async (
+  schemasPath: string,
+  tempdir: string,
+  excludeDereferencedIds?: boolean
+) => {
   fs.ensureDirSync(schemasPath)
   for (const currentSchema of outputSchemasMetaData) {
     /**
      * monitor https://github.com/APIDevTools/json-schema-ref-parser/issues/342
      * to check if they accept a flag to exclude Ids and eventually remove the onDereference callback
      */
-    const dereferencedSchema = await $RefParser.dereference(
-      currentSchema.path,
-      excludeDereferencedIds
-        ? {
-            dereference: {
-              onDereference: (path, value) => {
-                delete value.$id
-              }
-            }
-          }
-        : null
-    )
+    const dereferencedSchema = await (excludeDereferencedIds
+      ? $RefParser.dereference(currentSchema.path, parserOptions)
+      : $RefParser.dereference(currentSchema.path))
 
     const fileName = path.parse(currentSchema.path).name
     const tsSchema = `export const ${fileName} = ${JSON.stringify(
@@ -89,10 +106,10 @@ const processJSON = async (schemasPath, tempdir, excludeDereferencedIds) => {
 }
 
 export const runCommand = async (
-  openApiPath,
-  schemasPath,
-  propertiesToExport,
-  excludeDereferencedIds,
+  openApiPath: string,
+  schemasPath: string,
+  propertiesToExport?: string,
+  excludeDereferencedIds?: boolean,
   logger = pino()
 ) => {
   fs.removeSync(schemasPath)
@@ -137,7 +154,7 @@ export const runCommand = async (
 }
 
 const main = () => {
-  const options = oas2tson.optsWithGlobals()
+  const options = oas2tson.optsWithGlobals<Oas2Tson>()
   runCommand(
     options.input,
     options.output,
