@@ -211,7 +211,7 @@ const openAPIPath = 'path/to/openapi.yml'
 const schemasPath = 'path/to/output/schemas'
 const propertiesToConvert = 'paths'
 
-oas2json(openAPIPath, schemasPath, propertiesToExport)
+oas2json(openAPIPath, schemasPath, propertiesToConvert)
 ```
 
 ### Generate TypeScript Types from OpenAPI
@@ -249,7 +249,7 @@ const openAPIPath = 'path/to/openapi.yml'
 const schemasPath = 'path/to/output/schemas'
 const propertiesToConvert = 'paths'
 
-oas2tson(openAPIPath, schemasPath, propertiesToExport)
+oas2tson(openAPIPath, schemasPath, propertiesToConvert)
 ```
 
 ## Example
