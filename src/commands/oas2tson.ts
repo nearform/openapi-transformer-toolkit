@@ -17,6 +17,7 @@ import type { JSONSchema4 } from 'json-schema'
 import type { Oas2Tson } from '../types/Oas2Tson'
 import type SchemasMetaData from '../types/SchemasMetaData'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
+import { formatFileName } from '../utils/paths.js'
 
 const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
 const outputSchemasMetaData: SchemasMetaData[] = []
@@ -27,7 +28,7 @@ export const adaptSchema = (
   filename: string
 ) => {
   delete generatedSchema.$schema
-  generatedSchema.title = name
+  generatedSchema.title = formatFileName(name)
   generatedSchema.$id = `${filename}.json`
 
   if (generatedSchema.format?.includes('date')) {
@@ -46,7 +47,9 @@ const processSchema = (
     // to just use its key, so go into the parsed schema and get the
     // actual name so the files are more easily identifiable
     const name = isArray ? value.name : key
-    const filename = _trimStart(filenamify(name, { replacement: '-' }), '-')
+    const filename = formatFileName(
+      _trimStart(filenamify(name, { replacement: '-' }), '-')
+    )
 
     adaptSchema(value, name, filename)
 
@@ -93,7 +96,7 @@ const processJSON = async (
       ? $RefParser.dereference(currentSchema.path, parserOptions)
       : $RefParser.dereference(currentSchema.path))
 
-    const fileName = path.parse(currentSchema.path).name
+    const fileName = formatFileName(path.parse(currentSchema.path).name)
     const tsSchema = `export const ${fileName} = ${JSON.stringify(
       dereferencedSchema
     )} as const`
