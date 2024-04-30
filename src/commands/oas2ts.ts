@@ -24,8 +24,6 @@ export const runCommand = async (
 ) => {
   try {
     const silentLogger = pino({ level: 'silent' })
-    // const schemasDir = path.join(TEMP_FOLDER, 'components.schemas')
-    const schemasDir = path.join(TEMP_FOLDER, 'paths')
     runOas2JsonCommand(
       openApiPath,
       TEMP_FOLDER,
@@ -34,7 +32,6 @@ export const runCommand = async (
     )
 
     await runJson2TsCommand(
-      // schemasDir,
       TEMP_FOLDER,
       tsTypesPath,
       propertiesToExport,
