@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "properties": {
+    "post": {
+      "type": "object",
+      "required": [
+        "responses"
+      ],
+      "description": "This can only be done by the logged in user.",
+      "summary": "Create user",
+      "properties": {
+        "requestBody": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "Created user object"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "Created user object"
+                },
+                "application/x-www-form-urlencoded": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "Created user object"
+                }
+              }
+            }
+          },
+          "description": "Created user object"
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "default": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "successful operation"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "successful operation"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "post"
+  ],
+  "title": "User",
+  "$id": "paths/User.json"
+}

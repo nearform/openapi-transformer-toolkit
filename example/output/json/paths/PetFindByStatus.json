@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "properties": {
+    "get": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "responses"
+      ],
+      "description": "Multiple status values can be provided with comma separated strings",
+      "summary": "Finds Pets by status",
+      "properties": {
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "default": "available",
+              "enum": [
+                "available",
+                "pending",
+                "sold"
+              ],
+              "description": "Status values that need to be considered for filter"
+            }
+          }
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../components.schemas/Pet.json"
+                  },
+                  "description": "successful operation"
+                },
+                "application/xml": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../components.schemas/Pet.json"
+                  },
+                  "description": "successful operation"
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid status value"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "get"
+  ],
+  "title": "PetFindByStatus",
+  "$id": "paths/PetFindByStatus.json"
+}

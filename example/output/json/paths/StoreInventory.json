@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "get": {
+      "type": "object",
+      "required": [
+        "responses"
+      ],
+      "description": "Returns a map of status codes to quantities",
+      "summary": "Returns pet inventories by status",
+      "properties": {
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "description": "successful operation"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "get"
+  ],
+  "title": "StoreInventory",
+  "$id": "paths/StoreInventory.json"
+}

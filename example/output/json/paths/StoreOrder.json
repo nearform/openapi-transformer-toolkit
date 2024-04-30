@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "post": {
+      "type": "object",
+      "required": [
+        "responses"
+      ],
+      "description": "Place a new order in the store",
+      "summary": "Place an order for a pet",
+      "properties": {
+        "requestBody": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/Order.json"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/Order.json"
+                },
+                "application/x-www-form-urlencoded": {
+                  "$ref": "../components.schemas/Order.json"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/Order.json",
+                  "description": "successful operation"
+                }
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "post"
+  ],
+  "title": "StoreOrder",
+  "$id": "paths/StoreOrder.json"
+}

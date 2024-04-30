@@ -4,6 +4,7 @@ import { Logger } from 'pino'
 export type Json2TsArgs = {
   input: string
   output: string
+  properties?: string
   config?: string
   muteLogger?: Logger
 }

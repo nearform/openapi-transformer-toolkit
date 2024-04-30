@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "properties": {
+    "post": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "responses"
+      ],
+      "summary": "uploads an image",
+      "properties": {
+        "requestBody": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "application/octet-stream": {}
+              }
+            }
+          }
+        },
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "petId": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": -9223372036854776000,
+              "maximum": 9223372036854776000,
+              "description": "ID of pet to update"
+            },
+            "additionalMetadata": {
+              "type": "string",
+              "description": "Additional Metadata"
+            }
+          },
+          "required": [
+            "petId"
+          ]
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/ApiResponse.json",
+                  "description": "successful operation"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "post"
+  ],
+  "title": "PetPetIdUploadImage",
+  "$id": "paths/PetPetIdUploadImage.json"
+}

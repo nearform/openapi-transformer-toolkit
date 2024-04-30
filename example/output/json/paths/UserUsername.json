@@ -1,0 +1,147 @@
+{
+  "type": "object",
+  "properties": {
+    "get": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "responses"
+      ],
+      "summary": "Get user by user name",
+      "properties": {
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "The name that needs to be fetched. Use user1 for testing. "
+            }
+          },
+          "required": [
+            "username"
+          ]
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "successful operation"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "successful operation"
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid username supplied"
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "responses"
+      ],
+      "description": "This can only be done by the logged in user.",
+      "summary": "Update user",
+      "properties": {
+        "requestBody": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "Update an existent user in the store"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "Update an existent user in the store"
+                },
+                "application/x-www-form-urlencoded": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "Update an existent user in the store"
+                }
+              }
+            }
+          },
+          "description": "Update an existent user in the store"
+        },
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "name that need to be deleted"
+            }
+          },
+          "required": [
+            "username"
+          ]
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "default": {
+              "description": "successful operation"
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "responses"
+      ],
+      "description": "This can only be done by the logged in user.",
+      "summary": "Delete user",
+      "properties": {
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "The name that needs to be deleted"
+            }
+          },
+          "required": [
+            "username"
+          ]
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "400": {
+              "description": "Invalid username supplied"
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "get",
+    "put",
+    "delete"
+  ],
+  "title": "UserUsername",
+  "$id": "paths/UserUsername.json"
+}

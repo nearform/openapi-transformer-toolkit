@@ -1,1 +1,4 @@
-export { fromSchema } from '@openapi-contrib/openapi-schema-to-json-schema'
+export {
+  fromSchema,
+  fromParameter
+} from '@openapi-contrib/openapi-schema-to-json-schema'

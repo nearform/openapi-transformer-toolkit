@@ -12,5 +12,5 @@
     }
   },
   "title": "Tag",
-  "$id": "Tag.json"
+  "$id": "components.schemas/Tag.json"
 }

@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "properties": {
+    "post": {
+      "type": "object",
+      "required": [
+        "responses"
+      ],
+      "description": "Creates list of users with given input array",
+      "summary": "Creates list of users with given input array",
+      "properties": {
+        "requestBody": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "application/json": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "Successful operation"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/User.json",
+                  "description": "Successful operation"
+                }
+              }
+            },
+            "default": {
+              "description": "successful operation"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "post"
+  ],
+  "title": "UserCreateWithList",
+  "$id": "paths/UserCreateWithList.json"
+}
