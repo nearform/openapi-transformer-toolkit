@@ -18,5 +18,5 @@
     }
   },
   "title": "Customer",
-  "$id": "Customer.json"
+  "$id": "components.schemas/Customer.json"
 }

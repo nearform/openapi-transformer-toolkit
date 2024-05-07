@@ -15,5 +15,5 @@
     }
   },
   "title": "Address",
-  "$id": "Address.json"
+  "$id": "components.schemas/Address.json"
 }

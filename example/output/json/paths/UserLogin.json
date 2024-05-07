@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "properties": {
+    "get": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "responses"
+      ],
+      "summary": "Logs user into the system",
+      "properties": {
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "description": "The user name for login"
+            },
+            "password": {
+              "type": "string",
+              "description": "The password for login in clear text"
+            }
+          }
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/xml": {
+                  "type": "string",
+                  "description": "successful operation"
+                },
+                "application/json": {
+                  "type": "string",
+                  "description": "successful operation"
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid username/password supplied"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "get"
+  ],
+  "title": "UserLogin",
+  "$id": "paths/UserLogin.json"
+}

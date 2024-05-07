@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "properties": {
+    "get": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "responses"
+      ],
+      "summary": "Logs out current logged in user session",
+      "properties": {
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "default": {
+              "description": "successful operation"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "get"
+  ],
+  "title": "UserLogout",
+  "$id": "paths/UserLogout.json"
+}

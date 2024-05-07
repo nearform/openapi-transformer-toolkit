@@ -34,5 +34,5 @@
     }
   },
   "title": "User",
-  "$id": "User.json"
+  "$id": "components.schemas/User.json"
 }

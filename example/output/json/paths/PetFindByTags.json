@@ -1,0 +1,60 @@
+{
+  "type": "object",
+  "properties": {
+    "get": {
+      "type": "object",
+      "required": [
+        "parameters",
+        "responses"
+      ],
+      "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+      "summary": "Finds Pets by tags",
+      "properties": {
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Tags to filter by"
+            }
+          }
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../components.schemas/Pet.json"
+                  },
+                  "description": "successful operation"
+                },
+                "application/xml": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../components.schemas/Pet.json"
+                  },
+                  "description": "successful operation"
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid tag value"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "get"
+  ],
+  "title": "PetFindByTags",
+  "$id": "paths/PetFindByTags.json"
+}

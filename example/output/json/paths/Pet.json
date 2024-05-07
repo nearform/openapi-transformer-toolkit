@@ -1,0 +1,129 @@
+{
+  "type": "object",
+  "properties": {
+    "put": {
+      "type": "object",
+      "required": [
+        "requestBody",
+        "responses"
+      ],
+      "description": "Update an existing pet by Id",
+      "summary": "Update an existing pet",
+      "properties": {
+        "requestBody": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Update an existent pet in the store"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Update an existent pet in the store"
+                },
+                "application/x-www-form-urlencoded": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Update an existent pet in the store"
+                }
+              }
+            }
+          },
+          "description": "Update an existent pet in the store"
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Successful operation"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Successful operation"
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid ID supplied"
+            },
+            "404": {
+              "description": "Pet not found"
+            },
+            "405": {
+              "description": "Validation exception"
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "type": "object",
+      "required": [
+        "requestBody",
+        "responses"
+      ],
+      "description": "Add a new pet to the store",
+      "summary": "Add a new pet to the store",
+      "properties": {
+        "requestBody": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Create a new pet in the store"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Create a new pet in the store"
+                },
+                "application/x-www-form-urlencoded": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Create a new pet in the store"
+                }
+              }
+            }
+          },
+          "description": "Create a new pet in the store"
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Successful operation"
+                },
+                "application/xml": {
+                  "$ref": "../components.schemas/Pet.json",
+                  "description": "Successful operation"
+                }
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "put",
+    "post"
+  ],
+  "title": "Pet",
+  "$id": "paths/Pet.json"
+}

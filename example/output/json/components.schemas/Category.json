@@ -12,5 +12,5 @@
     }
   },
   "title": "Category",
-  "$id": "Category.json"
+  "$id": "components.schemas/Category.json"
 }

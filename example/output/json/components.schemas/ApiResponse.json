@@ -15,5 +15,5 @@
     }
   },
   "title": "ApiResponse",
-  "$id": "ApiResponse.json"
+  "$id": "components.schemas/ApiResponse.json"
 }

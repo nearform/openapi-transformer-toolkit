@@ -18,17 +18,23 @@ const cleanUpTempFolder = (logger: Logger) =>
 export const runCommand = async (
   openApiPath: string,
   tsTypesPath: string,
+  propertiesToExport?: string,
   customOptions?: Json2TsOptions,
   logger: Logger = pino()
 ) => {
   try {
     const silentLogger = pino({ level: 'silent' })
-    const schemasDir = path.join(TEMP_FOLDER, 'components.schemas')
-    runOas2JsonCommand(openApiPath, TEMP_FOLDER, undefined, silentLogger)
+    runOas2JsonCommand(
+      openApiPath,
+      TEMP_FOLDER,
+      propertiesToExport,
+      silentLogger
+    )
 
     await runJson2TsCommand(
-      schemasDir,
+      TEMP_FOLDER,
       tsTypesPath,
+      propertiesToExport,
       customOptions,
       silentLogger
     )
@@ -47,7 +53,13 @@ export const runCommand = async (
 const main = async () => {
   const options = oas2ts.optsWithGlobals()
   const customOptions = options.config ? readConfigFile(options.config) : {}
-  runCommand(options.input, options.output, customOptions, options.logger)
+  runCommand(
+    options.input,
+    options.output,
+    options.properties,
+    customOptions,
+    options.logger
+  )
 }
 
 const oas2ts = new Command('oas2ts')
@@ -70,6 +82,10 @@ oas2ts
   .option(
     '-c, --config <string>',
     'Path to the JSON/JS config file with these possible options: https://www.npmjs.com/package/json-schema-to-typescript'
+  )
+  .option(
+    '-p, --properties <string>',
+    'Comma-separated list of properties to convert from the OpenAPI file'
   )
   .allowUnknownOption()
   .allowExcessArguments(true)

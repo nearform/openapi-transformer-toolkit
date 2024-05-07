@@ -47,5 +47,5 @@
     }
   },
   "title": "Pet",
-  "$id": "Pet.json"
+  "$id": "components.schemas/Pet.json"
 }

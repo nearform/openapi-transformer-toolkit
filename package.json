@@ -11,9 +11,9 @@
     "json2ts": "./dist/esm/src/cli.js json2ts -i ./example/output/json/components.schemas -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "lint": "eslint .",
     "preoas2json": "npm run build",
-    "oas2json": "./dist/esm/src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json",
+    "oas2json": "./dist/esm/src/cli.js oas2json -i ./example/openapi.yml -o ./example/output/json -p paths",
     "preoas2ts": "npm run build",
-    "oas2ts": "./dist/esm/src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
+    "oas2ts": "./dist/esm/src/cli.js oas2ts -i ./example/openapi.yml -o ./example/output/types -c ./example/json-schema-to-typescript-config.json -p paths",
     "preoas2tson": "npm run build",
     "oas2tson": "./dist/esm/src/cli.js oas2tson -i ./example/openapi.yml -o ./example/output/ts",
     "prepare": "husky",
@@ -49,7 +49,7 @@
     "lodash.get": "^4.4.2",
     "lodash.trimstart": "^4.5.1",
     "lodash.upperfirst": "^4.3.1",
-    "pino": "^9.0.0",
+    "pino": "^8.14.1",
     "yaml": "^2.2.2"
   },
   "devDependencies": {
