@@ -70,7 +70,7 @@
     "lint-staged": "^15.0.2",
     "markdown-toc": "^1.2.0",
     "prettier": "^3.0.1",
-    "tap": "^19.0.2",
+    "tap": "^20.0.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
