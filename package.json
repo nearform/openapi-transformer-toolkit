@@ -50,6 +50,7 @@
     "lodash.trimstart": "^4.5.1",
     "lodash.upperfirst": "^4.3.1",
     "pino": "^9.0.0",
+    "prettier": "^3.0.1",
     "yaml": "^2.2.2"
   },
   "devDependencies": {
@@ -69,7 +70,6 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.0.2",
     "markdown-toc": "^1.2.0",
-    "prettier": "^3.0.1",
     "tap": "^20.0.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
