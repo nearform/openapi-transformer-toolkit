@@ -35,8 +35,8 @@ tap.test('oas2ts', async t => {
 
     t.same(
       generatedPetFile,
-      `import { Category } from './Category'
-import { Tag } from './Tag'
+      `import { Category } from "./Category";
+import { Tag } from "./Tag";
 
 /* eslint-disable */
 /**
@@ -70,7 +70,7 @@ export interface Pet {
 
     t.same(
       generatedCustomerFile,
-      `import { Address } from './Address'
+      `import { Address } from "./Address";
 
 /* eslint-disable */
 /**
