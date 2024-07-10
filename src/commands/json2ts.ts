@@ -41,7 +41,10 @@ const generateAndWriteTsFile = async (
     .join('\n')
 
   const tsWithImports = `${imports ? `${imports}\n\n` : ''}${ts}`
-  const tsFormatted = await format(tsWithImports, {parser: 'typescript', ...options.style})
+  const tsFormatted = await format(tsWithImports, {
+    parser: 'typescript',
+    ...options.style
+  })
 
   const tsFileName = path.basename(schemaPath, '.json') + '.d.ts'
 
