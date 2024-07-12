@@ -1,5 +1,5 @@
-import { Category } from './Category'
-import { Tag } from './Tag'
+import { Category } from './Category';
+import { Tag } from './Tag';
 
 /* eslint-disable */
 /**

@@ -12,6 +12,7 @@ import type {
 } from '../types/Json2TsOptions'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 import { readConfigFile } from '../utils/read-config-file.js'
+import { format } from 'prettier'
 
 const generateAndWriteTsFile = async (
   schemaPath: string,
@@ -40,9 +41,14 @@ const generateAndWriteTsFile = async (
     .join('\n')
 
   const tsWithImports = `${imports ? `${imports}\n\n` : ''}${ts}`
+  const tsFormatted = await format(tsWithImports, {
+    parser: 'typescript',
+    ...options.style
+  })
+
   const tsFileName = path.basename(schemaPath, '.json') + '.d.ts'
 
-  fs.writeFileSync(path.join(tsTypesPath, tsFileName), tsWithImports)
+  fs.writeFileSync(path.join(tsTypesPath, tsFileName), tsFormatted)
 }
 
 export const runCommand = async (
