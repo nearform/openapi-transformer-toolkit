@@ -4,35 +4,31 @@ Effortlessly automate your API design-first development workflow by generating [
 
 ## Table of Contents
 
-<!-- toc -->
-
-- [Installation](#installation)
-- [CLI](#cli)
+* [Installation](#installation)
+* [CLI](#cli)
   * [Create JSON Schema From OpenAPI Definitions](#create-json-schema-from-openapi-definitions)
-      - [Usage](#usage)
-      - [Example](#example)
-      - [Options](#options)
+    * * [Usage](#usage)
+      * [Example](#example)
+      * [Options](#options)
   * [Generate TypeScript types from OpenAPI Defintions](#generate-typescript-types-from-openapi-defintions)
-      - [Usage](#usage-1)
-      - [Example](#example-1)
-      - [Options](#options-1)
+    * * [Usage](#usage-1)
+      * [Example](#example-1)
+      * [Options](#options-1)
   * [Generate TypeScript types from JSON schemas](#generate-typescript-types-from-json-schemas)
-      - [Usage](#usage-2)
-      - [Example](#example-2)
-      - [Options](#options-2)
+    * * [Usage](#usage-2)
+      * [Example](#example-2)
+      * [Options](#options-2)
   * [Create TypeScript JSON Schema From OpenAPI Definitions](#create-typescript-json-schema-from-openapi-definitions)
-      - [Usage](#usage-3)
-      - [Example](#example-3)
-      - [Options](#options-3)
-- [Programmatic Usage](#programmatic-usage)
+    * * [Usage](#usage-3)
+      * [Example](#example-3)
+      * [Options](#options-3)
+* [Programmatic Usage](#programmatic-usage)
   * [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
   * [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
-  * [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas)
+  * [Generate TypeScript Types from JSON Schemas](#generate-typescript-types-from-json-schemas-1)
   * [Generate TypeScript exported JSON Schemas from OpenAPI](#generate-typescript-exported-json-schemas-from-openapi)
-- [Example](#example-4)
-- [Additional Configuration](#additional-configuration)
-
-<!-- tocstop -->
+* [Example](#example-4)
+* [Additional Configuration](#additional-configuration)
 
 ## Installation
 

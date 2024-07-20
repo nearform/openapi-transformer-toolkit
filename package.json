@@ -6,7 +6,7 @@
   "type": "module",
   "license": "ISC",
   "scripts": {
-    "generate-toc": "markdown-toc -i README.md",
+    "generate-toc": "node ./scripts/generate-toc.mjs",
     "prejson2ts": "npm run build",
     "json2ts": "./dist/esm/src/cli.js json2ts -i ./example/output/json/components.schemas -o ./example/output/types -c ./example/json-schema-to-typescript-config.json",
     "lint": "eslint .",
@@ -69,7 +69,8 @@
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.1",
     "lint-staged": "^15.2.7",
-    "markdown-toc": "^1.2.0",
+    "remark": "^15.0.1",
+    "remark-toc": "^9.0.0",
     "tap": "^21.0.0",
     "tsup": "^8.2.0",
     "typescript": "^5.5.3"
