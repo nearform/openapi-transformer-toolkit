@@ -1,6 +1,6 @@
+import { readFile, writeFile } from 'fs/promises'
 import { remark } from 'remark'
 import remarkToc from 'remark-toc'
-import { readFile, writeFile } from 'fs/promises'
 
 const README_PATH = 'README.md'
 
