@@ -5,6 +5,7 @@ node_modules
 .idea
 # Visual Studio Code
 .vscode
+.devcontainer
 
 # OS X
 .DS_Store
