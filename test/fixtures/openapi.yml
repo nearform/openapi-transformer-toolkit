@@ -729,8 +729,13 @@ components:
           type: string
         message:
           type: string
+        fooBARBaz:
+          $ref: '#/components/schemas/FooBARBaz'
       xml:
         name: '##default'
+    FooBARBaz:
+      type: string
+      description: should not fail; should generate FooBARBaz.*
   requestBodies:
     PetBody:
       description: A JSON object containing pet information

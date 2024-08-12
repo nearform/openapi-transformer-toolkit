@@ -771,8 +771,13 @@ components:
           type: string
         message:
           type: string
+        FooBARBaz:
+          $ref: '#/components/schemas/FooBARBaz'
       xml:
         name: '##default'
+    FooBARBaz:
+      type: string
+      description: this name is valid and should be FooBARBaz everywhere it appears
   requestBodies:
     Pet:
       description: Pet object that needs to be added to the store

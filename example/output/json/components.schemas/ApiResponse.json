@@ -12,6 +12,9 @@
     },
     "message": {
       "type": "string"
+    },
+    "FooBARBaz": {
+      "$ref": "FooBARBaz.json"
     }
   },
   "title": "ApiResponse",

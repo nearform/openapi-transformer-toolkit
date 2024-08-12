@@ -22,6 +22,7 @@ tap.test('oas2ts', async t => {
         'ApiResponse.d.ts',
         'Category.d.ts',
         'Customer.d.ts',
+        'FooBARBaz.d.ts',
         'Order.d.ts',
         'Pet.d.ts',
         'Tag.d.ts',
