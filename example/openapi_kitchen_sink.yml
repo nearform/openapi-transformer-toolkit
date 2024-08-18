@@ -588,6 +588,9 @@ webhooks:
           description: Error response
 components:
   schemas:
+    ShipDate:
+      type: string
+      format: date-time
     Order:
       type: object
       properties:
@@ -604,8 +607,7 @@ components:
           format: int32
           example: 7
         shipDate:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/ShipDate'
         status:
           type: string
           description: Order Status
