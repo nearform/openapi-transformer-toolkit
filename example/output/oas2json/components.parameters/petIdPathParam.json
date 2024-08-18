@@ -1,0 +1,11 @@
+{
+  "name": "petId",
+  "in": "path",
+  "description": "id of pet to use",
+  "required": true,
+  "schema": {
+    "type": "string"
+  },
+  "title": "petIdPathParam",
+  "$id": "petIdPathParam.json"
+}

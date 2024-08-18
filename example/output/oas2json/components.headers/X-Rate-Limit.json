@@ -1,0 +1,9 @@
+{
+  "description": "calls per hour allowed by the user",
+  "schema": {
+    "type": "integer",
+    "format": "int32"
+  },
+  "title": "X-Rate-Limit",
+  "$id": "X-Rate-Limit.json"
+}

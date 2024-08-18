@@ -1,0 +1,36 @@
+{
+  "post": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Place an order for a pet",
+    "description": "Place a new order in the store",
+    "operationId": "placeOrder",
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "Order.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "Order.json"
+            }
+          }
+        }
+      },
+      "405": {
+        "description": "Invalid input"
+      }
+    }
+  },
+  "title": "/store/order",
+  "$id": "store-order.json"
+}

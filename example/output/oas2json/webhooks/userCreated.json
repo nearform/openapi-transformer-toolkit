@@ -1,0 +1,26 @@
+{
+  "post": {
+    "operationId": "userCreatedWH",
+    "summary": "notify on user create",
+    "requestBody": {
+      "description": "webhook payload",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "User.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "OK response"
+      },
+      "4XX": {
+        "description": "Error response"
+      }
+    }
+  },
+  "title": "userCreated",
+  "$id": "userCreated.json"
+}

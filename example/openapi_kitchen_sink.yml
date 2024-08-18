@@ -570,6 +570,22 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+webhooks:
+  userCreated:
+    post:
+      operationId: userCreatedWH
+      summary: notify on user create
+      requestBody:
+        description: webhook payload
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK response
+        '4XX':
+          description: Error response
 components:
   schemas:
     Order:
@@ -695,7 +711,8 @@ components:
             - sold
         nullableValue:
           # OpenAPI 3.1 handles nullable this way
-          type: ['string', 'null'] 
+          type: 'string'
+          nullable: true 
           description: example nullable value
       xml:
         name: pet

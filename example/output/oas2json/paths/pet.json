@@ -1,0 +1,78 @@
+{
+  "put": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Update an existing pet",
+    "description": "Update an existing pet by Id",
+    "operationId": "updatePet",
+    "requestBody": {
+      "$ref": "PetJSON-XML-Form.json",
+      "description": "Update an existing pet in the store",
+      "required": true
+    },
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "Pet.json"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "Pet.json"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid ID suppliedfully"
+      }
+    }
+  },
+  "post": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Add a new pet to the store",
+    "description": "Add a new pet to the store",
+    "operationId": "addPet",
+    "requestBody": {
+      "$ref": "PetJSON-XML-Form.json",
+      "description": "Create a new pet in the store",
+      "required": true
+    },
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "Pet.json"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "Pet.json"
+            }
+          }
+        }
+      },
+      "405": {
+        "$ref": "IllegalInput.json"
+      }
+    },
+    "security": [
+      {
+        "petstore_auth": [
+          "write:pets",
+          "read:pets"
+        ]
+      }
+    ]
+  },
+  "title": "/pet",
+  "$id": "pet.json"
+}

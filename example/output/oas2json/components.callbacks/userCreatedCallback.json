@@ -1,0 +1,28 @@
+{
+  "https://notify.example.com?event=UserCreated": {
+    "post": {
+      "operationId": "notifyUserCreatedCB",
+      "summary": "notify on user create",
+      "requestBody": {
+        "description": "Callback payload",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "User.json"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Callback succeeded"
+        },
+        "4XX": {
+          "description": "Callback failed"
+        }
+      }
+    }
+  },
+  "title": "userCreatedCallback",
+  "$id": "userCreatedCallback.json"
+}

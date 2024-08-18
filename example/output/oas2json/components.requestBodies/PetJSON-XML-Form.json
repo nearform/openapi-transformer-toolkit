@@ -1,0 +1,22 @@
+{
+  "description": "Pet object that needs to be added to the store",
+  "content": {
+    "application/json": {
+      "schema": {
+        "$ref": "Pet.json"
+      }
+    },
+    "application/xml": {
+      "schema": {
+        "$ref": "Pet.json"
+      }
+    },
+    "application/x-www-form-urlencoded": {
+      "schema": {
+        "$ref": "Pet.json"
+      }
+    }
+  },
+  "title": "PetJSON-XML-Form",
+  "$id": "PetJSON-XML-Form.json"
+}

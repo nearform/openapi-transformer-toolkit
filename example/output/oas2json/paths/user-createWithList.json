@@ -1,0 +1,38 @@
+{
+  "post": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Creates list of users with given input array",
+    "description": "Creates list of users with given input array",
+    "operationId": "createUsersWithListInput",
+    "requestBody": {
+      "$ref": "UserArray.json"
+    },
+    "responses": {
+      "200": {
+        "description": "Successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "User.json"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "User.json"
+            }
+          }
+        }
+      },
+      "default": {
+        "description": "successful operation"
+      },
+      "4XX": {
+        "description": "error response"
+      }
+    }
+  },
+  "title": "/user/createWithList",
+  "$id": "user-createWithList.json"
+}

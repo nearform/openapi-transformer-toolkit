@@ -17,6 +17,6 @@
       "$ref": "FooBARBaz.json"
     }
   },
-  "title": "ApiResponse",
-  "$id": "ApiResponse.json"
+  "title": "APIResponse",
+  "$id": "APIResponse.json"
 }

@@ -1,0 +1,62 @@
+{
+  "post": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Create user",
+    "description": "This can only be done by the logged in user.",
+    "operationId": "createUser",
+    "requestBody": {
+      "description": "Created user object",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "User.json"
+          }
+        },
+        "application/xml": {
+          "schema": {
+            "$ref": "User.json"
+          }
+        },
+        "application/x-www-form-urlencoded": {
+          "schema": {
+            "$ref": "User.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "default": {
+        "description": "successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "User.json"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "User.json"
+            }
+          }
+        },
+        "links": {
+          "GetUserByUserId": {
+            "$ref": "GetUserByUserName.json"
+          }
+        }
+      },
+      "4XX": {
+        "description": "error response"
+      }
+    },
+    "callbacks": {
+      "userCreated": {
+        "$ref": "userCreatedCallback.json"
+      }
+    }
+  },
+  "title": "/user",
+  "$id": "user.json"
+}

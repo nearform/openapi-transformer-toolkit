@@ -1,0 +1,123 @@
+{
+  "get": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Get user by user name",
+    "description": "",
+    "operationId": "getUserByName",
+    "parameters": [
+      {
+        "name": "username",
+        "in": "path",
+        "description": "The name that needs to be fetched. Use user1 for testing. ",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "User.json"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "User.json"
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid username supplied"
+      },
+      "404": {
+        "$ref": "NotFound.json"
+      }
+    }
+  },
+  "put": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Update user",
+    "description": "This can only be done by the logged in user.",
+    "operationId": "updateUser",
+    "parameters": [
+      {
+        "name": "username",
+        "in": "path",
+        "description": "name that need to be deleted",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "requestBody": {
+      "description": "Update an existent user in the store",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "User.json"
+          }
+        },
+        "application/xml": {
+          "schema": {
+            "$ref": "User.json"
+          }
+        },
+        "application/x-www-form-urlencoded": {
+          "schema": {
+            "$ref": "User.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "default": {
+        "description": "successful operation"
+      },
+      "4XX": {
+        "description": "error response"
+      }
+    }
+  },
+  "delete": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Delete user",
+    "description": "This can only be done by the logged in user.",
+    "operationId": "deleteUser",
+    "parameters": [
+      {
+        "name": "username",
+        "in": "path",
+        "description": "The name that needs to be deleted",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "OK response"
+      },
+      "400": {
+        "description": "Invalid username supplied"
+      },
+      "404": {
+        "description": "User not found"
+      }
+    }
+  },
+  "title": "/user/{username}",
+  "$id": "user-username.json"
+}

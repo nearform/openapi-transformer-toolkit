@@ -1,0 +1,15 @@
+{
+  "name": "tags",
+  "in": "query",
+  "description": "Tags to filter by",
+  "required": false,
+  "explode": true,
+  "schema": {
+    "type": "array",
+    "items": {
+      "type": "string"
+    }
+  },
+  "title": "tagsQueryParam",
+  "$id": "tagsQueryParam.json"
+}
