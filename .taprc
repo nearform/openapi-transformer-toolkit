@@ -1,4 +1,6 @@
 {
-  "files": ["test/*.test.ts"],
-  "reporter": "spec"
+  "files": [
+    "test/*.test.ts"
+  ],
+  "reporter": "base"
 }
