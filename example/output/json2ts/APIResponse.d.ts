@@ -5,10 +5,9 @@
  * and run openapi-transformer-toolkit CLI/methods to regenerate this file.
  */
 
-export interface Address {
-  street?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
+export interface APIResponse {
+  code?: number;
+  type?: string;
+  message?: string;
   [k: string]: unknown;
 }
