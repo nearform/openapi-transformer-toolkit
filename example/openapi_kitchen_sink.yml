@@ -50,8 +50,17 @@ paths:
       description: Update an existing pet by Id
       operationId: updatePet
       requestBody:
-        $ref: '#/components/requestBodies/PetJSON-XML-Form'
-        description: Update an existing pet in the store
+        description: Update an existent pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pet'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pet'
         required: true
       responses:
         '200':
@@ -64,7 +73,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
         '400':
-          description: Invalid ID suppliedfully
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
     post:
       tags:
         - pet
