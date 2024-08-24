@@ -1,6 +1,6 @@
 import $RefParser, { ParserOptions } from '@apidevtools/json-schema-ref-parser'
 import { Command } from 'commander'
-import filenamify from 'filenamify'
+// import filenamify from 'filenamify'
 import fs from 'fs-extra'
 import _get from 'lodash.get'
 import _trimStart from 'lodash.trimstart'
@@ -18,7 +18,10 @@ import type { Oas2Tson } from '../types/Oas2Tson'
 import type SchemasMetaData from '../types/SchemasMetaData'
 import { fromSchema } from '../utils/openapi-schema-to-json-schema-wrapper.js'
 
-const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
+// const COMPONENT_REF_REGEXP = /#\/components\/schemas\/[^"]+/g
+const COMPONENT_REF_REGEXP =
+  /#\/components\/(callbacks|examples|headers|links|parameters|requestBodies|responses|schemas|securitySchemes)\/[^"]+/g
+const INVALID_JSNAME_REGEXP = /[^A-Za-z0-9$_]/g
 const outputSchemasMetaData: SchemasMetaData[] = []
 
 export const adaptSchema = (
@@ -35,6 +38,15 @@ export const adaptSchema = (
   }
 }
 
+const getJSName = (name: string) => name.replace(INVALID_JSNAME_REGEXP, '_')
+
+const getRefForPrefix = (ref: string) => ref.replaceAll('/', '.')
+
+const getNamePrefix = (name: string) =>
+  name.replace('components.schemas', '').replace('components.', '')
+
+const getTrimmedName = (name: string) => _trimStart(name, '_')
+
 const processSchema = (
   schema: JSONSchema4,
   schemasPath: string,
@@ -46,18 +58,19 @@ const processSchema = (
     // to just use its key, so go into the parsed schema and get the
     // actual name so the files are more easily identifiable
     const name = isArray ? value.name : key
-    const filename = _trimStart(filenamify(name, { replacement: '-' }), '-')
+    const filename = getTrimmedName(
+      `${getNamePrefix(definitionKeyword)}_${getJSName(name)}`
+    )
 
     adaptSchema(value, name, filename)
 
     let schemaAsString = JSON.stringify(value, null, 2)
-    // N.B. - this obviously only supports refs where the string contains 'components/schemas'
-    // if we want to support refs in places other than this, we'll need to revisit this
-    // approach to be more flexible
     const refs = schemaAsString.match(COMPONENT_REF_REGEXP)
     refs?.forEach(ref => {
-      const refName = ref.split('/').slice(-1)
-      schemaAsString = schemaAsString.replace(ref, `${refName}.json`)
+      const prefixedRefName = getTrimmedName(
+        getJSName(getNamePrefix(getRefForPrefix(ref)))
+      )
+      schemaAsString = schemaAsString.replace(ref, `${prefixedRefName}.json`)
     })
 
     const destinationDir = path.join(schemasPath, 'tempjson')
@@ -137,6 +150,10 @@ export const runCommand = async (
     const generatedSchema = fromSchema(parsedOpenAPIContent, {
       definitionKeywords
     })
+    // parsedOpenAPIContent is the complete OpenAPI schema (json-like object). Names have "" around them.
+    // definitionKeywords is the array of `components.schemas` plus whatever is passed for -p
+    // generatedSchema seems to be the same as parsedOpenAPIContent
+    // logger.info({ generatedSchema }, '**T1')
 
     const tempdir = os.tmpdir()
     definitionKeywords.forEach(key => {
