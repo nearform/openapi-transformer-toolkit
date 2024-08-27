@@ -24,7 +24,7 @@ export const Order = {
       format: "date-time",
       title: "ShipDate",
       $id: "ShipDate.json",
-      tsType: "Date",
+      // tsType: "Date",
     },
     status: {
       type: "string",

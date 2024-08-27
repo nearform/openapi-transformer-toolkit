@@ -57,8 +57,9 @@ export const paths__pet = {
                 enum: ["available", "pending", "sold"],
               },
               nullableValue: {
-                type: ["string", "null"],
-                description: "example nullable value",
+                oneOf: [{ type: "string" }, { type: "null" }],
+                description:
+                  'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
               },
             },
             title: "Pet",
@@ -115,8 +116,9 @@ export const paths__pet = {
                 enum: ["available", "pending", "sold"],
               },
               nullableValue: {
-                type: ["string", "null"],
-                description: "example nullable value",
+                oneOf: [{ type: "string" }, { type: "null" }],
+                description:
+                  'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
               },
             },
             title: "Pet",
@@ -173,8 +175,9 @@ export const paths__pet = {
                 enum: ["available", "pending", "sold"],
               },
               nullableValue: {
-                type: ["string", "null"],
-                description: "example nullable value",
+                oneOf: [{ type: "string" }, { type: "null" }],
+                description:
+                  'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
               },
             },
             title: "Pet",
@@ -238,12 +241,28 @@ export const paths__pet = {
                   enum: ["available", "pending", "sold"],
                 },
                 nullableValue: {
-                  type: ["string", "null"],
-                  description: "example nullable value",
+                  oneOf: [{ type: "string" }, { type: "null" }],
+                  description:
+                    'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
                 },
               },
               title: "Pet",
               $id: "Pet.json",
+            },
+            examples: {
+              petExample: {
+                value: {
+                  id: 1,
+                  name: "Rover",
+                  photoUrls: [
+                    "https://http.cat/status/200",
+                    "https://http.cat/status/203",
+                  ],
+                },
+                summary: "A sample Pet",
+                title: "petExample",
+                $id: "examples_petExample.json",
+              },
             },
           },
           "application/xml": {
@@ -296,8 +315,9 @@ export const paths__pet = {
                   enum: ["available", "pending", "sold"],
                 },
                 nullableValue: {
-                  type: ["string", "null"],
-                  description: "example nullable value",
+                  oneOf: [{ type: "string" }, { type: "null" }],
+                  description:
+                    'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
                 },
               },
               title: "Pet",
@@ -371,8 +391,9 @@ export const paths__pet = {
                 enum: ["available", "pending", "sold"],
               },
               nullableValue: {
-                type: ["string", "null"],
-                description: "example nullable value",
+                oneOf: [{ type: "string" }, { type: "null" }],
+                description:
+                  'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
               },
             },
             title: "Pet",
@@ -429,8 +450,9 @@ export const paths__pet = {
                 enum: ["available", "pending", "sold"],
               },
               nullableValue: {
-                type: ["string", "null"],
-                description: "example nullable value",
+                oneOf: [{ type: "string" }, { type: "null" }],
+                description:
+                  'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
               },
             },
             title: "Pet",
@@ -487,8 +509,9 @@ export const paths__pet = {
                 enum: ["available", "pending", "sold"],
               },
               nullableValue: {
-                type: ["string", "null"],
-                description: "example nullable value",
+                oneOf: [{ type: "string" }, { type: "null" }],
+                description:
+                  'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
               },
             },
             title: "Pet",
@@ -553,8 +576,9 @@ export const paths__pet = {
                   enum: ["available", "pending", "sold"],
                 },
                 nullableValue: {
-                  type: ["string", "null"],
-                  description: "example nullable value",
+                  oneOf: [{ type: "string" }, { type: "null" }],
+                  description:
+                    'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
                 },
               },
               title: "Pet",
@@ -611,8 +635,9 @@ export const paths__pet = {
                   enum: ["available", "pending", "sold"],
                 },
                 nullableValue: {
-                  type: ["string", "null"],
-                  description: "example nullable value",
+                  oneOf: [{ type: "string" }, { type: "null" }],
+                  description:
+                    'example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- \'null\'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `["string","null"]` is not a valid type, even though that\'s exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.',
                 },
               },
               title: "Pet",

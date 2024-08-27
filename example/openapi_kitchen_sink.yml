@@ -69,6 +69,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+              examples:
+                petExample:
+                  $ref: '#/components/examples/petExample'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
@@ -604,7 +607,7 @@ webhooks:
         '4XX':
           description: Error response
 components:
-  schemas:
+  schemas:    
     ShipDate:
       type: string
       format: date-time
@@ -729,10 +732,45 @@ components:
             - pending
             - sold
         nullableValue:
-          # OpenAPI 3.1 handles nullable this way
-          type: 'string'
-          nullable: true 
-          description: example nullable value
+          # OpenAPI 3.1 handles nullable with an array type as follows.
+          # type:
+          # - string
+          # - 'null'
+          # So, use oneOf to work around the issue.
+          oneOf:
+            - type: string
+            - type: 'null'
+          description: |-
+            example nullable value
+
+
+            OpenAPI 3.0 uses `nullable
+
+            ```yaml
+            type: string
+            nullable: true
+            ```
+
+            OpenAPI 3.1 removes `nullable` in favor or multi-typing.
+
+            ```yaml
+            type:
+            - string
+            - 'null'
+            ```
+
+            OR
+
+            ```yaml
+            oneOf:
+              - type: string
+              - type: null
+            ```
+
+            Based on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)
+            it seems either is valid. But `openapi-schema-to-json-schema` throws because it claims 
+            type `["string","null"]` is not a valid type, even though that's exactly what it 
+            generates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.
       xml:
         name: pet
     APIResponse:
@@ -793,6 +831,9 @@ components:
       description: Entity not found.
     IllegalInput:
       description: Illegal input for operation.
+    PetResponse:
+      description: test
+      
   headers:
     X-Rate-Limit:
       description: calls per hour allowed by the user
@@ -803,7 +844,16 @@ components:
       description: date in UTC when token expires
       schema:
         type: string
-        format: date-time    
+        format: date-time
+  examples:
+    petExample:
+      value:
+        id: 1
+        name: Rover
+        photoUrls:
+        - 'https://http.cat/status/200'
+        - 'https://http.cat/status/203'
+      summary: A sample Pet
   links:
     GetUserByUserName:
       description: >
