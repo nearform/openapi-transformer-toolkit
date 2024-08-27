@@ -22,6 +22,7 @@ Effortlessly automate your API design-first development workflow by generating [
     * [Usage](#usage-3)
     * [Example](#example-3)
     * [Options](#options-3)
+    * [Notes](#notes)
 * [Programmatic Usage](#programmatic-usage)
   * [Generate JSON Schemas from OpenAPI](#generate-json-schemas-from-openapi)
   * [Generate TypeScript Types from OpenAPI](#generate-typescript-types-from-openapi)
