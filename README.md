@@ -196,17 +196,17 @@ or JavaScript type.
 
 The `-p` option identifies OpenAPI keywords for which you want TSON files. `oas2tson` always adds `components.schemas`.
 For example, `-p components.headers,components.responses,paths` will write files for `#/components/headers/*`,
-`#/components/responses/*`, `paths/*`, and `#/components/schemas`.
+`#/components/responses/*`, `paths/*`, and `#/components/schemas/*`.
 
-`oas2tson` prefixes file names for all keywords except `components.schemas` with the last-node keyword for the file. For example,
-`paths__pet.ts` (`paths`), `responses_Pet.ts` (`components.responses`) and `Pet.ts` (`components.schemas`). The prefix avoids
-file name collisions for `paths/pet`, `components/schemas/Pet`, and `components/responses/Pet`. This pattern adjusts `oas2json`'s
-path naming pattern to get valid JavaScript/TypeScript names.
+`oas2tson` prefixes file names for all keywords, except `components.schemas`, with the last-node keyword for the object in the
+file. For example, `paths__pet.ts` (`paths`), `responses_Pet.ts` (`components.responses`) and `Pet.ts` (`components.schemas`).
+The prefix avoids file name collisions for `paths/pet`, `components/schemas/Pet`, and `components/responses/Pet`. This pattern
+adjusts `oas2json`'s path naming pattern to get valid JavaScript/TypeScript names.
 
 The output for `-p paths` is not a valid Fastify route schema. Fastify users will find it easier to define queries, path parameters,
 and other parts of the request in `components/schemas` and build route schemas from those parts. You can use the schemas to define
-`components/parameters`, etc., for your paths, but `components/parameters` may not be compatible with Fastify's route schemas if you're
-using strict-mode `ajv`.
+`components/parameters`, etc., for your paths. Note that `components/parameters`, etc., may not be compatible with Fastify's route
+schemas.
 
 If you lint your OpenAPI spec, OpenAPI 3.1 removes the `nullable` keyword in favor of one of the patterns shown below.
 `openapi-schema-to-json-schema` fails for the type array option, even though the type it generates and says is invalid is the type
