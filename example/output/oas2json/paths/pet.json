@@ -7,8 +7,24 @@
     "description": "Update an existing pet by Id",
     "operationId": "updatePet",
     "requestBody": {
-      "$ref": "PetJSON-XML-Form.json",
-      "description": "Update an existing pet in the store",
+      "description": "Update an existent pet in the store",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "Pet.json"
+          }
+        },
+        "application/xml": {
+          "schema": {
+            "$ref": "Pet.json"
+          }
+        },
+        "application/x-www-form-urlencoded": {
+          "schema": {
+            "$ref": "Pet.json"
+          }
+        }
+      },
       "required": true
     },
     "responses": {
@@ -18,6 +34,11 @@
           "application/json": {
             "schema": {
               "$ref": "Pet.json"
+            },
+            "examples": {
+              "petExample": {
+                "$ref": "petExample.json"
+              }
             }
           },
           "application/xml": {
@@ -28,9 +49,23 @@
         }
       },
       "400": {
-        "description": "Invalid ID suppliedfully"
+        "description": "Invalid ID supplied"
+      },
+      "404": {
+        "description": "Pet not found"
+      },
+      "405": {
+        "description": "Validation exception"
       }
-    }
+    },
+    "security": [
+      {
+        "petstore_auth": [
+          "write:pets",
+          "read:pets"
+        ]
+      }
+    ]
   },
   "post": {
     "tags": [

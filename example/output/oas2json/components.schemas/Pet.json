@@ -39,11 +39,15 @@
       ]
     },
     "nullableValue": {
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
       ],
-      "description": "example nullable value"
+      "description": "example nullable value\n\n\nOpenAPI 3.0 uses `nullable\n\n```yaml\ntype: string\nnullable: true\n```\n\nOpenAPI 3.1 removes `nullable` in favor or multi-typing.\n\n```yaml\ntype:\n- string\n- 'null'\n```\n\nOR\n\n```yaml\noneOf:\n  - type: string\n  - type: null\n```\n\nBased on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)\nit seems either is valid. But `openapi-schema-to-json-schema` throws because it claims \ntype `[\"string\",\"null\"]` is not a valid type, even though that's exactly what it \ngenerates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue."
     }
   },
   "title": "Pet",

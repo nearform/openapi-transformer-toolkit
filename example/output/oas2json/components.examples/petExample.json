@@ -1,0 +1,13 @@
+{
+  "value": {
+    "id": 1,
+    "name": "Rover",
+    "photoUrls": [
+      "https://http.cat/status/200",
+      "https://http.cat/status/203"
+    ]
+  },
+  "summary": "A sample Pet",
+  "title": "petExample",
+  "$id": "petExample.json"
+}

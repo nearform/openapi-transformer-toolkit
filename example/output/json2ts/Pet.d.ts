@@ -20,6 +20,35 @@ export interface Pet {
   status?: 'available' | 'pending' | 'sold';
   /**
    * example nullable value
+   *
+   *
+   * OpenAPI 3.0 uses `nullable
+   *
+   * ```yaml
+   * type: string
+   * nullable: true
+   * ```
+   *
+   * OpenAPI 3.1 removes `nullable` in favor or multi-typing.
+   *
+   * ```yaml
+   * type:
+   * - string
+   * - 'null'
+   * ```
+   *
+   * OR
+   *
+   * ```yaml
+   * oneOf:
+   *   - type: string
+   *   - type: null
+   * ```
+   *
+   * Based on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)
+   * it seems either is valid. But `openapi-schema-to-json-schema` throws because it claims
+   * type `["string","null"]` is not a valid type, even though that's exactly what it
+   * generates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.
    */
   nullableValue?: string | null;
   [k: string]: unknown;

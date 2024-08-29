@@ -45,7 +45,6 @@ export const paths__store_order__orderId_ = {
                   format: "date-time",
                   title: "ShipDate",
                   $id: "ShipDate.json",
-                  // tsType: "Date",
                 },
                 status: {
                   type: "string",
@@ -85,7 +84,6 @@ export const paths__store_order__orderId_ = {
                   format: "date-time",
                   title: "ShipDate",
                   $id: "ShipDate.json",
-                  // tsType: "Date",
                 },
                 status: {
                   type: "string",
