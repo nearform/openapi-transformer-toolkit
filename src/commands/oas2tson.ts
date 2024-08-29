@@ -48,10 +48,6 @@ const supportedKeywords = [
   'components.schemas'
 ]
 
-// In strict mode, ajv fails when compile schemas with `tsType`. This regexp lets us strip it in processJSON.
-// "Date" because it's after JSON.stringify().
-const TSTYPE_DATE_REGEXP = /(tsType: "Date",)/g
-
 export const adaptSchema = (
   generatedSchema: JSONSchema4,
   name: string,
@@ -61,9 +57,7 @@ export const adaptSchema = (
   generatedSchema.title = name
   generatedSchema.$id = `${filename}.json`
 
-  if (generatedSchema.format?.includes('date')) {
-    generatedSchema.tsType = 'Date'
-  }
+  // oas2tson does not need tsType: 'Date'
 }
 
 const getJSName = (name: string) => name.replace(INVALID_JSNAME_REGEXP, '_')
@@ -149,9 +143,7 @@ const processJSON = async (
     const formattedSchema = await prettier.format(tsSchema, {
       parser: 'typescript'
     })
-    // comment out `tsType` lines
-    const noTSTypeSchema = formattedSchema.replace(TSTYPE_DATE_REGEXP, '// $1')
-    fs.writeFileSync(path.join(schemasPath, `${fileName}.ts`), noTSTypeSchema)
+    fs.writeFileSync(path.join(schemasPath, `${fileName}.ts`), formattedSchema)
   }
   fs.removeSync(path.join(tempdir, 'tempjson'))
 }
