@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: Swagger Petstore - OpenAPI 3.0
   description: |-
@@ -12,6 +12,9 @@ info:
     Some useful links:
     - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
     - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+
+    This version of the spec is updated to OpenAPI 3.1.0. It includes `webhooks` and all types of `components` to demonstrate 
+    how outputs work or don't for different cases. It also passes @redocly/cli lint with default lint configuration.
   termsOfService: http://swagger.io/terms/
   contact:
     email: apiteam@swagger.io
@@ -37,6 +40,7 @@ tags:
       url: http://swagger.io
   - name: user
     description: Operations about user
+security: []
 paths:
   /pet:
     put:
@@ -65,6 +69,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+              examples:
+                petExample:
+                  $ref: '#/components/examples/petExample'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
@@ -85,17 +92,8 @@ paths:
       description: Add a new pet to the store
       operationId: addPet
       requestBody:
+        $ref: '#/components/requestBodies/PetJSON-XML-Form'
         description: Create a new pet in the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Pet'
         required: true
       responses:
         '200':
@@ -108,7 +106,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
         '405':
-          description: Invalid input
+          $ref: '#/components/responses/IllegalInput'
       security:
         - petstore_auth:
             - write:pets
@@ -161,15 +159,7 @@ paths:
       description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
-        - name: tags
-          in: query
-          description: Tags to filter by
-          required: false
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
+        - $ref: '#/components/parameters/tagsQueryParam'
       responses:
         '200':
           description: successful operation
@@ -194,17 +184,11 @@ paths:
     get:
       tags:
         - pet
+      parameters:
+        - $ref: '#/components/parameters/petIdPathParam'
       summary: Find pet by ID
       description: Returns a single pet
       operationId: getPetById
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to return
-          required: true
-          schema:
-            type: integer
-            format: int64
       responses:
         '200':
           description: successful operation
@@ -249,6 +233,8 @@ paths:
           schema:
             type: string
       responses:
+        '200':
+          description: OK response
         '405':
           description: Invalid input
       security:
@@ -276,6 +262,8 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: OK response      
         '400':
           description: Invalid pet value
       security:
@@ -315,7 +303,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/APIResponse'
+        '4XX':
+          description: error response
       security:
         - petstore_auth:
             - write:pets
@@ -337,6 +327,8 @@ paths:
                 additionalProperties:
                   type: integer
                   format: int32
+        '4XX':
+          description: error response
       security:
         - api_key: []
   /store/order:
@@ -349,12 +341,6 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/Order'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Order'
-          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Order'
       responses:
@@ -410,10 +396,12 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: OK response
         '400':
           description: Invalid ID supplied
         '404':
-          description: Order not found
+          description: Order not found 
   /user:
     post:
       tags:
@@ -443,6 +431,14 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
+          links:
+            GetUserByUserId:
+              $ref: '#/components/links/GetUserByUserName'
+        '4XX':
+          description: error response
+      callbacks:
+        userCreated:
+          $ref: '#/components/callbacks/userCreatedCallback'
   /user/createWithList:
     post:
       tags:
@@ -451,12 +447,7 @@ paths:
       description: Creates list of users with given input array
       operationId: createUsersWithListInput
       requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/User'
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         '200':
           description: Successful operation
@@ -469,6 +460,8 @@ paths:
                 $ref: '#/components/schemas/User'
         default:
           description: successful operation
+        '4XX':
+          description: error response
   /user/login:
     get:
       tags:
@@ -494,15 +487,9 @@ paths:
           description: successful operation
           headers:
             X-Rate-Limit:
-              description: calls per hour allowed by the user
-              schema:
-                type: integer
-                format: int32
+              $ref: '#/components/headers/X-Rate-Limit'
             X-Expires-After:
-              description: date in UTC when token expires
-              schema:
-                type: string
-                format: date-time
+              $ref: '#/components/headers/X-Expires-After'
           content:
             application/xml:
               schema:
@@ -523,6 +510,8 @@ paths:
       responses:
         default:
           description: successful operation
+        '4XX':
+          description: error response
   /user/{username}:
     get:
       tags:
@@ -550,7 +539,7 @@ paths:
         '400':
           description: Invalid username supplied
         '404':
-          description: User not found
+          $ref: '#/components/responses/NotFound'
     put:
       tags:
         - user
@@ -579,6 +568,8 @@ paths:
       responses:
         default:
           description: successful operation
+        '4XX':
+          description: error response
     delete:
       tags:
         - user
@@ -593,12 +584,33 @@ paths:
           schema:
             type: string
       responses:
+        '200':
+          description: OK response
         '400':
           description: Invalid username supplied
         '404':
           description: User not found
+webhooks:
+  userCreated:
+    post:
+      operationId: userCreatedWH
+      summary: notify on user create
+      requestBody:
+        description: webhook payload
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK response
+        '4XX':
+          description: Error response
 components:
-  schemas:
+  schemas:    
+    ShipDate:
+      type: string
+      format: date-time
     Order:
       type: object
       properties:
@@ -615,8 +627,7 @@ components:
           format: int32
           example: 7
         shipDate:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/ShipDate'
         status:
           type: string
           description: Order Status
@@ -629,42 +640,7 @@ components:
           type: boolean
       xml:
         name: order
-    Customer:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 100000
-        username:
-          type: string
-          example: fehguy
-        address:
-          type: array
-          xml:
-            name: addresses
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Address'
-      xml:
-        name: customer
-    Address:
-      type: object
-      properties:
-        street:
-          type: string
-          example: 437 Lytton
-        city:
-          type: string
-          example: Palo Alto
-        state:
-          type: string
-          example: CA
-        zip:
-          type: string
-          example: '94301'
-      xml:
-        name: address
+    # Removed Customer because it isn't used and Address because only Customer used it
     Category:
       type: object
       properties:
@@ -756,12 +732,48 @@ components:
             - pending
             - sold
         nullableValue:
-          type: string
-          nullable: true
-          description: example nullable value
+          # OpenAPI 3.1 handles nullable with an array type as follows.
+          # type:
+          # - string
+          # - 'null'
+          # So, use oneOf to work around the issue.
+          oneOf:
+            - type: string
+            - type: 'null'
+          description: |-
+            example nullable value
+
+
+            OpenAPI 3.0 uses `nullable
+
+            ```yaml
+            type: string
+            nullable: true
+            ```
+
+            OpenAPI 3.1 removes `nullable` in favor or multi-typing.
+
+            ```yaml
+            type:
+            - string
+            - 'null'
+            ```
+
+            OR
+
+            ```yaml
+            oneOf:
+              - type: string
+              - type: null
+            ```
+
+            Based on [this discussion](https://github.com/OAI/OpenAPI-Specification/issues/3148)
+            it seems either is valid. But `openapi-schema-to-json-schema` throws because it claims 
+            type `["string","null"]` is not a valid type, even though that's exactly what it 
+            generates for OpenAPI 3.0.x style. So, use `oneOf` to work around the issue.
       xml:
         name: pet
-    ApiResponse:
+    APIResponse:
       type: object
       properties:
         code:
@@ -771,21 +783,19 @@ components:
           type: string
         message:
           type: string
-        FooBARBaz:
-          $ref: '#/components/schemas/FooBARBaz'
       xml:
         name: '##default'
-    FooBARBaz:
-      type: string
-      description: this name is valid and should be FooBARBaz everywhere it appears
   requestBodies:
-    Pet:
+    PetJSON-XML-Form:
       description: Pet object that needs to be added to the store
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Pet'
         application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/x-www-form-urlencoded:
           schema:
             $ref: '#/components/schemas/Pet'
     UserArray:
@@ -796,6 +806,80 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/User'
+  parameters:
+    tagsQueryParam:
+      name: tags
+      in: query
+      description: Tags to filter by
+      required: false
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+    petIdPathParam:
+      name: petId
+      in: path
+      description: id of pet to use
+      required: true
+      schema:
+        type: string
+  # `components.examples` is defined in the 3.0.3 spec, but @redocly/cli lint reports it as unused after several attempts
+  # The use examples I see use the `examples` keyword in the place the example is used, which @redocly/cli lint complains about
+  responses:
+    NotFound:
+      description: Entity not found.
+    IllegalInput:
+      description: Illegal input for operation.
+    PetResponse:
+      description: test
+      
+  headers:
+    X-Rate-Limit:
+      description: calls per hour allowed by the user
+      schema:
+        type: integer
+        format: int32
+    X-Expires-After:
+      description: date in UTC when token expires
+      schema:
+        type: string
+        format: date-time
+  examples:
+    petExample:
+      value:
+        id: 1
+        name: Rover
+        photoUrls:
+        - 'https://http.cat/status/200'
+        - 'https://http.cat/status/203'
+      summary: A sample Pet
+  links:
+    GetUserByUserName:
+      description: >
+        The `username` value returned in the response can be used as
+        the `username` parameter in `GET /users/{username}`.
+      operationId: getUser
+      parameters:
+        userId: '$response.body#/username'
+  callbacks:
+    userCreatedCallback:
+      'https://notify.example.com?event=UserCreated':
+        post:
+          operationId: notifyUserCreatedCB
+          summary: notify on user create
+          requestBody:
+            description: Callback payload
+            content:
+              'application/json':
+                schema:
+                  $ref: '#/components/schemas/User'
+          responses:
+            '200':
+              description: Callback succeeded
+            '4XX':
+              description: Callback failed
+  # I can't figure out how to make pathItems work here, so skipping for now   
   securitySchemes:
     petstore_auth:
       type: oauth2
