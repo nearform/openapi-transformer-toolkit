@@ -1,0 +1,27 @@
+{
+   "name": "node-dc",
+
+   "dockerComposeFile": [
+      "node-dc-compose.yaml"
+   ],
+   "service": "node-dc",
+   "workspaceFolder": "/workspace",
+
+   "customizations": {
+      "vscode": {
+         "extensions": [
+            "streetsidesoftware.code-spell-checker",
+            "mattdd.gitless",
+            "DavidAnson.vscode-markdownlint",
+            "dbaeumer.vscode-eslint",
+            "ms-vscode.vscode-typescript-next"
+         ]
+      }
+   },
+
+   "forwardPorts": [
+
+   ],
+
+   "remoteUser": "node",
+}

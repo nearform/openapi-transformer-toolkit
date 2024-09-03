@@ -1,0 +1,23 @@
+ARG VARIANT=20-bookworm
+FROM node:${VARIANT}
+
+ARG USERNAME=node
+ARG NPM_GLOBAL=/usr/local/share/npm-global
+ENV PATH=${NPM_GLOBAL}/bin:${PATH}
+
+# From MS Node image for javascript-node
+RUN if ! cat /etc/group | grep -e "^npm:" > /dev/null 2>&1; then groupadd -r npm; fi \
+   && usermod -a -G npm ${USERNAME} \
+   && umask 0002 \
+   && mkdir -p ${NPM_GLOBAL}/lib \
+   && touch /usr/local/etc/npmrc \
+   && chown -R ${USERNAME}:npm ${NPM_GLOBAL} /usr/local/etc/npmrc \
+   && chmod -R g+s ${NPM_GLOBAL} \
+   && npm config -g set prefix ${NPM_GLOBAL} \
+   && su ${USERNAME} -c "npm config -g set prefix ${NPM_GLOBAL}" \
+   && npm cache clean --force > /dev/null 2>&1
+
+RUN apt-get update && export DEBIAN_FRONTEND=noninterfactive \
+   && apt-get -y install --no-install-recommends sudo git iproute2 \
+   && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
+   && chmod 0440 /etc/sudoers.d/${USERNAME}

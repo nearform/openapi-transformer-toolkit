@@ -1,0 +1,12 @@
+version: '3'
+services:
+   node-dc:
+      build:
+         context: .
+         dockerfile: node-dockerfile
+         args:
+            VARIANT: 20-bookworm
+      image: node-dc
+      volumes:
+         - ..:/workspace:cached
+      command: /bin/sh -c "tail -F a-file-that-does-not-exist"
