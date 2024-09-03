@@ -1,6 +1,5 @@
 import $RefParser, { ParserOptions } from '@apidevtools/json-schema-ref-parser'
 import { Command } from 'commander'
-// import filenamify from 'filenamify'
 import fs from 'fs-extra'
 import _get from 'lodash.get'
 import _trimStart from 'lodash.trimstart'
@@ -208,7 +207,8 @@ const main = () => {
     options.input,
     options.output,
     options.properties,
-    options.excludeDereferencedIds
+    options.excludeDereferencedIds,
+    options.logger
   )
 }
 
