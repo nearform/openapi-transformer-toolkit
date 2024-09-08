@@ -23,6 +23,7 @@ tap.test('oas2tson', async t => {
         'ApiResponse.ts',
         'Category.ts',
         'Customer.ts',
+        'DateExample.ts',
         'FooBARBaz.ts',
         'Order.ts',
         'Pet.ts',
@@ -133,6 +134,63 @@ tap.test('oas2tson', async t => {
 `,
       'Customer.ts is created correctly'
     )
+
+    const OrderFile = resolveFromPackageRoot(outputPath, 'Order.ts')
+    const generatedOrderFile = fs.readFileSync(OrderFile, 'utf-8')
+
+    t.same(
+      generatedOrderFile,
+      `export const Order = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+      format: "int64",
+      minimum: -9223372036854776000,
+      maximum: 9223372036854776000,
+    },
+    petId: {
+      type: "integer",
+      format: "int64",
+      minimum: -9223372036854776000,
+      maximum: 9223372036854776000,
+    },
+    quantity: {
+      type: "integer",
+      format: "int32",
+      minimum: -2147483648,
+      maximum: 2147483647,
+    },
+    shipDate: { type: "string", format: "date-time" },
+    status: {
+      type: "string",
+      description: "Order Status",
+      enum: ["placed", "approved", "delivered"],
+    },
+    complete: { type: "boolean" },
+  },
+  title: "Order",
+  $id: "Order.json",
+} as const;
+`,
+      'Order.ts is created correctly'
+    )
+
+    const DateExampleFile = resolveFromPackageRoot(outputPath, 'DateExample.ts')
+    const generatedDateExampleFile = fs.readFileSync(DateExampleFile, 'utf-8')
+
+    t.same(
+      generatedDateExampleFile,
+      `export const DateExample = {
+  type: "string",
+  format: "date-time",
+  title: "DateExample",
+  $id: "DateExample.json",
+  tsType: "Date",
+} as const;
+`,
+      'DateExample.ts is created correctly'
+    )
   })
 
   t.test('runCommand function with excludeDereferencedIds', async t => {
@@ -149,6 +207,7 @@ tap.test('oas2tson', async t => {
         'ApiResponse.ts',
         'Category.ts',
         'Customer.ts',
+        'DateExample.ts',
         'FooBARBaz.ts',
         'Order.ts',
         'Pet.ts',

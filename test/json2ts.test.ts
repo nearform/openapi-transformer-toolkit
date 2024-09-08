@@ -26,6 +26,7 @@ tap.test('json2ts runCommand', async t => {
       'ApiResponse.d.ts',
       'Category.d.ts',
       'Customer.d.ts',
+      'DateExample.d.ts',
       'Order.d.ts',
       'Pet.d.ts',
       'Tag.d.ts',

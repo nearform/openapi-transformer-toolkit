@@ -557,6 +557,9 @@ paths:
           description: User not found
 components:
   schemas:
+    DateExample:
+      type: string
+      format: date-time
     Order:
       type: object
       properties:
