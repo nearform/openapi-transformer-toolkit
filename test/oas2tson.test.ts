@@ -186,7 +186,6 @@ tap.test('oas2tson', async t => {
   format: "date-time",
   title: "DateExample",
   $id: "DateExample.json",
-  tsType: "Date",
 } as const;
 `,
       'DateExample.ts is created correctly'
