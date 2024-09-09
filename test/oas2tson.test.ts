@@ -135,8 +135,8 @@ tap.test('oas2tson', async t => {
       'Customer.ts is created correctly'
     )
 
-    const OrderFile = resolveFromPackageRoot(outputPath, 'Order.ts')
-    const generatedOrderFile = fs.readFileSync(OrderFile, 'utf-8')
+    const orderFile = resolveFromPackageRoot(outputPath, 'Order.ts')
+    const generatedOrderFile = fs.readFileSync(orderFile, 'utf-8')
 
     t.same(
       generatedOrderFile,
@@ -176,8 +176,8 @@ tap.test('oas2tson', async t => {
       'Order.ts is created correctly'
     )
 
-    const DateExampleFile = resolveFromPackageRoot(outputPath, 'DateExample.ts')
-    const generatedDateExampleFile = fs.readFileSync(DateExampleFile, 'utf-8')
+    const dateExampleFile = resolveFromPackageRoot(outputPath, 'DateExample.ts')
+    const generatedDateExampleFile = fs.readFileSync(dateExampleFile, 'utf-8')
 
     t.same(
       generatedDateExampleFile,
