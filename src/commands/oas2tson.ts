@@ -29,10 +29,6 @@ export const adaptSchema = (
   delete generatedSchema.$schema
   generatedSchema.title = name
   generatedSchema.$id = `${filename}.json`
-
-  if (generatedSchema.format?.includes('date')) {
-    generatedSchema.tsType = 'Date'
-  }
 }
 
 const processSchema = (

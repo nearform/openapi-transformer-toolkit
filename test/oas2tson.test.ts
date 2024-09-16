@@ -23,6 +23,7 @@ tap.test('oas2tson', async t => {
         'ApiResponse.ts',
         'Category.ts',
         'Customer.ts',
+        'DateExample.ts',
         'FooBARBaz.ts',
         'Order.ts',
         'Pet.ts',
@@ -32,8 +33,8 @@ tap.test('oas2tson', async t => {
       'generates the expected TS files'
     )
 
-    const PetFile = resolveFromPackageRoot(outputPath, 'Pet.ts')
-    const generatedPetFile = fs.readFileSync(PetFile, 'utf-8')
+    const petFile = resolveFromPackageRoot(outputPath, 'Pet.ts')
+    const generatedPetFile = fs.readFileSync(petFile, 'utf-8')
 
     t.same(
       generatedPetFile,
@@ -97,8 +98,8 @@ tap.test('oas2tson', async t => {
       'Pet.ts is created correctly'
     )
 
-    const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.ts')
-    const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
+    const customerFile = resolveFromPackageRoot(outputPath, 'Customer.ts')
+    const generatedCustomerFile = fs.readFileSync(customerFile, 'utf-8')
 
     t.same(
       generatedCustomerFile,
@@ -133,6 +134,62 @@ tap.test('oas2tson', async t => {
 `,
       'Customer.ts is created correctly'
     )
+
+    const orderFile = resolveFromPackageRoot(outputPath, 'Order.ts')
+    const generatedOrderFile = fs.readFileSync(orderFile, 'utf-8')
+
+    t.same(
+      generatedOrderFile,
+      `export const Order = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+      format: "int64",
+      minimum: -9223372036854776000,
+      maximum: 9223372036854776000,
+    },
+    petId: {
+      type: "integer",
+      format: "int64",
+      minimum: -9223372036854776000,
+      maximum: 9223372036854776000,
+    },
+    quantity: {
+      type: "integer",
+      format: "int32",
+      minimum: -2147483648,
+      maximum: 2147483647,
+    },
+    shipDate: { type: "string", format: "date-time" },
+    status: {
+      type: "string",
+      description: "Order Status",
+      enum: ["placed", "approved", "delivered"],
+    },
+    complete: { type: "boolean" },
+  },
+  title: "Order",
+  $id: "Order.json",
+} as const;
+`,
+      'Order.ts is created correctly'
+    )
+
+    const dateExampleFile = resolveFromPackageRoot(outputPath, 'DateExample.ts')
+    const generatedDateExampleFile = fs.readFileSync(dateExampleFile, 'utf-8')
+
+    t.same(
+      generatedDateExampleFile,
+      `export const DateExample = {
+  type: "string",
+  format: "date-time",
+  title: "DateExample",
+  $id: "DateExample.json",
+} as const;
+`,
+      'DateExample.ts is created correctly'
+    )
   })
 
   t.test('runCommand function with excludeDereferencedIds', async t => {
@@ -149,6 +206,7 @@ tap.test('oas2tson', async t => {
         'ApiResponse.ts',
         'Category.ts',
         'Customer.ts',
+        'DateExample.ts',
         'FooBARBaz.ts',
         'Order.ts',
         'Pet.ts',
@@ -158,8 +216,8 @@ tap.test('oas2tson', async t => {
       'generates the expected TS files'
     )
 
-    const PetFile = resolveFromPackageRoot(outputPath, 'Pet.ts')
-    const generatedPetFile = fs.readFileSync(PetFile, 'utf-8')
+    const petFile = resolveFromPackageRoot(outputPath, 'Pet.ts')
+    const generatedPetFile = fs.readFileSync(petFile, 'utf-8')
 
     t.same(
       generatedPetFile,
@@ -221,8 +279,8 @@ tap.test('oas2tson', async t => {
       'Pet.ts is created correctly'
     )
 
-    const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.ts')
-    const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
+    const customerFile = resolveFromPackageRoot(outputPath, 'Customer.ts')
+    const generatedCustomerFile = fs.readFileSync(customerFile, 'utf-8')
 
     t.same(
       generatedCustomerFile,

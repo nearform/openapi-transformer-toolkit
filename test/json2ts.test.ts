@@ -26,6 +26,7 @@ tap.test('json2ts runCommand', async t => {
       'ApiResponse.d.ts',
       'Category.d.ts',
       'Customer.d.ts',
+      'DateExample.d.ts',
       'Order.d.ts',
       'Pet.d.ts',
       'Tag.d.ts',
@@ -34,8 +35,8 @@ tap.test('json2ts runCommand', async t => {
     'generates the expected TS files'
   )
 
-  const PetFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
-  const generatedPetFile = fs.readFileSync(PetFile, 'utf-8')
+  const petFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
+  const generatedPetFile = fs.readFileSync(petFile, 'utf-8')
 
   t.same(
     generatedPetFile,
@@ -65,8 +66,8 @@ export interface Pet {
     'Pet.d.ts is created correctly'
   )
 
-  const CustomerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
-  const generatedCustomerFile = fs.readFileSync(CustomerFile, 'utf-8')
+  const customerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
+  const generatedCustomerFile = fs.readFileSync(customerFile, 'utf-8')
 
   t.same(
     generatedCustomerFile,

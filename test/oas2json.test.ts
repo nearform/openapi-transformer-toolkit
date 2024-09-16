@@ -50,6 +50,7 @@ tap.test('oas2json', async t => {
             'ApiResponse.json',
             'Category.json',
             'Customer.json',
+            'DateExample.json',
             'FooBARBaz.json',
             'Order.json',
             'Pet.json',
