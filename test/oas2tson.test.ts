@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import tap from 'tap'
+import { describe, test, TestContext } from 'node:test'
 import { runCommand } from '../src/commands/oas2tson.js'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
@@ -8,15 +8,15 @@ const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 const inputPath = './test/fixtures/openapi.yml'
 const outputPath = './test/temp/typescriptobj-from-oas/ts'
 
-tap.test('oas2tson', async t => {
-  t.test('runCommand function', async t => {
+describe('oas2tson', () => {
+  test('runCommand function', async (t: TestContext) => {
     fs.ensureDirSync(TEST_DIRECTORY)
 
     await runCommand(inputPath, outputPath)
 
     const generatedFiles = fs.readdirSync(outputPath)
 
-    t.match(
+    t.assert.deepStrictEqual(
       generatedFiles,
       [
         'Address.ts',
@@ -36,7 +36,7 @@ tap.test('oas2tson', async t => {
     const petFile = resolveFromPackageRoot(outputPath, 'Pet.ts')
     const generatedPetFile = fs.readFileSync(petFile, 'utf-8')
 
-    t.same(
+    t.assert.deepStrictEqual(
       generatedPetFile,
       `export const Pet = {
   required: ["name", "photoUrls"],
@@ -101,7 +101,7 @@ tap.test('oas2tson', async t => {
     const customerFile = resolveFromPackageRoot(outputPath, 'Customer.ts')
     const generatedCustomerFile = fs.readFileSync(customerFile, 'utf-8')
 
-    t.same(
+    t.assert.deepStrictEqual(
       generatedCustomerFile,
       `export const Customer = {
   type: "object",
@@ -138,7 +138,7 @@ tap.test('oas2tson', async t => {
     const orderFile = resolveFromPackageRoot(outputPath, 'Order.ts')
     const generatedOrderFile = fs.readFileSync(orderFile, 'utf-8')
 
-    t.same(
+    t.assert.deepStrictEqual(
       generatedOrderFile,
       `export const Order = {
   type: "object",
@@ -179,7 +179,7 @@ tap.test('oas2tson', async t => {
     const dateExampleFile = resolveFromPackageRoot(outputPath, 'DateExample.ts')
     const generatedDateExampleFile = fs.readFileSync(dateExampleFile, 'utf-8')
 
-    t.same(
+    t.assert.deepStrictEqual(
       generatedDateExampleFile,
       `export const DateExample = {
   type: "string",
@@ -192,14 +192,14 @@ tap.test('oas2tson', async t => {
     )
   })
 
-  t.test('runCommand function with excludeDereferencedIds', async t => {
+  test('runCommand function with excludeDereferencedIds', async (t: TestContext) => {
     fs.ensureDirSync(TEST_DIRECTORY)
 
     await runCommand(inputPath, outputPath, undefined, true)
 
     const generatedFiles = fs.readdirSync(outputPath)
 
-    t.match(
+    t.assert.deepStrictEqual(
       generatedFiles,
       [
         'Address.ts',
@@ -219,7 +219,7 @@ tap.test('oas2tson', async t => {
     const petFile = resolveFromPackageRoot(outputPath, 'Pet.ts')
     const generatedPetFile = fs.readFileSync(petFile, 'utf-8')
 
-    t.same(
+    t.assert.deepStrictEqual(
       generatedPetFile,
       `export const Pet = {
   required: ["name", "photoUrls"],
@@ -282,7 +282,7 @@ tap.test('oas2tson', async t => {
     const customerFile = resolveFromPackageRoot(outputPath, 'Customer.ts')
     const generatedCustomerFile = fs.readFileSync(customerFile, 'utf-8')
 
-    t.same(
+    t.assert.deepStrictEqual(
       generatedCustomerFile,
       `export const Customer = {
   type: "object",
