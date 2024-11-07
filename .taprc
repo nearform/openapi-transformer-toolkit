@@ -1,4 +1,0 @@
-{
-  "files": ["test/*.test.ts"],
-  "reporter": "spec"
-}
