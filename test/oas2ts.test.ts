@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import { test, TestContext } from 'node:test'
+import { describe, test, TestContext } from 'node:test'
 import { runCommand } from '../src/commands/oas2ts.js'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
@@ -8,8 +8,8 @@ const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 const inputPath = './test/fixtures/openapi.yml'
 const outputPath = './test/temp/types-from-oas'
 
-test('oas2ts', async (t: TestContext) => {
-  t.test('runCommand function', async (t: TestContext) => {
+describe('oas2ts', () => {
+  test('runCommand function', async (t: TestContext) => {
     fs.ensureDirSync(TEST_DIRECTORY)
 
     await runCommand(inputPath, outputPath)

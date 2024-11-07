@@ -17,7 +17,7 @@
     "preoas2tson": "npm run build",
     "oas2tson": "./dist/esm/src/cli.js oas2tson -i ./example/openapi.yml -o ./example/output/ts",
     "prepare": "husky",
-    "test": "borp -p test/*.test.ts --coverage",
+    "test": "node --test --loader ts-node/esm test/*.test.ts",
     "build": "tsup-node",
     "postbuild": "cp ./package.json ./dist/esm"
   },
@@ -69,6 +69,7 @@
     "lint-staged": "^15.2.7",
     "remark": "^15.0.1",
     "remark-toc": "^9.0.0",
+    "ts-node": "^10.9.2",
     "tsup": "^8.2.0",
     "typescript": "^5.5.3"
   },
