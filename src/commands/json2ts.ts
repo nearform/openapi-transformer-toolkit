@@ -1,9 +1,10 @@
-import $RefParser from '@bcherny/json-schema-ref-parser'
+import { $RefParser } from '@apidevtools/json-schema-ref-parser'
 import { Command } from 'commander'
 import fs from 'fs-extra'
 import { compileFromFile } from 'json-schema-to-typescript'
 import path from 'path'
 import pino from 'pino'
+import { format } from 'prettier'
 import { exit } from 'process'
 import type {
   Json2TsArgs,
@@ -12,7 +13,6 @@ import type {
 } from '../types/Json2TsOptions'
 import { doNotEditText } from '../utils/do-not-edit-text.js'
 import { readConfigFile } from '../utils/read-config-file.js'
-import { format } from 'prettier'
 
 const generateAndWriteTsFile = async (
   schemaPath: string,
