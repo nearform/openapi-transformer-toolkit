@@ -1,4 +1,4 @@
-import $RefParser from '@bcherny/json-schema-ref-parser'
+import { $RefParser }  from '@apidevtools/json-schema-ref-parser'
 import { Command } from 'commander'
 import fs from 'fs-extra'
 import { compileFromFile } from 'json-schema-to-typescript'
