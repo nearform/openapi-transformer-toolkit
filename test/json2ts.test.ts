@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import tap from 'tap'
+import { test, TestContext } from 'node:test'
 import { runCommand } from '../src/commands/json2ts.js'
 import { doNotEditText } from '../src/utils/do-not-edit-text.js'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
@@ -9,7 +9,7 @@ const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 const inputPath = './test/fixtures/schemas'
 const outputPath = './test/temp/types-from-json'
 
-tap.test('json2ts runCommand', async t => {
+test('json2ts runCommand', async (t: TestContext) => {
   fs.ensureDirSync(TEST_DIRECTORY)
 
   const customOptions = {
@@ -19,7 +19,8 @@ tap.test('json2ts runCommand', async t => {
   await runCommand(inputPath, outputPath, customOptions)
 
   const generatedFiles = fs.readdirSync(outputPath)
-  t.match(
+
+  t.assert.deepStrictEqual(
     generatedFiles,
     [
       'Address.d.ts',
@@ -38,7 +39,7 @@ tap.test('json2ts runCommand', async t => {
   const petFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
   const generatedPetFile = fs.readFileSync(petFile, 'utf-8')
 
-  t.same(
+  t.assert.deepStrictEqual(
     generatedPetFile,
     `import { Category } from "./Category";
 import { Tag } from "./Tag";
@@ -69,7 +70,7 @@ export interface Pet {
   const customerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
   const generatedCustomerFile = fs.readFileSync(customerFile, 'utf-8')
 
-  t.same(
+  t.assert.deepStrictEqual(
     generatedCustomerFile,
     `import { Address } from "./Address";
 

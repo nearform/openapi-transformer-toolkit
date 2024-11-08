@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import tap from 'tap'
+import { describe, test, TestContext } from 'node:test'
 import { runCommand } from '../src/commands/oas2ts.js'
 import { resolveFromPackageRoot } from '../src/utils/paths.js'
 
@@ -8,14 +8,14 @@ const TEST_DIRECTORY = resolveFromPackageRoot('test', 'temp')
 const inputPath = './test/fixtures/openapi.yml'
 const outputPath = './test/temp/types-from-oas'
 
-tap.test('oas2ts', async t => {
-  t.test('runCommand function', async t => {
+describe('oas2ts', () => {
+  test('runCommand function', async (t: TestContext) => {
     fs.ensureDirSync(TEST_DIRECTORY)
 
     await runCommand(inputPath, outputPath)
 
     const generatedFiles = fs.readdirSync(outputPath)
-    t.match(
+    t.assert.deepStrictEqual(
       generatedFiles,
       [
         'Address.d.ts',
@@ -35,7 +35,7 @@ tap.test('oas2ts', async t => {
     const petFile = resolveFromPackageRoot(outputPath, 'Pet.d.ts')
     const generatedPetFile = fs.readFileSync(petFile, 'utf-8')
 
-    t.same(
+    t.assert.deepStrictEqual(
       generatedPetFile,
       `import { Category } from "./Category";
 import { Tag } from "./Tag";
@@ -70,7 +70,7 @@ export interface Pet {
     const customerFile = resolveFromPackageRoot(outputPath, 'Customer.d.ts')
     const generatedCustomerFile = fs.readFileSync(customerFile, 'utf-8')
 
-    t.same(
+    t.assert.deepStrictEqual(
       generatedCustomerFile,
       `import { Address } from "./Address";
 
