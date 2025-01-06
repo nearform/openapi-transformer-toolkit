@@ -289,3 +289,5 @@ This package allows you to specify [additional options which can be passed to th
 To utilise this feature, OpenAPI Transformer Toolkit can read these additional options from a file when being used from a CLI. [An example of this can be found here](https://github.com/nearform/openapi-transformer-toolkit/blob/master/example/json-schema-to-typescript-config.json).
 
 When using OpenAPI Transformer Toolkit programmatically, these options can optionally be supplied as the third argument to the `oas2ts` and `json2ts` functions.
+
+[![banner](https://raw.githubusercontent.com/nearform/.github/refs/heads/master/assets/os-banner-green.svg)](https://www.nearform.com/contact/?utm_source=open-source&utm_medium=banner&utm_campaign=os-project-pages)
