@@ -60,7 +60,7 @@
     "@types/lodash.trimstart": "^4.5.9",
     "@types/node": "^22.9.0",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
-    "@typescript-eslint/parser": "^7.16.1",
+    "@typescript-eslint/parser": "^8.29.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.1",
