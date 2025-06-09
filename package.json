@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/nearform/openapi-transformer-toolkit#readme",
   "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "^12.0.1",
+    "@apidevtools/json-schema-ref-parser": "^13.0.4",
     "@openapi-contrib/openapi-schema-to-json-schema": "^5.1.0",
     "commander": "^14.0.0",
     "desm": "^1.3.1",
