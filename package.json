@@ -58,7 +58,7 @@
     "@types/lodash": "^4.17.13",
     "@types/lodash.get": "^4.4.9",
     "@types/lodash.trimstart": "^4.5.9",
-    "@types/node": "^22.9.0",
+    "@types/node": "^24.0.3",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
     "eslint": "^8.57.0",
