@@ -52,7 +52,7 @@
     "yaml": "^2.4.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
+    "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.13",
