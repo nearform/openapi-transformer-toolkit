@@ -47,7 +47,7 @@
     "json-schema-to-typescript": "^15.0.2",
     "lodash.get": "^4.4.2",
     "lodash.trimstart": "^4.5.1",
-    "pino": "^9.3.1",
+    "pino": "^10.3.1",
     "prettier": "^3.3.3",
     "yaml": "^2.4.5"
   },
