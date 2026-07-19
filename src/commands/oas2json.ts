@@ -74,7 +74,7 @@ export const runCommand = (
 
   try {
     openAPIContent = fs.readFileSync(openApiPath, 'utf8')
-  } catch (e) {
+  } catch {
     logger.error('❌ Could not find the OpenAPI file')
     exit(1)
   }
@@ -98,7 +98,7 @@ export const runCommand = (
       const isArray = Array.isArray(_get(parsedOpenAPIContent, key))
       processSchema(schema, schemasPath, key, isArray)
     })
-  } catch (error) {
+  } catch {
     logger.warn('Failed to convert non-object attribute, skipping')
     return
   }

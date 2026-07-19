@@ -115,7 +115,7 @@ export const runCommand = async (
 
   try {
     openAPIContent = fs.readFileSync(openApiPath, 'utf8')
-  } catch (e) {
+  } catch {
     logger.error('❌ Could not find the OpenAPI file')
     exit(1)
   }
