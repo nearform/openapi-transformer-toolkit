@@ -54,6 +54,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "^10.0.1",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.13",
     "@types/lodash.get": "^4.4.9",
@@ -64,6 +65,7 @@
     "eslint": "^10.7.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.14.0",
     "husky": "^9.1.1",
     "lint-staged": "^16.0.0",
     "remark": "^15.0.1",
