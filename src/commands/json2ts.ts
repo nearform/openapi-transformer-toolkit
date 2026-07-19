@@ -64,7 +64,7 @@ export const runCommand = async (
 
   try {
     schemaPaths = fs.readdirSync(schemasPath)
-  } catch (e) {
+  } catch {
     logger.error('❌ Could not find the JSON schemas folder')
     exit(1)
   }
